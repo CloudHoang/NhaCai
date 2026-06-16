@@ -82,10 +82,20 @@
             color: #0d6efd;
             margin-left: 4px;
         }
-        /* Style cho nút chụp màn hình */
-        .btn-screenshot {
+        /* Style cho nút chụp màn hình và tải file */
+        .btn-action-match {
             font-size: 0.75rem;
-            padding: 4px 8px;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 50px;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-action-match:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
     </style>
 </head>
@@ -156,11 +166,17 @@
                                     <span class="team-name">Senegal</span>
                                 </div>
                             </div>
-                            <!-- Bảng đấu và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
-                                <span class="group-tag">Bảng I</span>
+                            <!-- Nút tải và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                <!-- Nút Tải Markdown cho AI -->
+                                <a href="markdown/phapvssenegal.md"
+                                   download="phapvssenegal.md"
+                                   class="btn btn-outline-info btn-action-match text-decoration-none"
+                                   data-html2canvas-ignore="true">
+                                    📝 Tải MD
+                                </a>
                                 <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                <button class="btn btn-outline-secondary btn-action-match"
                                         data-html2canvas-ignore="true"
                                         onclick="captureCard('match-372760923', 'Pháp_vs_Senegal_Odds')">
                                     📸 Tải ảnh kèo
@@ -172,72 +188,87 @@
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Pháp</div>
-                                                <div class="text-primary fw-bold">0.82</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Pháp</div>
+                                                    <div class="text-primary fw-bold">0.82</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-dark font-monospace">-1</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Senegal</div>
+                                                    <div class="text-primary fw-bold">1.02</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-dark font-monospace">-1</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Senegal</div>
-                                                <div class="text-primary fw-bold">1.02</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Pháp chấp Senegal 1 trái
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Tài Xỉu -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Tài</div>
-                                                <div class="text-primary fw-bold">0.84</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Tài</div>
+                                                    <div class="text-primary fw-bold">0.84</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-secondary font-monospace">2.5</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Xỉu</div>
+                                                    <div class="text-primary fw-bold">0.96</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-secondary font-monospace">-2.5</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Xỉu</div>
-                                                <div class="text-primary fw-bold">0.96</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái)
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Châu Âu (1X2) -->
                             <div class="col-lg-4 col-md-12">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                    
-                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
-                                            <div>
-                                                <div class="text-muted small">Chủ (1)</div>
-                                                <div class="text-primary fw-bold">1.36</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                        
+                                            <div class="d-flex justify-content-around text-center align-items-center">
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Pháp (1)">Pháp (1)</div>
+                                                    <div class="text-primary fw-bold">1.36</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small">Hòa (X)</div>
+                                                    <div class="text-primary fw-bold">4.35</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Senegal (2)">Senegal (2)</div>
+                                                    <div class="text-primary fw-bold">6.80</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Hòa (X)</div>
-                                                <div class="text-primary fw-bold">4.35</div>
-                                            </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Khách (2)</div>
-                                                <div class="text-primary fw-bold">6.80</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Pháp thắng (1), Hòa (X), Senegal thắng (2)
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -415,11 +446,17 @@
                                     <span class="team-name">Na Uy</span>
                                 </div>
                             </div>
-                            <!-- Bảng đấu và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
-                                <span class="group-tag">Bảng I</span>
+                            <!-- Nút tải và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                <!-- Nút Tải Markdown cho AI -->
+                                <a href="markdown/iraqvsnauy.md"
+                                   download="iraqvsnauy.md"
+                                   class="btn btn-outline-info btn-action-match text-decoration-none"
+                                   data-html2canvas-ignore="true">
+                                    📝 Tải MD
+                                </a>
                                 <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                <button class="btn btn-outline-secondary btn-action-match"
                                         data-html2canvas-ignore="true"
                                         onclick="captureCard('match-394760927', 'Iraq_vs_Na Uy_Odds')">
                                     📸 Tải ảnh kèo
@@ -431,72 +468,87 @@
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Iraq</div>
-                                                <div class="text-primary fw-bold">0.78</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Iraq</div>
+                                                    <div class="text-primary fw-bold">0.78</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-dark font-monospace">2</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Na Uy</div>
+                                                    <div class="text-primary fw-bold">1.06</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-dark font-monospace">2</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Na Uy</div>
-                                                <div class="text-primary fw-bold">1.06</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Na Uy chấp Iraq 2 trái
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Tài Xỉu -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Tài</div>
-                                                <div class="text-primary fw-bold">1.00</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Tài</div>
+                                                    <div class="text-primary fw-bold">1.00</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-secondary font-monospace">3</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Xỉu</div>
+                                                    <div class="text-primary fw-bold">0.80</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-secondary font-monospace">-3</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Xỉu</div>
-                                                <div class="text-primary fw-bold">0.80</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Tài (Trên 3 trái) / Xỉu (Dưới 3 trái)
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Châu Âu (1X2) -->
                             <div class="col-lg-4 col-md-12">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                    
-                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
-                                            <div>
-                                                <div class="text-muted small">Chủ (1)</div>
-                                                <div class="text-primary fw-bold">10.00</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                        
+                                            <div class="d-flex justify-content-around text-center align-items-center">
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Iraq (1)">Iraq (1)</div>
+                                                    <div class="text-primary fw-bold">10.00</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small">Hòa (X)</div>
+                                                    <div class="text-primary fw-bold">6.10</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Na Uy (2)">Na Uy (2)</div>
+                                                    <div class="text-primary fw-bold">1.18</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Hòa (X)</div>
-                                                <div class="text-primary fw-bold">6.10</div>
-                                            </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Khách (2)</div>
-                                                <div class="text-primary fw-bold">1.18</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Iraq thắng (1), Hòa (X), Na Uy thắng (2)
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -674,11 +726,17 @@
                                     <span class="team-name">Algeria</span>
                                 </div>
                             </div>
-                            <!-- Bảng đấu và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
-                                <span class="group-tag">Bảng J</span>
+                            <!-- Nút tải và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                <!-- Nút Tải Markdown cho AI -->
+                                <a href="markdown/argentinavsalgeria.md"
+                                   download="argentinavsalgeria.md"
+                                   class="btn btn-outline-info btn-action-match text-decoration-none"
+                                   data-html2canvas-ignore="true">
+                                    📝 Tải MD
+                                </a>
                                 <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                <button class="btn btn-outline-secondary btn-action-match"
                                         data-html2canvas-ignore="true"
                                         onclick="captureCard('match-382760924', 'Argentina_vs_Algeria_Odds')">
                                     📸 Tải ảnh kèo
@@ -690,72 +748,87 @@
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Argentina</div>
-                                                <div class="text-primary fw-bold">0.98</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Argentina</div>
+                                                    <div class="text-primary fw-bold">0.98</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-dark font-monospace">-1.25</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Algeria</div>
+                                                    <div class="text-primary fw-bold">0.86</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-dark font-monospace">-1.25</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Algeria</div>
-                                                <div class="text-primary fw-bold">0.86</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Argentina chấp Algeria 1.25 trái
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Tài Xỉu -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Tài</div>
-                                                <div class="text-primary fw-bold">0.98</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Tài</div>
+                                                    <div class="text-primary fw-bold">0.98</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-secondary font-monospace">2.5</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Xỉu</div>
+                                                    <div class="text-primary fw-bold">0.82</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-secondary font-monospace">-2.5</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Xỉu</div>
-                                                <div class="text-primary fw-bold">0.82</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái)
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Châu Âu (1X2) -->
                             <div class="col-lg-4 col-md-12">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                    
-                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
-                                            <div>
-                                                <div class="text-muted small">Chủ (1)</div>
-                                                <div class="text-primary fw-bold">1.32</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                        
+                                            <div class="d-flex justify-content-around text-center align-items-center">
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Argentina (1)">Argentina (1)</div>
+                                                    <div class="text-primary fw-bold">1.32</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small">Hòa (X)</div>
+                                                    <div class="text-primary fw-bold">4.40</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Algeria (2)">Algeria (2)</div>
+                                                    <div class="text-primary fw-bold">8.00</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Hòa (X)</div>
-                                                <div class="text-primary fw-bold">4.40</div>
-                                            </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Khách (2)</div>
-                                                <div class="text-primary fw-bold">8.00</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Argentina thắng (1), Hòa (X), Algeria thắng (2)
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -933,11 +1006,17 @@
                                     <span class="team-name">Jordan</span>
                                 </div>
                             </div>
-                            <!-- Bảng đấu và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
-                                <span class="group-tag">Bảng J</span>
+                            <!-- Nút tải và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                <!-- Nút Tải Markdown cho AI -->
+                                <a href="markdown/aovsjordan.md"
+                                   download="aovsjordan.md"
+                                   class="btn btn-outline-info btn-action-match text-decoration-none"
+                                   data-html2canvas-ignore="true">
+                                    📝 Tải MD
+                                </a>
                                 <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                <button class="btn btn-outline-secondary btn-action-match"
                                         data-html2canvas-ignore="true"
                                         onclick="captureCard('match-214760929', 'Áo_vs_Jordan_Odds')">
                                     📸 Tải ảnh kèo
@@ -949,72 +1028,87 @@
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Áo</div>
-                                                <div class="text-primary fw-bold">0.82</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Áo</div>
+                                                    <div class="text-primary fw-bold">0.82</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-dark font-monospace">-1.25</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">Jordan</div>
+                                                    <div class="text-primary fw-bold">1.02</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-dark font-monospace">-1.25</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">Jordan</div>
-                                                <div class="text-primary fw-bold">1.02</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Áo chấp Jordan 1.25 trái
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Tài Xỉu -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                    
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Tài</div>
-                                                <div class="text-primary fw-bold">1.00</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                        
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Tài</div>
+                                                    <div class="text-primary fw-bold">1.00</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-secondary font-monospace">2.75</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Xỉu</div>
+                                                    <div class="text-primary fw-bold">0.80</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-secondary font-monospace">-2.75</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Xỉu</div>
-                                                <div class="text-primary fw-bold">0.80</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái)
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Châu Âu (1X2) -->
                             <div class="col-lg-4 col-md-12">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                    
-                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
-                                            <div>
-                                                <div class="text-muted small">Chủ (1)</div>
-                                                <div class="text-primary fw-bold">1.30</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                        
+                                            <div class="d-flex justify-content-around text-center align-items-center">
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Áo (1)">Áo (1)</div>
+                                                    <div class="text-primary fw-bold">1.30</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small">Hòa (X)</div>
+                                                    <div class="text-primary fw-bold">4.85</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="Jordan (2)">Jordan (2)</div>
+                                                    <div class="text-primary fw-bold">7.20</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Hòa (X)</div>
-                                                <div class="text-primary fw-bold">4.85</div>
-                                            </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Khách (2)</div>
-                                                <div class="text-primary fw-bold">7.20</div>
-                                            </div>
-                                        </div>
-                                    
+                                        
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *Áo thắng (1), Hòa (X), Jordan thắng (2)
+                                    </div>
                                 </div>
                             </div>
                         </div>

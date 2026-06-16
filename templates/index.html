@@ -82,10 +82,20 @@
             color: #0d6efd;
             margin-left: 4px;
         }
-        /* Style cho nút chụp màn hình */
-        .btn-screenshot {
+        /* Style cho nút chụp màn hình và tải file */
+        .btn-action-match {
             font-size: 0.75rem;
-            padding: 4px 8px;
+            font-weight: 500;
+            padding: 5px 12px;
+            border-radius: 50px;
+            transition: all 0.2s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-action-match:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
     </style>
 </head>
@@ -160,11 +170,17 @@
                                     <span class="team-name">{{ m.awayName }}</span>
                                 </div>
                             </div>
-                            <!-- Bảng đấu và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
-                                <span class="group-tag">Bảng {{ m.group }}</span>
+                            <!-- Nút tải và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
+                                <!-- Nút Tải Markdown cho AI -->
+                                <a href="markdown/{{ m.slug }}.md"
+                                   download="{{ m.slug }}.md"
+                                   class="btn btn-outline-info btn-action-match text-decoration-none"
+                                   data-html2canvas-ignore="true">
+                                    📝 Tải MD
+                                </a>
                                 <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                <button class="btn btn-outline-secondary btn-action-match"
                                         data-html2canvas-ignore="true"
                                         onclick="captureCard('match-{{ m.id }}', '{{ m.homeName }}_vs_{{ m.awayName }}_Odds')">
                                     📸 Tải ảnh kèo
@@ -176,78 +192,93 @@
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                    {% if m.odds and m.odds.handicap %}
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">{{ m.homeName }}</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.handicap.instantHome }}</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                        {% if m.odds and m.odds.handicap %}
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">{{ m.homeName }}</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.handicap.instantHome }}</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-dark font-monospace">{{ m.odds.handicap.instantHandicap }}</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small text-truncate">{{ m.awayName }}</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.handicap.instantAway }}</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-dark font-monospace">{{ m.odds.handicap.instantHandicap }}</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small text-truncate">{{ m.awayName }}</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.handicap.instantAway }}</div>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="text-muted text-center my-auto">-</div>
-                                    {% endif %}
+                                        {% else %}
+                                            <div class="text-muted text-center my-auto">-</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *{{ m.handicap_desc }}
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Tài Xỉu -->
                             <div class="col-lg-4 col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                    {% if m.odds and m.odds.overUnder %}
-                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Tài</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.overUnder.instantOver }}</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                        {% if m.odds and m.odds.overUnder %}
+                                            <div class="d-flex justify-content-between text-center align-items-center">
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Tài</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.overUnder.instantOver }}</div>
+                                                </div>
+                                                <div class="border-start border-end px-2" style="width: 30%;">
+                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                    <span class="badge bg-secondary font-monospace">{{ m.odds.overUnder.instantHandicap }}</span>
+                                                </div>
+                                                <div class="text-center" style="width: 35%;">
+                                                    <div class="text-muted small">Xỉu</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.overUnder.instantUnder }}</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start border-end px-2" style="width: 30%;">
-                                                <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                <span class="badge bg-secondary font-monospace">{{ m.odds.overUnder.instantHandicap }}</span>
-                                            </div>
-                                            <div class="text-center" style="width: 35%;">
-                                                <div class="text-muted small">Xỉu</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.overUnder.instantUnder }}</div>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="text-muted text-center my-auto">-</div>
-                                    {% endif %}
+                                        {% else %}
+                                            <div class="text-muted text-center my-auto">-</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *{{ m.ou_desc }}
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Châu Âu (1X2) -->
                             <div class="col-lg-4 col-md-12">
-                                <div class="card p-2 border shadow-none h-100 mb-0">
-                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                    {% if m.odds and m.odds.europe %}
-                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
-                                            <div>
-                                                <div class="text-muted small">Chủ (1)</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantHome }}</div>
+                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                        {% if m.odds and m.odds.europe %}
+                                            <div class="d-flex justify-content-around text-center align-items-center">
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="{{ m.homeName }} (1)">{{ m.homeName }} (1)</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantHome }}</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small">Hòa (X)</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantDraw }}</div>
+                                                </div>
+                                                <div class="border-start h-50"></div>
+                                                <div style="width: 30%;">
+                                                    <div class="text-muted small text-truncate" title="{{ m.awayName }} (2)">{{ m.awayName }} (2)</div>
+                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantAway }}</div>
+                                                </div>
                                             </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Hòa (X)</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantDraw }}</div>
-                                            </div>
-                                            <div class="border-start h-50"></div>
-                                            <div>
-                                                <div class="text-muted small">Khách (2)</div>
-                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantAway }}</div>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="text-muted text-center my-auto">-</div>
-                                    {% endif %}
+                                        {% else %}
+                                            <div class="text-muted text-center my-auto">-</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
+                                        *{{ m.eu_desc }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

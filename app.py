@@ -46,11 +46,11 @@ def load_matches_data():
                 for market in ["handicap", "europe", "overUnder"]:
                     if market in o and o[market]:
                         for key in list(o[market].keys()):
-                            if "Handicap" not in key:
-                                o[market][key] = clamp_odds(o[market][key])
-                            else:
-                                # Đảo ngược dấu của Handicap tỷ lệ chấp
+                            if "Handicap" in key and market == "handicap":
+                                # Đảo ngược dấu của Handicap tỷ lệ chấp bóng đá
                                 o[market][key] = invert_handicap(o[market][key])
+                            else:
+                                o[market][key] = clamp_odds(o[market][key])
 
             if "correctScores" in m and m["correctScores"]:
                 for score in m["correctScores"]:
