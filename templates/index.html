@@ -161,12 +161,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo" crossorigin="anonymous">
+                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo">
                                     <span class="team-name">{{ m.homeName }}</span>
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo" crossorigin="anonymous">
+                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo">
                                     <span class="team-name">{{ m.awayName }}</span>
                                 </div>
                             </div>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory
 import json
 import os
 
@@ -83,6 +83,11 @@ def api_matches():
     API endpoint trả về dữ liệu trận đấu và odds dạng JSON.
     """
     return jsonify(load_matches_data())
+
+@app.route("/flags/<path:filename>")
+def serve_flag(filename):
+    """Serve local team flag images"""
+    return send_from_directory("/home/cloud/00.Claude/Bet/flags", filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

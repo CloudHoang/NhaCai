@@ -50,6 +50,34 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def download_flag(url):
+    """Tải logo đội bóng về thư mục local flags/ để tránh lỗi CORS khi chụp ảnh"""
+    if not url:
+        return ""
+    if url.startswith("flags/") or url.startswith("/flags/"):
+        return url
+    try:
+        parsed_url = urllib.parse.urlparse(url)
+        filename = os.path.basename(parsed_url.path)
+        if not filename:
+            import hashlib
+            filename = hashlib.md5(url.encode('utf-8')).hexdigest() + ".png"
+
+        flags_dir = "/home/cloud/00.Claude/Bet/flags"
+        os.makedirs(flags_dir, exist_ok=True)
+        local_path = os.path.join(flags_dir, filename)
+
+        if not os.path.exists(local_path):
+            print(f"  -> Đang tải cờ: {url} -> {local_path}")
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=10) as response:
+                with open(local_path, "wb") as f:
+                    f.write(response.read())
+        return f"flags/{filename}"
+    except Exception as e:
+        print(f"  -> Lỗi tải cờ {url}: {e}")
+        return url
+
 def calculate_aos(correct_scores):
     """Tính toán tỷ lệ AOS dựa trên thuật toán v6 modified"""
     from collections import Counter
@@ -243,6 +271,12 @@ def run_crawler():
         match_id = m.get("id")
         if not match_id:
             continue
+
+        # Tải cờ đội bóng về local để tránh CORS khi in/chụp ảnh
+        if "homeTeam" in m and m["homeTeam"] and "logo" in m["homeTeam"]:
+            m["homeTeam"]["logo"] = download_flag(m["homeTeam"]["logo"])
+        if "awayTeam" in m and m["awayTeam"] and "logo" in m["awayTeam"]:
+            m["awayTeam"]["logo"] = download_flag(m["awayTeam"]["logo"])
 
         detail_url = DETAIL_URL_TEMPLATE.format(id=match_id)
         print(f"Đang lấy tỷ số chính xác cho trận: {m.get('homeName')} vs {m.get('awayName')} ({match_id})")
