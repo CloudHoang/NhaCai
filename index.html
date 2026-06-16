@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tỷ lệ Kèo Bóng Đá World Cup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thư viện html2canvas dùng để chụp ảnh màn hình client-side -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        .card-header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #eef2f7;
+            font-weight: bold;
+            font-size: 1.15rem;
+            color: #2c3e50;
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+        }
+        .team-logo {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            margin-right: 8px;
+        }
+        .team-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+        .odds-val {
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .match-card {
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .match-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .group-tag {
+            background-color: #e8f4fd;
+            color: #1d9bf0;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .badge-cs {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            color: #333;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .badge-cs b {
+            color: #0d6efd;
+            margin-left: 4px;
+        }
+        /* Style cho nút chụp màn hình */
+        .btn-screenshot {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header text-center">
+    <div class="container">
+        <h1>Bảng Tỷ Lệ Kèo World Cup 2026</h1>
+        <p class="lead mb-0">Dữ liệu được cập nhật tự động hàng ngày lúc 16:30</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    
+
+    
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Vòng bảng</span>
+                <span class="badge bg-primary">4 Trận</span>
+            </div>
+            <div class="card-body p-3 d-flex flex-column gap-3">
+                
+                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
+                    <div class="match-card p-3" id="match-372760923">
+                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
+                        <div class="row align-items-center mb-3 pb-2 border-bottom">
+                            <!-- Ngày giờ thi đấu (canh trái) -->
+                            <div class="col-md-3 text-start">
+                                <span class="badge bg-light text-dark px-3 py-2 border">
+                                    ⏰ <span id="time-372760923"></span>
+                                    <script>
+                                        (function() {
+                                            const ts = 1781636400;
+                                            const date = new Date(ts * 1000);
+                                            const options = {
+                                                month: 'numeric',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false
+                                            };
+                                            document.getElementById('time-372760923').innerText = date.toLocaleDateString('vi-VN', options);
+                                        })();
+                                    </script>
+                                </span>
+                            </div>
+                            <!-- Đội đấu (canh giữa) -->
+                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/bf7db3dbb8a89a2a0db24a9d54b77d46.png" alt="logo">
+                                    <span class="team-name">Pháp</span>
+                                </div>
+                                <span class="text-muted fw-bold">vs</span>
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/3a8a1e2d70e0f12a691364a023f3794d.png" alt="logo">
+                                    <span class="team-name">Senegal</span>
+                                </div>
+                            </div>
+                            <!-- Bảng đấu và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
+                                <span class="group-tag">Bảng I</span>
+                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
+                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                        data-html2canvas-ignore="true"
+                                        onclick="captureCard('match-372760923', 'Pháp_vs_Senegal_Odds')">
+                                    📸 Tải ảnh kèo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực kèo chính xếp hàng ngang -->
+                        <div class="row g-3">
+                            <!-- Kèo Chấp -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Pháp</div>
+                                                <div class="text-primary fw-bold">0.82</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-dark font-monospace">-1</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Senegal</div>
+                                                <div class="text-primary fw-bold">1.02</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Tài Xỉu -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Tài</div>
+                                                <div class="text-primary fw-bold">0.84</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-secondary font-monospace">-2.5</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Xỉu</div>
+                                                <div class="text-primary fw-bold">0.96</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Châu Âu (1X2) -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                    
+                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
+                                            <div>
+                                                <div class="text-muted small">Chủ (1)</div>
+                                                <div class="text-primary fw-bold">1.36</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Hòa (X)</div>
+                                                <div class="text-primary fw-bold">4.35</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Khách (2)</div>
+                                                <div class="text-primary fw-bold">6.80</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
+                        
+                            <div class="mt-3 border rounded p-2 bg-light">
+                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
+                                <div class="row g-2">
+                                    <!-- Chủ Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Pháp</span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-0 <b>5.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-0 <b>5.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-1 <b>8.2</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-0 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-1 <b>13</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-3 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Hòa -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-0 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-1 <b>7.7</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Khách Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Senegal</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-1 <b>17</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- AOS Info -->
+                                    <div class="col-12 mt-2 pt-2 border-top text-center text-md-start">
+                                        <span class="text-secondary small fw-bold">
+                                            💡 Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
+                    <div class="match-card p-3" id="match-394760927">
+                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
+                        <div class="row align-items-center mb-3 pb-2 border-bottom">
+                            <!-- Ngày giờ thi đấu (canh trái) -->
+                            <div class="col-md-3 text-start">
+                                <span class="badge bg-light text-dark px-3 py-2 border">
+                                    ⏰ <span id="time-394760927"></span>
+                                    <script>
+                                        (function() {
+                                            const ts = 1781647200;
+                                            const date = new Date(ts * 1000);
+                                            const options = {
+                                                month: 'numeric',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false
+                                            };
+                                            document.getElementById('time-394760927').innerText = date.toLocaleDateString('vi-VN', options);
+                                        })();
+                                    </script>
+                                </span>
+                            </div>
+                            <!-- Đội đấu (canh giữa) -->
+                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/388043553649ad368d6cd810629cfc37.png" alt="logo">
+                                    <span class="team-name">Iraq</span>
+                                </div>
+                                <span class="text-muted fw-bold">vs</span>
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/aefda0c32c5dbc2ddd71d9e28703ba8c.png" alt="logo">
+                                    <span class="team-name">Na Uy</span>
+                                </div>
+                            </div>
+                            <!-- Bảng đấu và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
+                                <span class="group-tag">Bảng I</span>
+                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
+                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                        data-html2canvas-ignore="true"
+                                        onclick="captureCard('match-394760927', 'Iraq_vs_Na Uy_Odds')">
+                                    📸 Tải ảnh kèo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực kèo chính xếp hàng ngang -->
+                        <div class="row g-3">
+                            <!-- Kèo Chấp -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Iraq</div>
+                                                <div class="text-primary fw-bold">0.78</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-dark font-monospace">2</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Na Uy</div>
+                                                <div class="text-primary fw-bold">1.06</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Tài Xỉu -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Tài</div>
+                                                <div class="text-primary fw-bold">1.00</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-secondary font-monospace">-3</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Xỉu</div>
+                                                <div class="text-primary fw-bold">0.80</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Châu Âu (1X2) -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                    
+                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
+                                            <div>
+                                                <div class="text-muted small">Chủ (1)</div>
+                                                <div class="text-primary fw-bold">10.00</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Hòa (X)</div>
+                                                <div class="text-primary fw-bold">6.10</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Khách (2)</div>
+                                                <div class="text-primary fw-bold">1.18</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
+                        
+                            <div class="mt-3 border rounded p-2 bg-light">
+                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
+                                <div class="row g-2">
+                                    <!-- Chủ Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Iraq</span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-3 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Hòa -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-0 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-1 <b>9.9</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Khách Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Na Uy</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-1 <b>6.8</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-2 <b>5.1</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-2 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-3 <b>6.2</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-3 <b>12</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-4 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-4 <b>18</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- AOS Info -->
+                                    <div class="col-12 mt-2 pt-2 border-top text-center text-md-start">
+                                        <span class="text-secondary small fw-bold">
+                                            💡 Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
+                    <div class="match-card p-3" id="match-382760924">
+                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
+                        <div class="row align-items-center mb-3 pb-2 border-bottom">
+                            <!-- Ngày giờ thi đấu (canh trái) -->
+                            <div class="col-md-3 text-start">
+                                <span class="badge bg-light text-dark px-3 py-2 border">
+                                    ⏰ <span id="time-382760924"></span>
+                                    <script>
+                                        (function() {
+                                            const ts = 1781658000;
+                                            const date = new Date(ts * 1000);
+                                            const options = {
+                                                month: 'numeric',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false
+                                            };
+                                            document.getElementById('time-382760924').innerText = date.toLocaleDateString('vi-VN', options);
+                                        })();
+                                    </script>
+                                </span>
+                            </div>
+                            <!-- Đội đấu (canh giữa) -->
+                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/cc4490348711b909a2d9e2241d6ba771.png" alt="logo">
+                                    <span class="team-name">Argentina</span>
+                                </div>
+                                <span class="text-muted fw-bold">vs</span>
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/966ab059414107116ef5da44842ef695.png" alt="logo">
+                                    <span class="team-name">Algeria</span>
+                                </div>
+                            </div>
+                            <!-- Bảng đấu và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
+                                <span class="group-tag">Bảng J</span>
+                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
+                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                        data-html2canvas-ignore="true"
+                                        onclick="captureCard('match-382760924', 'Argentina_vs_Algeria_Odds')">
+                                    📸 Tải ảnh kèo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực kèo chính xếp hàng ngang -->
+                        <div class="row g-3">
+                            <!-- Kèo Chấp -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Argentina</div>
+                                                <div class="text-primary fw-bold">0.98</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-dark font-monospace">-1.25</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Algeria</div>
+                                                <div class="text-primary fw-bold">0.86</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Tài Xỉu -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Tài</div>
+                                                <div class="text-primary fw-bold">0.98</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-secondary font-monospace">-2.5</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Xỉu</div>
+                                                <div class="text-primary fw-bold">0.82</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Châu Âu (1X2) -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                    
+                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
+                                            <div>
+                                                <div class="text-muted small">Chủ (1)</div>
+                                                <div class="text-primary fw-bold">1.32</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Hòa (X)</div>
+                                                <div class="text-primary fw-bold">4.40</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Khách (2)</div>
+                                                <div class="text-primary fw-bold">8.00</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
+                        
+                            <div class="mt-3 border rounded p-2 bg-light">
+                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
+                                <div class="row g-2">
+                                    <!-- Chủ Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Argentina</span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-0 <b>5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-0 <b>5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-1 <b>8.3</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-0 <b>8.2</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-1 <b>14</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-0 <b>19</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-3 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Hòa -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-0 <b>9</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-1 <b>8.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Khách Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Algeria</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- AOS Info -->
+                                    <div class="col-12 mt-2 pt-2 border-top text-center text-md-start">
+                                        <span class="text-secondary small fw-bold">
+                                            💡 Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
+                    <div class="match-card p-3" id="match-214760929">
+                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
+                        <div class="row align-items-center mb-3 pb-2 border-bottom">
+                            <!-- Ngày giờ thi đấu (canh trái) -->
+                            <div class="col-md-3 text-start">
+                                <span class="badge bg-light text-dark px-3 py-2 border">
+                                    ⏰ <span id="time-214760929"></span>
+                                    <script>
+                                        (function() {
+                                            const ts = 1781668800;
+                                            const date = new Date(ts * 1000);
+                                            const options = {
+                                                month: 'numeric',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit',
+                                                hour12: false
+                                            };
+                                            document.getElementById('time-214760929').innerText = date.toLocaleDateString('vi-VN', options);
+                                        })();
+                                    </script>
+                                </span>
+                            </div>
+                            <!-- Đội đấu (canh giữa) -->
+                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/e447e1875b9f920f3dc68f4ec5a9dcc4.png" alt="logo">
+                                    <span class="team-name">Áo</span>
+                                </div>
+                                <span class="text-muted fw-bold">vs</span>
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="https://cdn.keobongvip.digital/images/teams/8ad8b0a596996e9896e2765ad39d4731.png" alt="logo">
+                                    <span class="team-name">Jordan</span>
+                                </div>
+                            </div>
+                            <!-- Bảng đấu và nút chụp (canh phải) -->
+                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2">
+                                <span class="group-tag">Bảng J</span>
+                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
+                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                        data-html2canvas-ignore="true"
+                                        onclick="captureCard('match-214760929', 'Áo_vs_Jordan_Odds')">
+                                    📸 Tải ảnh kèo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực kèo chính xếp hàng ngang -->
+                        <div class="row g-3">
+                            <!-- Kèo Chấp -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Áo</div>
+                                                <div class="text-primary fw-bold">0.82</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-dark font-monospace">-1.25</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">Jordan</div>
+                                                <div class="text-primary fw-bold">1.02</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Tài Xỉu -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
+                                    
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Tài</div>
+                                                <div class="text-primary fw-bold">1.00</div>
+                                            </div>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-secondary font-monospace">-2.75</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Xỉu</div>
+                                                <div class="text-primary fw-bold">0.80</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+
+                            <!-- Châu Âu (1X2) -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
+                                    
+                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
+                                            <div>
+                                                <div class="text-muted small">Chủ (1)</div>
+                                                <div class="text-primary fw-bold">1.30</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Hòa (X)</div>
+                                                <div class="text-primary fw-bold">4.85</div>
+                                            </div>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Khách (2)</div>
+                                                <div class="text-primary fw-bold">7.20</div>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
+                        
+                            <div class="mt-3 border rounded p-2 bg-light">
+                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
+                                <div class="row g-2">
+                                    <!-- Chủ Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Áo</span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-0 <b>6.6</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-0 <b>5.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-1 <b>8.2</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-0 <b>8</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-1 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-0 <b>16.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-3 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Hòa -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-0 <b>16.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-1 <b>9.5</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    4-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- Khách Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Jordan</span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-1 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-2 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-3 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    0-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    1-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    2-4 <b>20</b>
+                                                </span>
+                                            
+                                                <span class="badge-cs">
+                                                    3-4 <b>20</b>
+                                                </span>
+                                            
+                                        </div>
+                                    </div>
+                                    <!-- AOS Info -->
+                                    <div class="col-12 mt-2 pt-2 border-top text-center text-md-start">
+                                        <span class="text-secondary small fw-bold">
+                                            💡 Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                
+            </div>
+        </div>
+    
+</div>
+
+<footer class="bg-dark text-white py-4 mt-auto">
+    <div class="container text-center">
+        <p class="mb-0">Website World Cup Match Odds Crawler © 2026. Phát triển dựa trên dữ liệu keobongvip.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Hàm chụp màn hình bằng html2canvas
+    function captureCard(cardId, fileName) {
+        const element = document.getElementById(cardId);
+        if (!element) return;
+
+        // Clone element để xử lý kích thước riêng mà không ảnh hưởng giao diện hiển thị gốc
+        const clone = element.cloneNode(true);
+
+        // Đặt kiểu dáng cho clone: rộng 780px và đưa ra ngoài viewport để ẩn đi
+        clone.style.width = "780px";
+        clone.style.position = "absolute";
+        clone.style.left = "-9999px";
+        clone.style.top = "0";
+        clone.style.zIndex = "-1000";
+
+        document.body.appendChild(clone);
+
+        // Cấu hình html2canvas hỗ trợ CORS cho logo đội bóng (nếu tải từ CDN ngoài)
+        html2canvas(clone, {
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            scale: 2, // Tăng chất lượng ảnh (retina)
+            windowWidth: 780
+        }).then(function(canvas) {
+            // Xóa clone khỏi DOM ngay sau khi vẽ xong
+            clone.remove();
+
+            const link = document.createElement('a');
+            link.download = fileName + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }).catch(function(error) {
+            // Xóa clone khỏi DOM nếu lỗi
+            clone.remove();
+            console.error('Lỗi chụp ảnh thẻ kèo:', error);
+            alert('Có lỗi xảy ra khi chụp ảnh thẻ kèo này.');
+        });
+    }
+</script>
+</body>
+</html>
