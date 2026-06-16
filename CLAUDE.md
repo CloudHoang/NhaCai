@@ -1,0 +1,54 @@
+# CLAUDE.md
+
+## Mục tiêu dự án
+* Cào dữ liệu tỷ lệ kèo World Cup từ nguồn keobongvip và tự động gửi thông báo trực quan qua Telegram.
+* Hiển thị bảng tỷ lệ kèo (Chấp, Tài Xỉu, Châu Âu, Tỷ số chính xác) lên giao diện Web (hỗ trợ Flask và GitHub Pages trang tĩnh).
+* Hỗ trợ tải ảnh thẻ kèo (Card Match) định dạng đẹp, nằm ngang không bị lỗi CORS cờ/logo.
+
+## Kiến trúc & Cách vận hành
+1. **Crawler (`crawler.py`)**:
+   * Định kỳ chạy (qua cronjob) cào dữ liệu trận đấu và chi tiết tỷ số chính xác.
+   * Lọc trận đấu theo múi giờ GMT+7 (từ 17:00 hôm nay đến 15:00 ngày tiếp theo).
+   * Tải cờ quốc gia của hai đội về thư mục `flags/` để cache và tránh lỗi CORS.
+   * Tính toán tỷ số AOS (Any Other Score) dựa trên thuật toán `AOS.md` (`calculate_aos` trong `crawler.py`).
+   * Lưu dữ liệu vào `data/matches.json` và gửi thông báo qua Telegram.
+2. **Parser (`parser.py`)**: Bóc tách dữ liệu RSC payload thô từ HTTP response.
+3. **Web Server (`app.py`)**: 
+   * Đọc `data/matches.json`, phục vụ API và render HTML động qua `templates/index.html`.
+   * Phục vụ static file `/flags/<filename>` từ thư mục local.
+4. **Static Builder (`build.py`)**: Tạo trang `index.html` tĩnh từ template để deploy GitHub Pages.
+
+## Môi trường & Dependencies
+* Python 3.8+
+* Flask (Web app)
+* Jinja2 (HTML templating)
+* urllib3 (HTTP requests)
+* Cấu hình cron chạy qua file `cron_setup.sh` sinh file bash chạy ngầm `run_crawler.sh` lúc 16:30 hàng ngày.
+
+## Commands
+
+### Setup & Run
+* Run local web server: `python3 app.py` (runs on `http://localhost:5000`)
+* Run static builder (GitHub Pages): `python3 build.py` (generates `index.html`)
+* Run crawler: `python3 crawler.py`
+* Setup daily cronjob: `bash cron_setup.sh`
+
+### Testing
+* Verify static server: Python HTTP server on port 8000
+* Fetch odds data manually: `python3 crawler.py`
+
+## Code Guidelines
+
+### Layout & Design
+* Matches table cards must match horizontally for 3 main markets (Handicap, Over/Under, Europe 1X2).
+* Export image width must be exactly 1024px to preserve horizontal layout (`windowWidth: 1024` inside html2canvas settings in [templates/index.html](templates/index.html)).
+
+### CORS & Images
+* Remote logos (team/national flags) must be downloaded locally to avoid CORS errors when generating canvas images.
+* All logo downloads are handled by `download_flag(url)` in [crawler.py](crawler.py) and saved in [flags/](flags/).
+* Flask route `/flags/<filename>` serves these assets via `send_from_directory` in [app.py](app.py).
+
+### Data Restrictions
+* Max odds ceiling is capped at 20.0 (`clamp_odds` in [app.py](app.py) and [crawler.py](crawler.py)).
+* Football handicap signs must be inverted via `invert_handicap` to align with local display standards.
+* Daily matches filtered from 17:00 today to 15:00 tomorrow (GMT+7 timezone).
