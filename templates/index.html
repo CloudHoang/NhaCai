@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tỷ lệ Kèo Bóng Đá World Cup</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Thư viện html2canvas dùng để chụp ảnh màn hình client-side -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         body {
             background-color: #f4f6f9;
@@ -32,46 +34,56 @@
             border-top-left-radius: 12px !important;
             border-top-right-radius: 12px !important;
         }
-        .table {
-            margin-bottom: 0;
-        }
-        .table th {
-            font-weight: 600;
-            color: #7f8c8d;
-            background-color: #fafbfc;
-            border-bottom-width: 1px;
-            font-size: 0.85rem;
-        }
         .team-logo {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             object-fit: contain;
             margin-right: 8px;
         }
         .team-name {
             font-weight: 600;
             color: #2c3e50;
+            font-size: 1.1rem;
         }
         .odds-val {
             font-weight: bold;
             color: #2980b9;
         }
-        .odds-sub {
-            font-size: 0.8rem;
-            color: #95a5a6;
-            margin-left: 4px;
+        .match-card {
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            background-color: #ffffff;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .match-time {
-            font-size: 0.85rem;
-            color: #7f8c8d;
+        .match-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
         .group-tag {
             background-color: #e8f4fd;
             color: #1d9bf0;
             font-size: 0.75rem;
             font-weight: bold;
-            padding: 2px 8px;
+            padding: 4px 8px;
             border-radius: 4px;
+        }
+        .badge-cs {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            color: #333;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .badge-cs b {
+            color: #0d6efd;
+            margin-left: 4px;
+        }
+        /* Style cho nút chụp màn hình */
+        .btn-screenshot {
+            font-size: 0.75rem;
+            padding: 4px 8px;
         }
     </style>
 </head>
@@ -95,41 +107,28 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>{{ round_name }}</span>
-                <span class="badge bg-secondary">{{ matches|length }} Trận</span>
+                <span class="badge bg-primary">{{ matches|length }} Trận</span>
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead>
-                        <tr class="text-center">
-                            <th class="text-start" style="width: 25%;">Trận Đấu</th>
-                            <th style="width: 15%;">Thời Gian</th>
-                            <th style="width: 25%;">Tỷ Số Chính Xác (FT)</th>
-                            <th style="width: 15%;">Kèo Chấp</th>
-                            <th style="width: 20%;">Tài Xỉu (Over/Under)</th>
-                            <th style="width: 20%;">Châu Âu (1X2)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for m in matches %}
-                            <tr id="match-{{ m.id }}">
-                                <td>
-                                    <div class="d-flex flex-column gap-2 py-2">
-                                        <div class="d-flex align-items-center">
-                                            <img class="team-logo" src="{{ m.homeTeam.logo }}" alt="logo">
-                                            <span class="team-name">{{ m.homeName }}</span>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <img class="team-logo" src="{{ m.awayTeam.logo }}" alt="logo">
-                                            <span class="team-name">{{ m.awayName }}</span>
-                                        </div>
-                                        <div class="mt-1">
-                                            <span class="group-tag">Bảng {{ m.group }}</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="text-center match-time">
-                                    <!-- Hiển thị thời gian từ timestamp -->
-                                    <div id="time-{{ m.id }}"></div>
+            <div class="card-body p-3 d-flex flex-column gap-3">
+                {% for m in matches %}
+                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
+                    <div class="match-card p-3" id="match-{{ m.id }}">
+                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
+                        <div class="row align-items-center mb-3 pb-2 border-bottom">
+                            <div class="col-md-5 d-flex align-items-center flex-wrap gap-3">
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo">
+                                    <span class="team-name">{{ m.homeName }}</span>
+                                </div>
+                                <span class="text-muted fw-bold">vs</span>
+                                <div class="d-flex align-items-center">
+                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo">
+                                    <span class="team-name">{{ m.awayName }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-center my-2 my-md-0">
+                                <span class="badge bg-light text-dark px-3 py-2 border">
+                                    ⏰ <span id="time-{{ m.id }}"></span>
                                     <script>
                                         (function() {
                                             const ts = {{ m.matchTime }};
@@ -144,107 +143,143 @@
                                             document.getElementById('time-{{ m.id }}').innerText = date.toLocaleDateString('vi-VN', options);
                                         })();
                                     </script>
-                                    <small class="text-muted block d-block mt-1">{{ m.location }}</small>
-                                </td>
-                                <!-- Tỷ số chính xác -->
-                                <td>
-                                    {% if m.correctScores %}
-                                        <div class="row g-1" style="font-size: 0.75rem; min-width: 300px;">
-                                            <!-- Cột Chủ Thắng -->
-                                            <div class="col-4 border-end">
-                                                <div class="text-center fw-bold bg-light mb-1">CHỦ</div>
-                                                <div class="d-flex flex-column gap-1">
-                                                    {% for score in m.correctScores if score.homeScore > score.awayScore %}
-                                                        <div class="d-flex justify-content-between px-1">
-                                                            <span>{{ score.homeScore }}-{{ score.awayScore }}</span>
-                                                            <b class="text-primary">{{ score.odds }}</b>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                            <!-- Cột Hòa -->
-                                            <div class="col-4 border-end">
-                                                <div class="text-center fw-bold bg-light mb-1">HÒA</div>
-                                                <div class="d-flex flex-column gap-1">
-                                                    {% for score in m.correctScores if score.homeScore == score.awayScore %}
-                                                        <div class="d-flex justify-content-between px-1">
-                                                            <span>{{ score.homeScore }}-{{ score.awayScore }}</span>
-                                                            <b class="text-primary">{{ score.odds }}</b>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                            <!-- Cột Khách Thắng -->
-                                            <div class="col-4">
-                                                <div class="text-center fw-bold bg-light mb-1">KHÁCH</div>
-                                                <div class="d-flex flex-column gap-1">
-                                                    {% for score in m.correctScores if score.homeScore < score.awayScore %}
-                                                        <div class="d-flex justify-content-between px-1">
-                                                            <span>{{ score.homeScore }}-{{ score.awayScore }}</span>
-                                                            <b class="text-primary">{{ score.odds }}</b>
-                                                        </div>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div class="text-muted text-center">-</div>
-                                    {% endif %}
-                                </td>
-                                <!-- Kèo Chấp -->
-                                <td>
+                                </span>
+                                <span class="ms-2 text-muted small">{{ m.location }}</span>
+                            </div>
+                            <div class="col-md-3 d-flex justify-content-md-end align-items-center gap-2">
+                                <span class="group-tag">Bảng {{ m.group }}</span>
+                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
+                                <button class="btn btn-outline-secondary btn-screenshot btn-sm"
+                                        data-html2canvas-ignore="true"
+                                        onclick="captureCard('match-{{ m.id }}', '{{ m.homeName }}_vs_{{ m.awayName }}_Odds')">
+                                    📸 Tải ảnh kèo
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực kèo chính xếp hàng ngang -->
+                        <div class="row g-3">
+                            <!-- Kèo Chấp -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
                                     {% if m.odds and m.odds.handicap %}
-                                        <div class="d-flex flex-column align-items-center gap-1 text-center">
-                                            <div>
-                                                Chấp: <span class="badge bg-light text-dark font-monospace">{{ m.odds.handicap.instantHandicap }}</span>
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">{{ m.homeName }}</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.handicap.instantHome }}</div>
                                             </div>
-                                            <div class="small">
-                                                Home: <span class="odds-val">{{ m.odds.handicap.instantHome }}</span> |
-                                                Away: <span class="odds-val">{{ m.odds.handicap.instantAway }}</span>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-dark font-monospace">{{ m.odds.handicap.instantHandicap }}</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small text-truncate">{{ m.awayName }}</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.handicap.instantAway }}</div>
                                             </div>
                                         </div>
                                     {% else %}
-                                        <div class="text-muted text-center">-</div>
+                                        <div class="text-muted text-center my-auto">-</div>
                                     {% endif %}
-                                </td>
-                                <!-- Tài Xỉu -->
-                                <td>
+                                </div>
+                            </div>
+
+                            <!-- Tài Xỉu -->
+                            <div class="col-lg-4 col-md-6">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
                                     {% if m.odds and m.odds.overUnder %}
-                                        <div class="d-flex flex-column align-items-center gap-1 text-center">
-                                            <div>
-                                                Tài Xỉu: <span class="badge bg-light text-dark font-monospace">{{ m.odds.overUnder.instantHandicap }}</span>
+                                        <div class="d-flex justify-content-between text-center align-items-center h-100">
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Tài</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.overUnder.instantOver }}</div>
                                             </div>
-                                            <div class="small">
-                                                Tài: <span class="odds-val">{{ m.odds.overUnder.instantOver }}</span> |
-                                                Xỉu: <span class="odds-val">{{ m.odds.overUnder.instantUnder }}</span>
+                                            <div class="border-start border-end px-2" style="width: 30%;">
+                                                <div class="text-muted small mb-1">Tỷ lệ</div>
+                                                <span class="badge bg-secondary font-monospace">{{ m.odds.overUnder.instantHandicap }}</span>
+                                            </div>
+                                            <div class="text-center" style="width: 35%;">
+                                                <div class="text-muted small">Xỉu</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.overUnder.instantUnder }}</div>
                                             </div>
                                         </div>
                                     {% else %}
-                                        <div class="text-muted text-center">-</div>
+                                        <div class="text-muted text-center my-auto">-</div>
                                     {% endif %}
-                                </td>
-                                <!-- 1X2 Châu Âu -->
-                                <td>
+                                </div>
+                            </div>
+
+                            <!-- Châu Âu (1X2) -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="card p-2 border shadow-none h-100 mb-0">
+                                    <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
                                     {% if m.odds and m.odds.europe %}
-                                        <div class="d-flex flex-column align-items-center gap-1 text-center">
-                                            <div class="small">
-                                                Chủ: <span class="odds-val">{{ m.odds.europe.instantHome }}</span>
+                                        <div class="d-flex justify-content-around text-center align-items-center h-100">
+                                            <div>
+                                                <div class="text-muted small">Chủ (1)</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantHome }}</div>
                                             </div>
-                                            <div class="small">
-                                                Hòa: <span class="odds-val">{{ m.odds.europe.instantDraw }}</span>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Hòa (X)</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantDraw }}</div>
                                             </div>
-                                            <div class="small">
-                                                Khách: <span class="odds-val">{{ m.odds.europe.instantAway }}</span>
+                                            <div class="border-start h-50"></div>
+                                            <div>
+                                                <div class="text-muted small">Khách (2)</div>
+                                                <div class="text-primary fw-bold">{{ m.odds.europe.instantAway }}</div>
                                             </div>
                                         </div>
                                     {% else %}
-                                        <div class="text-muted text-center">-</div>
+                                        <div class="text-muted text-center my-auto">-</div>
                                     {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
+                        {% if m.correctScores %}
+                            <div class="mt-3 border rounded p-2 bg-light">
+                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
+                                <div class="row g-2">
+                                    <!-- Chủ Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-primary me-2" style="min-width: 60px;">CHỦ</span>
+                                            {% for score in m.correctScores if score.homeScore > score.awayScore %}
+                                                <span class="badge-cs">
+                                                    {{ score.homeScore }}-{{ score.awayScore }} <b>{{ score.odds }}</b>
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <!-- Hòa -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-secondary me-2" style="min-width: 60px;">HÒA</span>
+                                            {% for score in m.correctScores if score.homeScore == score.awayScore %}
+                                                <span class="badge-cs">
+                                                    {{ score.homeScore }}-{{ score.awayScore }} <b>{{ score.odds }}</b>
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <!-- Khách Thắng -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center flex-wrap gap-1">
+                                            <span class="badge bg-danger me-2" style="min-width: 60px;">KHÁCH</span>
+                                            {% for score in m.correctScores if score.homeScore < score.awayScore %}
+                                                <span class="badge-cs">
+                                                    {{ score.homeScore }}-{{ score.awayScore }} <b>{{ score.odds }}</b>
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
     {% endfor %}
@@ -257,5 +292,29 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Hàm chụp màn hình bằng html2canvas
+    function captureCard(cardId, fileName) {
+        const element = document.getElementById(cardId);
+        if (!element) return;
+
+        // Cấu hình html2canvas hỗ trợ CORS cho logo đội bóng (nếu tải từ CDN ngoài)
+        html2canvas(element, {
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: "#ffffff",
+            scale: 2 // Tăng chất lượng ảnh (retina)
+        }).then(function(canvas) {
+            const link = document.createElement('a');
+            link.download = fileName + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }).catch(function(error) {
+            console.error('Lỗi chụp ảnh thẻ kèo:', error);
+            alert('Có lỗi xảy ra khi chụp ảnh thẻ kèo này.');
+        });
+    }
+</script>
 </body>
 </html>
