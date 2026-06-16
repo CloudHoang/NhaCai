@@ -3,6 +3,7 @@ import urllib.parse
 import os
 import json
 import time
+import calendar
 from parser import clean_rsc_payload, extract_matches, extract_correct_score
 
 # Tự động tải biến môi trường từ file .env nếu có
@@ -35,6 +36,19 @@ HEADERS = {
 
 DATA_DIR = "/home/cloud/00.Claude/Bet/data"
 DATA_FILE = os.path.join(DATA_DIR, "matches.json")
+
+def clamp_odds(val):
+    """Giới hạn tỷ lệ odds tối đa là 20"""
+    if not val:
+        return val
+    try:
+        # Nếu là chuỗi số, chuyển sang float để so sánh
+        f_val = float(val)
+        if f_val > 20.0:
+            return "20"
+        return val
+    except (ValueError, TypeError):
+        return val
 
 def send_telegram_message(message):
     """Gửi tin nhắn qua Telegram Bot"""
@@ -74,19 +88,19 @@ def format_match_message(m):
     hdp = odds.get("handicap", {})
     if hdp:
         msg += f"🔹 <b>Kèo Chấp:</b> {hdp.get('instantHandicap')}\n"
-        msg += f"   └ Home: <code>{hdp.get('instantHome')}</code> | Away: <code>{hdp.get('instantAway')}</code>\n"
+        msg += f"   └ Home: <code>{clamp_odds(hdp.get('instantHome'))}</code> | Away: <code>{clamp_odds(hdp.get('instantAway'))}</code>\n"
 
     # Over/Under
     ou = odds.get("overUnder", {})
     if ou:
         msg += f"🔹 <b>Tài Xỉu:</b> {ou.get('instantHandicap')}\n"
-        msg += f"   └ Tài: <code>{ou.get('instantOver')}</code> | Xỉu: <code>{ou.get('instantUnder')}</code>\n"
+        msg += f"   └ Tài: <code>{clamp_odds(ou.get('instantOver'))}</code> | Xỉu: <code>{clamp_odds(ou.get('instantUnder'))}</code>\n"
 
     # Europe 1X2
     eu = odds.get("europe", {})
     if eu:
         msg += f"🔹 <b>Châu Âu:</b>\n"
-        msg += f"   └ 1: <code>{eu.get('instantHome')}</code> | X: <code>{eu.get('instantDraw')}</code> | 2: <code>{eu.get('instantAway')}</code>\n"
+        msg += f"   └ 1: <code>{clamp_odds(eu.get('instantHome'))}</code> | X: <code>{clamp_odds(eu.get('instantDraw'))}</code> | 2: <code>{clamp_odds(eu.get('instantAway'))}</code>\n"
 
     # Correct Score (Chia 3 cột)
     cs_list = m.get("correctScores", [])
@@ -102,12 +116,14 @@ def format_match_message(m):
 
         msg += "<code>CHỦ      | HÒA      | KHÁCH</code>\n"
         for i in range(max_rows):
-            h = f"{home_wins[i]['homeScore']}-{home_wins[i]['awayScore']} {home_wins[i]['odds']}" if i < len(home_wins) else ""
-            d = f"{draws[i]['homeScore']}-{draws[i]['awayScore']} {draws[i]['odds']}" if i < len(draws) else ""
-            a = f"{away_wins[i]['homeScore']}-{away_wins[i]['awayScore']} {away_wins[i]['odds']}" if i < len(away_wins) else ""
+            h = f"{home_wins[i]['homeScore']}-{home_wins[i]['awayScore']} {clamp_odds(home_wins[i]['odds'])}" if i < len(home_wins) else ""
+            d = f"{draws[i]['homeScore']}-{draws[i]['awayScore']} {clamp_odds(draws[i]['odds'])}" if i < len(draws) else ""
+            a = f"{away_wins[i]['homeScore']}-{away_wins[i]['awayScore']} {clamp_odds(away_wins[i]['odds'])}" if i < len(away_wins) else ""
 
             # Format cột bằng cách padding space
             msg += f"<code>{h:<10}| {d:<9}| {a}</code>\n"
+
+        msg += "\n💡 <i>Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20</i>\n"
 
     msg += f"\n🔗 <a href='http://localhost:5000/#match-{m.get('id')}'>Xem chi tiết trên Web</a>"
     return msg
@@ -138,17 +154,18 @@ def run_crawler():
     matches = extract_matches(payload)
 
     # Lọc trận đấu từ 17:00 hôm nay đến 15:00 hôm sau (GMT+7)
-    # GMT+7 offset là 7 * 3600 giây
+    # Tính toán timezone-independent để tránh lỗi lệch múi giờ trên máy chủ
     now = time.time()
-    local_now = now + 7 * 3600
-    struct_now = time.gmtime(local_now)
+    gmt7_struct = time.gmtime(now + 7 * 3600)
+    year, month, day = gmt7_struct.tm_year, gmt7_struct.tm_mon, gmt7_struct.tm_mday
 
-    # 17:00 hôm nay
-    start_today = time.mktime((struct_now.tm_year, struct_now.tm_mon, struct_now.tm_mday, 17, 0, 0, 0, 0, 0)) - 7 * 3600
-    # 15:00 hôm sau
-    tomorrow = local_now + 24 * 3600
-    struct_tomorrow = time.gmtime(tomorrow)
-    end_tomorrow = time.mktime((struct_tomorrow.tm_year, struct_tomorrow.tm_mon, struct_tomorrow.tm_mday, 15, 0, 0, 0, 0, 0)) - 7 * 3600
+    # 17:00 hôm nay GMT+7 đổi sang epoch timestamp thực tế
+    start_today = calendar.timegm((year, month, day, 17, 0, 0, 0, 0, 0)) - 7 * 3600
+
+    # 15:00 hôm sau GMT+7 đổi sang epoch timestamp thực tế
+    gmt7_tomorrow_struct = time.gmtime(now + 7 * 3600 + 24 * 3600)
+    ty, tm, td = gmt7_tomorrow_struct.tm_year, gmt7_tomorrow_struct.tm_mon, gmt7_tomorrow_struct.tm_mday
+    end_tomorrow = calendar.timegm((ty, tm, td, 15, 0, 0, 0, 0, 0)) - 7 * 3600
 
     filtered_matches = [m for m in matches if start_today <= m.get("matchTime", 0) <= end_tomorrow]
 
@@ -168,6 +185,22 @@ def run_crawler():
             detail_payload = clean_rsc_payload(detail_html)
             m["correctScores"] = extract_correct_score(detail_payload)
             print(f"  -> Tìm thấy {len(m['correctScores'])} tỷ lệ tỷ số.")
+
+        # Giới hạn odds của các kèo chính về tối đa 20
+        if "odds" in m and m["odds"]:
+            o = m["odds"]
+            for market in ["handicap", "europe", "overUnder"]:
+                if market in o and o[market]:
+                    for key in list(o[market].keys()):
+                        # Chỉ giới hạn odds, không giới hạn handicap tỉ lệ chấp (như instantHandicap hay initialHandicap)
+                        if "Handicap" not in key:
+                            o[market][key] = clamp_odds(o[market][key])
+
+        # Giới hạn odds của correct scores về tối đa 20
+        if "correctScores" in m and m["correctScores"]:
+            for score in m["correctScores"]:
+                if "odds" in score:
+                    score["odds"] = clamp_odds(score["odds"])
 
         # Nghỉ ngắn 1s tránh bị chặn
         time.sleep(1)

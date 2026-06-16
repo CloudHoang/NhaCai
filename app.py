@@ -5,15 +5,42 @@ import os
 app = Flask(__name__)
 DATA_FILE = "/home/cloud/00.Claude/Bet/data/matches.json"
 
+def clamp_odds(val):
+    """Giới hạn tỷ lệ odds tối đa là 20"""
+    if not val:
+        return val
+    try:
+        f_val = float(val)
+        if f_val > 20.0:
+            return "20"
+        return val
+    except (ValueError, TypeError):
+        return val
+
 def load_matches_data():
     """
-    Đọc dữ liệu trận đấu đã cào từ file JSON.
+    Đọc dữ liệu trận đấu đã cào từ file JSON và giới hạn odds tối đa là 20.
     """
     if not os.path.exists(DATA_FILE):
         return []
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            matches = json.load(f)
+
+        for m in matches:
+            if "odds" in m and m["odds"]:
+                o = m["odds"]
+                for market in ["handicap", "europe", "overUnder"]:
+                    if market in o and o[market]:
+                        for key in list(o[market].keys()):
+                            if "Handicap" not in key:
+                                o[market][key] = clamp_odds(o[market][key])
+
+            if "correctScores" in m and m["correctScores"]:
+                for score in m["correctScores"]:
+                    if "odds" in score:
+                        score["odds"] = clamp_odds(score["odds"])
+        return matches
     except Exception as e:
         print(f"Lỗi đọc file JSON: {e}")
         return []
