@@ -19,11 +19,13 @@
   - Jordan thắng (Away): 7.20
 
 ### Kèo Tài Xỉu (Over/Under)
-- Tổng bàn thắng (Line): 2.75 (Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái))
-- Cược Tài (Over): 1.00
-- Cược Xỉu (Under): 0.80
+- Tổng bàn thắng (Line): 2.5 (Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái))
+- Cược Tài (Over): 0.82
+- Cược Xỉu (Under): 0.98
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
+- **Tỷ số ngoài bảng (AOS):** 11.9
+
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
 | 1 - 0 | 6.6 |

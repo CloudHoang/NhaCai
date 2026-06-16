@@ -8,29 +8,31 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: -1 (Pháp chấp Senegal 1 trái)
-- Cược Pháp thắng (Home): 0.82
-- Cược Senegal thắng (Away): 1.02
+- Mức chấp: -1.25 (Pháp chấp Senegal 1.25 trái)
+- Cược Pháp thắng (Home): 1.04
+- Cược Senegal thắng (Away): 0.80
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Pháp thắng (1), Hòa (X), Senegal thắng (2))
   - Pháp thắng (Home): 1.36
-  - Hòa (Draw): 4.35
-  - Senegal thắng (Away): 6.80
+  - Hòa (Draw): 4.40
+  - Senegal thắng (Away): 6.70
 
 ### Kèo Tài Xỉu (Over/Under)
-- Tổng bàn thắng (Line): 2.5 (Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái))
-- Cược Tài (Over): 0.84
-- Cược Xỉu (Under): 0.96
+- Tổng bàn thắng (Line): 2.75 (Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái))
+- Cược Tài (Over): 0.94
+- Cược Xỉu (Under): 0.86
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
+- **Tỷ số ngoài bảng (AOS):** 9.5
+
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
-| 1 - 0 | 5.5 |
-| 2 - 0 | 5.5 |
+| 1 - 0 | 6.4 |
+| 2 - 0 | 5.8 |
 | 2 - 1 | 8.2 |
 | 3 - 0 | 9.5 |
-| 3 - 1 | 13 |
+| 3 - 1 | 9.5 |
 | 3 - 2 | 20 |
 | 4 - 0 | 20 |
 | 4 - 1 | 20 |
@@ -41,7 +43,7 @@
 | 2 - 2 | 20 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |
-| 0 - 1 | 17 |
+| 0 - 1 | 18 |
 | 0 - 2 | 20 |
 | 1 - 2 | 20 |
 | 0 - 3 | 20 |

@@ -52,10 +52,6 @@ def load_matches_data():
                             else:
                                 o[market][key] = clamp_odds(o[market][key])
 
-            if "correctScores" in m and m["correctScores"]:
-                for score in m["correctScores"]:
-                    if "odds" in score:
-                        score["odds"] = clamp_odds(score["odds"])
         return matches
     except Exception as e:
         print(f"Lỗi đọc file JSON: {e}")

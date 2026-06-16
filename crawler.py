@@ -50,6 +50,60 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def calculate_aos(correct_scores):
+    """Tính toán tỷ lệ AOS dựa trên thuật toán v6 modified"""
+    from collections import Counter
+    if not correct_scores:
+        return 20.0
+    odds_matrix = {}
+    for s in correct_scores:
+        score_key = f"{s.get('homeScore')}-{s.get('awayScore')}"
+        try:
+            odds_matrix[score_key] = float(s.get("odds", 0))
+        except (ValueError, TypeError):
+            odds_matrix[score_key] = 0.0
+
+    valid_odds = [o for o in odds_matrix.values() if o > 0]
+    if not valid_odds:
+        return 20.0
+
+    # Step 1: Hard Ceiling Compression Check
+    odds_counts = Counter(valid_odds)
+    mode_value, mode_frequency = odds_counts.most_common(1)[0]
+    if mode_frequency >= 5 and mode_value <= 50.0:
+        odds_aos = mode_value * 0.9
+    else:
+        # Step 2: Open Market Multi-Tier Boundary Anchoring
+        home_win_low = min(odds_matrix.get("1-0", 999), odds_matrix.get("2-0", 999))
+        away_win_low = min(odds_matrix.get("0-1", 999), odds_matrix.get("0-2", 999))
+        if home_win_low < away_win_low:
+            # Home Team is Favorite
+            odds_3_0 = odds_matrix.get("3-0", 10.0)
+            if odds_3_0 >= 9.0:
+                odds_base = odds_3_0
+            else:
+                odds_base = odds_matrix.get("4-0", 20.0)
+        else:
+            # Away Team is Favorite
+            odds_base = odds_matrix.get("1-3", 12.0)
+
+        # Step 3: Dynamic Shaving Filter
+        if odds_base <= 10.0:
+            odds_aos = odds_base
+        elif odds_base <= 15.0:
+            odds_aos = odds_base * 0.95
+        else:
+            odds_aos = odds_base * 0.90
+
+    # Giảm thêm 20% cho tất cả trận trên 10
+    if odds_aos > 10.0:
+        odds_aos = odds_aos * 0.80
+    # Áp trần tối đa là 20
+    if odds_aos > 20.0:
+        odds_aos = 20.0
+
+    return round(odds_aos, 1)
+
 def invert_handicap(handicap_str):
     """Đảo ngược dấu của tỷ lệ chấp bóng đá"""
     if not handicap_str:
@@ -129,14 +183,14 @@ def format_match_message(m):
 
         msg += "<code>CHỦ      | HÒA      | KHÁCH</code>\n"
         for i in range(max_rows):
-            h = f"{home_wins[i]['homeScore']}-{home_wins[i]['awayScore']} {clamp_odds(home_wins[i]['odds'])}" if i < len(home_wins) else ""
-            d = f"{draws[i]['homeScore']}-{draws[i]['awayScore']} {clamp_odds(draws[i]['odds'])}" if i < len(draws) else ""
-            a = f"{away_wins[i]['homeScore']}-{away_wins[i]['awayScore']} {clamp_odds(away_wins[i]['odds'])}" if i < len(away_wins) else ""
+            h = f"{home_wins[i]['homeScore']}-{home_wins[i]['awayScore']} {home_wins[i]['odds']}" if i < len(home_wins) else ""
+            d = f"{draws[i]['homeScore']}-{draws[i]['awayScore']} {draws[i]['odds']}" if i < len(draws) else ""
+            a = f"{away_wins[i]['homeScore']}-{away_wins[i]['awayScore']} {away_wins[i]['odds']}" if i < len(away_wins) else ""
 
             # Format cột bằng cách padding space
             msg += f"<code>{h:<10}| {d:<9}| {a}</code>\n"
 
-        msg += "\n💡 <i>Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là 20</i>\n"
+        msg += f"\n💡 <i>Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là {m.get('aosOdds', 20)}</i>\n"
 
     msg += f"\n🔗 <a href='http://localhost:5000/#match-{m.get('id')}'>Xem chi tiết trên Web</a>"
     return msg
@@ -199,6 +253,9 @@ def run_crawler():
             m["correctScores"] = extract_correct_score(detail_payload)
             print(f"  -> Tìm thấy {len(m['correctScores'])} tỷ lệ tỷ số.")
 
+        # Tính toán tỷ lệ AOS trước khi giới hạn trần 20
+        m["aosOdds"] = calculate_aos(m.get("correctScores", []))
+
         # Giới hạn odds của các kèo chính về tối đa 20
         if "odds" in m and m["odds"]:
             o = m["odds"]
@@ -209,7 +266,7 @@ def run_crawler():
                         if "Handicap" not in key:
                             o[market][key] = clamp_odds(o[market][key])
 
-        # Giới hạn odds của correct scores về tối đa 20
+        # Giới hạn odds của correct scores về tối đa 20 sau khi đã tính xong AOS
         if "correctScores" in m and m["correctScores"]:
             for score in m["correctScores"]:
                 if "odds" in score:

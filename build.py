@@ -94,6 +94,8 @@ def generate_match_markdown(m):
     else:
         scores_table += "| - | - |\n"
 
+    aos_odds = m.get("aosOdds", 20)
+
     md = f"""# THÔNG TIN TRẬN ĐẤU & TỶ LỆ CƯỢC: {home.upper()} VS {away.upper()}
 
 ## 1. Thông Tin Chung
@@ -120,6 +122,8 @@ def generate_match_markdown(m):
 - Cược Xỉu (Under): {ou_under}
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
+- **Tỷ số ngoài bảng (AOS):** {aos_odds}
+
 {scores_table}"""
     return md
 

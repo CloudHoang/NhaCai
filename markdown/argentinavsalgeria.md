@@ -9,34 +9,36 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -1.25 (Argentina chấp Algeria 1.25 trái)
-- Cược Argentina thắng (Home): 0.98
-- Cược Algeria thắng (Away): 0.86
+- Cược Argentina thắng (Home): 1.02
+- Cược Algeria thắng (Away): 0.82
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Argentina thắng (1), Hòa (X), Algeria thắng (2))
-  - Argentina thắng (Home): 1.32
-  - Hòa (Draw): 4.40
-  - Algeria thắng (Away): 8.00
+  - Argentina thắng (Home): 1.33
+  - Hòa (Draw): 4.50
+  - Algeria thắng (Away): 7.40
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.5 (Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái))
-- Cược Tài (Over): 0.98
-- Cược Xỉu (Under): 0.82
+- Cược Tài (Over): 0.92
+- Cược Xỉu (Under): 0.88
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
+- **Tỷ số ngoài bảng (AOS):** 13.7
+
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
-| 1 - 0 | 5 |
+| 1 - 0 | 5.5 |
 | 2 - 0 | 5 |
 | 2 - 1 | 8.3 |
-| 3 - 0 | 8.2 |
+| 3 - 0 | 8.6 |
 | 3 - 1 | 14 |
 | 3 - 2 | 20 |
 | 4 - 0 | 19 |
 | 4 - 1 | 20 |
 | 4 - 2 | 20 |
 | 4 - 3 | 20 |
-| 0 - 0 | 9 |
+| 0 - 0 | 9.5 |
 | 1 - 1 | 8.5 |
 | 2 - 2 | 20 |
 | 3 - 3 | 20 |
