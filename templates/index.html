@@ -161,12 +161,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo">
+                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo" crossorigin="anonymous">
                                     <span class="team-name">{{ m.homeName }}</span>
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo">
+                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo" crossorigin="anonymous">
                                     <span class="team-name">{{ m.awayName }}</span>
                                 </div>
                             </div>
@@ -499,10 +499,12 @@
         // Cấu hình html2canvas hỗ trợ CORS cho logo đội bóng (nếu tải từ CDN ngoài)
         html2canvas(clone, {
             useCORS: true,
-            allowTaint: true,
+            allowTaint: false,
             backgroundColor: "#ffffff",
             scale: 2, // Tăng chất lượng ảnh (retina)
-            windowWidth: 1024
+            windowWidth: 1024,
+            imageTimeout: 0,
+            logging: true
         }).then(function(canvas) {
             // Xóa clone khỏi DOM ngay sau khi vẽ xong
             clone.remove();
