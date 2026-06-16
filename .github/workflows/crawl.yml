@@ -2,8 +2,8 @@ name: Crawl Odds and Deploy Pages
 
 on:
   schedule:
-    # 16:30 GMT+7 tương ứng với 09:30 UTC
-    - cron: '30 9 * * *'
+    # 15:45 GMT+7 tương ứng với 08:45 UTC
+    - cron: '45 8 * * *'
   workflow_dispatch: # Cho phép kích hoạt bằng tay từ giao diện GitHub
 
 permissions:
