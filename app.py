@@ -17,6 +17,19 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def invert_handicap(handicap_str):
+    """Đảo ngược dấu của tỷ lệ chấp bóng đá"""
+    if not handicap_str:
+        return handicap_str
+    try:
+        val = float(handicap_str)
+        inverted = -val
+        if inverted == int(inverted):
+            return str(int(inverted))
+        return str(inverted)
+    except (ValueError, TypeError):
+        return handicap_str
+
 def load_matches_data():
     """
     Đọc dữ liệu trận đấu đã cào từ file JSON và giới hạn odds tối đa là 20.
@@ -35,6 +48,9 @@ def load_matches_data():
                         for key in list(o[market].keys()):
                             if "Handicap" not in key:
                                 o[market][key] = clamp_odds(o[market][key])
+                            else:
+                                # Đảo ngược dấu của Handicap tỷ lệ chấp
+                                o[market][key] = invert_handicap(o[market][key])
 
             if "correctScores" in m and m["correctScores"]:
                 for score in m["correctScores"]:

@@ -50,6 +50,19 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def invert_handicap(handicap_str):
+    """Đảo ngược dấu của tỷ lệ chấp bóng đá"""
+    if not handicap_str:
+        return handicap_str
+    try:
+        val = float(handicap_str)
+        inverted = -val
+        if inverted == int(inverted):
+            return str(int(inverted))
+        return str(inverted)
+    except (ValueError, TypeError):
+        return handicap_str
+
 def send_telegram_message(message):
     """Gửi tin nhắn qua Telegram Bot"""
     if TELEGRAM_BOT_TOKEN == "YOUR_BOT_TOKEN" or not TELEGRAM_BOT_TOKEN:
@@ -87,7 +100,7 @@ def format_match_message(m):
     # Handicap
     hdp = odds.get("handicap", {})
     if hdp:
-        msg += f"🔹 <b>Kèo Chấp:</b> {hdp.get('instantHandicap')}\n"
+        msg += f"🔹 <b>Kèo Chấp:</b> {invert_handicap(hdp.get('instantHandicap'))}\n"
         msg += f"   └ Home: <code>{clamp_odds(hdp.get('instantHome'))}</code> | Away: <code>{clamp_odds(hdp.get('instantAway'))}</code>\n"
 
     # Over/Under
