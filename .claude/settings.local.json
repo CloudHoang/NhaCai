@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 /home/cloud/00.Claude/Bet/parser.py)"
+    ]
+  }
+}
