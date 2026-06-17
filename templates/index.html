@@ -191,7 +191,7 @@
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
                                     <div>
                                         <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
@@ -221,7 +221,7 @@
                             </div>
 
                             <!-- Tài Xỉu -->
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
                                     <div>
                                         <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
@@ -246,38 +246,6 @@
                                     </div>
                                     <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
                                         *{{ m.ou_desc }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Châu Âu (1X2) -->
-                            <div class="col-md-4">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">CHÂU ÂU (1X2)</div>
-                                        {% if m.odds and m.odds.europe %}
-                                            <div class="d-flex justify-content-around text-center align-items-center">
-                                                <div style="width: 30%;">
-                                                    <div class="text-muted small text-truncate" title="{{ m.homeName }} (1)">{{ m.homeName }} (1)</div>
-                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantHome }}</div>
-                                                </div>
-                                                <div class="border-start h-50"></div>
-                                                <div style="width: 30%;">
-                                                    <div class="text-muted small">Hòa (X)</div>
-                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantDraw }}</div>
-                                                </div>
-                                                <div class="border-start h-50"></div>
-                                                <div style="width: 30%;">
-                                                    <div class="text-muted small text-truncate" title="{{ m.awayName }} (2)">{{ m.awayName }} (2)</div>
-                                                    <div class="text-primary fw-bold">{{ m.odds.europe.instantAway }}</div>
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            <div class="text-muted text-center my-auto">-</div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *{{ m.eu_desc }}
                                     </div>
                                 </div>
                             </div>
