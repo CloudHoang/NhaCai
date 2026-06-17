@@ -220,7 +220,33 @@ def format_match_message(m):
 
         msg += f"\n💡 <i>Tỷ số ngoài bảng (AOS): Tỉ lệ thắng là {m.get('aosOdds', 20)}</i>\n"
 
-    msg += f"\n🔗 <a href='http://localhost:5000/#match-{m.get('id')}'>Xem chi tiết trên Web</a>"
+    # Tạo slug match url
+    import re
+    def remove_vietnamese_tones(text):
+        if not text: return ""
+        text = re.sub(r'[àáạảãâầấậẩẫăằắặẳẵ]', 'a', text)
+        text = re.sub(r'[èéẹẻẽêềếệểễ]', 'e', text)
+        text = re.sub(r'[ìíịỉĩ]', 'i', text)
+        text = re.sub(r'[òóọỏõôồốộổỗơờớợởỡ]', 'o', text)
+        text = re.sub(r'[ùúụủũưừứựửữ]', 'u', text)
+        text = re.sub(r'[ỳýỵỷỹ]', 'y', text)
+        text = re.sub(r'[đ]', 'd', text)
+        text = re.sub(r'[ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴ]', 'A', text)
+        text = re.sub(r'[ÈÉẸẺẼÊỀẾỆỂỄ]', 'E', text)
+        text = re.sub(r'[ÌÍỊỈĨ]', 'I', text)
+        text = re.sub(r'[ÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠ]', 'O', text)
+        text = re.sub(r'[ÙÚỤỦŨƯỪỨỰỬỮ]', 'U', text)
+        text = re.sub(r'[ỲÝỴỶỸ]', 'Y', text)
+        text = re.sub(r'[Đ]', 'D', text)
+        text = re.sub(r'[̣̀́̉̃]', '', text)
+        text = re.sub(r'[ˆ̛̆]', '', text)
+        return text
+
+    h = re.sub(r'[^a-z0-9]', '', remove_vietnamese_tones(m.get('homeName')).lower())
+    a = re.sub(r'[^a-z0-9]', '', remove_vietnamese_tones(m.get('awayName')).lower())
+    slug = f"{h}vs{a}"
+
+    msg += f"\n🔗 <a href='https://cloudhoang.github.io/NhaCai/#{slug}'>Xem chi tiết trên Web</a>"
     return msg
 
 def fetch_html(url):
