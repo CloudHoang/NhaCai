@@ -70,6 +70,17 @@ def calculate_aos_odds_v6(odds_matrix: dict) -> float:
         else:
             odds_aos_final = odds_base * 0.90  # 10% aggressive safety haircut for high lines
             
+        # Apply strict capping and final shaving based on final value
+        # - If odds_aos_final >= 10.0 -> shaved by 20%
+        # - If odds_aos_final < 10.0 -> shaved by 10%
+        if odds_aos_final >= 10.0:
+            odds_aos_final = odds_aos_final * 0.80
+        else:
+            odds_aos_final = odds_aos_final * 0.90
+
+        if odds_aos_final > 20.0:
+            odds_aos_final = 20.0
+            
         return round(odds_aos_final, 1)
 
     except Exception as e:

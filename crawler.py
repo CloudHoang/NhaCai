@@ -123,10 +123,19 @@ def calculate_aos(correct_scores):
         else:
             odds_aos = odds_base * 0.90
 
-    # Giảm thêm 20% cho tất cả trận trên 10
-    if odds_aos > 10.0:
+    # Thuật toán calculate_aos nhận odds của correctScores đã được giảm 20% và áp trần 20.
+    # Do đó ta tính toán dựa trên odds_matrix chứa các odds đã giảm này.
+
+    # Bước điều chỉnh cho AOS theo yêu cầu mới:
+    # Kết quả AOS sau khi tính toán xong:
+    # - Nếu odds_aos >= 10.0 -> giảm thêm 20% (nhân với 0.8)
+    # - Nếu odds_aos < 10.0 -> giảm thêm 10% (nhân với 0.9)
+    if odds_aos >= 10.0:
         odds_aos = odds_aos * 0.80
-    # Áp trần tối đa là 20
+    else:
+        odds_aos = odds_aos * 0.90
+
+    # Áp trần tối đa là 20 cho AOS
     if odds_aos > 20.0:
         odds_aos = 20.0
 
@@ -313,7 +322,23 @@ def run_crawler():
             m["correctScores"] = extract_correct_score(detail_payload)
             print(f"  -> Tìm thấy {len(m['correctScores'])} tỷ lệ tỷ số.")
 
-        # Tính toán tỷ lệ AOS trước khi giới hạn trần 20
+        # Giới hạn odds của correct scores: giảm 20% trước, sau đó áp trần tối đa là 20
+        if "correctScores" in m and m["correctScores"]:
+            for score in m["correctScores"]:
+                if "odds" in score:
+                    try:
+                        raw_odds = float(score["odds"])
+                        reduced_odds = raw_odds * 0.80
+                        if reduced_odds > 20.0:
+                            score["odds"] = "20"
+                        else:
+                            # Làm tròn 2 chữ số thập phân cho gọn
+                            score["odds"] = str(round(reduced_odds, 2))
+                    except (ValueError, TypeError):
+                        score["odds"] = clamp_odds(score["odds"])
+
+        # Tính toán tỷ lệ AOS sau khi đã xử lý xong correctScores
+        # Thuật toán calculate_aos lấy odds từ correctScores (đã được giảm 20% và áp trần 20)
         m["aosOdds"] = calculate_aos(m.get("correctScores", []))
 
         # Giới hạn odds của các kèo chính về tối đa 20
@@ -325,12 +350,6 @@ def run_crawler():
                         # Chỉ giới hạn odds, không giới hạn handicap tỉ lệ chấp (như instantHandicap hay initialHandicap)
                         if "Handicap" not in key:
                             o[market][key] = clamp_odds(o[market][key])
-
-        # Giới hạn odds của correct scores về tối đa 20 sau khi đã tính xong AOS
-        if "correctScores" in m and m["correctScores"]:
-            for score in m["correctScores"]:
-                if "odds" in score:
-                    score["odds"] = clamp_odds(score["odds"])
 
         # Nghỉ ngắn 1s tránh bị chặn
         time.sleep(1)
