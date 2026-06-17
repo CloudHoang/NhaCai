@@ -37,6 +37,67 @@ HEADERS = {
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 DATA_FILE = os.path.join(DATA_DIR, "matches.json")
 
+TEAM_FLAG_MAP = {
+    "algeria": "algeria.png",
+    "argentina": "argentina.png",
+    "úc": "australia.png",
+    "áo": "austria.png",
+    "bỉ": "belgium.png",
+    "bosnia": "bosnia.png",
+    "brazil": "brazil.png",
+    "canada": "canada.png",
+    "cape verde": "cape_verde.png",
+    "colombia": "colombia.png",
+    "chdc công gô": "congo_dr.png",
+    "croatia": "croatia.png",
+    "curacao": "curacao.png",
+    "curaçao": "curacao.png",
+    "cộng hòa séc": "czechia.png",
+    "ecuador": "ecuador.png",
+    "ai cập": "egypt.png",
+    "anh": "england.png",
+    "pháp": "france.png",
+    "đức": "germany.png",
+    "ghana": "ghana.png",
+    "haiti": "haiti.png",
+    "iran": "iran.png",
+    "iraq": "iraq.png",
+    "bờ biển ngà": "ivory_coast.png",
+    "nhật bản": "japan.png",
+    "jordan": "jordan.png",
+    "mexico": "mexico.png",
+    "maroc": "morocco.png",
+    "hà lan": "netherlands.png",
+    "new zealand": "new_zealand.png",
+    "na uy": "norway.png",
+    "panama": "panama.png",
+    "paraguay": "paraguay.png",
+    "bồ đào nha": "portugal.png",
+    "qatar": "qatar.png",
+    "ả rập xê út": "saudi_arabia.png",
+    "scotland": "scotland.png",
+    "senegal": "senegal.png",
+    "nam phi": "south_africa.png",
+    "hàn quốc": "south_korea.png",
+    "tây ban nha": "spain.png",
+    "thụy điển": "sweden.png",
+    "thụy sĩ": "switzerland.png",
+    "tunisia": "tunisia.png",
+    "thổ nhĩ kỳ": "turkiye.png",
+    "uruguay": "uruguay.png",
+    "mỹ": "usa.png",
+    "uzbekistan": "uzbekistan.png",
+}
+
+def get_local_flag(team_name):
+    """Lấy đường dẫn cờ nội bộ từ tên đội bóng"""
+    if not team_name:
+        return ""
+    name_lower = team_name.lower().strip()
+    if name_lower in TEAM_FLAG_MAP:
+        return f"flags/{TEAM_FLAG_MAP[name_lower]}"
+    return ""
+
 def clamp_odds(val):
     """Giới hạn tỷ lệ odds tối đa là 20"""
     if not val:
@@ -307,11 +368,11 @@ def run_crawler():
         if not match_id:
             continue
 
-        # Tải cờ đội bóng về local để tránh CORS khi in/chụp ảnh
-        if "homeTeam" in m and m["homeTeam"] and "logo" in m["homeTeam"]:
-            m["homeTeam"]["logo"] = download_flag(m["homeTeam"]["logo"])
-        if "awayTeam" in m and m["awayTeam"] and "logo" in m["awayTeam"]:
-            m["awayTeam"]["logo"] = download_flag(m["awayTeam"]["logo"])
+        # Lấy cờ đội bóng từ thư mục local theo tên đội
+        if "homeTeam" in m and m["homeTeam"]:
+            m["homeTeam"]["logo"] = get_local_flag(m.get("homeName", ""))
+        if "awayTeam" in m and m["awayTeam"]:
+            m["awayTeam"]["logo"] = get_local_flag(m.get("awayName", ""))
 
         detail_url = DETAIL_URL_TEMPLATE.format(id=match_id)
         print(f"Đang lấy tỷ số chính xác cho trận: {m.get('homeName')} vs {m.get('awayName')} ({match_id})")
