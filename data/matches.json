@@ -24,8 +24,8 @@
         "initialHandicap": "1.5",
         "initialHome": "0.89",
         "initialAway": "0.95",
-        "instantHome": "0.86",
-        "instantAway": "0.98",
+        "instantHome": "0.83",
+        "instantAway": "1.01",
         "instantHandicap": "1.5"
       },
       "europe": {
@@ -42,8 +42,8 @@
         "initialHandicap": "2.75",
         "initialOver": "0.78",
         "initialUnder": "1.02",
-        "instantOver": "1.02",
-        "instantUnder": "0.78",
+        "instantOver": "1.00",
+        "instantUnder": "0.80",
         "instantHandicap": "2.75"
       }
     },
@@ -109,7 +109,7 @@
         "companyId": "31",
         "homeScore": "4",
         "awayScore": "1",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "9",
         "odds": "17.6"
       },
       {
@@ -157,7 +157,7 @@
         "companyId": "31",
         "homeScore": "3",
         "awayScore": "3",
-        "otherScoresOdds": "9.5",
+        "otherScoresOdds": "9",
         "odds": "20"
       },
       {
@@ -165,7 +165,7 @@
         "companyId": "31",
         "homeScore": "4",
         "awayScore": "4",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       },
       {
@@ -197,7 +197,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "3",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       },
       {
@@ -221,7 +221,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "4",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       },
       {
@@ -229,7 +229,7 @@
         "companyId": "31",
         "homeScore": "1",
         "awayScore": "4",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       },
       {
@@ -237,7 +237,7 @@
         "companyId": "31",
         "homeScore": "2",
         "awayScore": "4",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       },
       {
@@ -245,7 +245,7 @@
         "companyId": "31",
         "homeScore": "3",
         "awayScore": "4",
-        "otherScoresOdds": "8.8",
+        "otherScoresOdds": "8.6",
         "odds": "20"
       }
     ],
@@ -294,8 +294,8 @@
         "initialHandicap": "2.5",
         "initialOver": "0.97",
         "initialUnder": "0.83",
-        "instantOver": "0.80",
-        "instantUnder": "1.00",
+        "instantOver": "0.78",
+        "instantUnder": "1.02",
         "instantHandicap": "2.25"
       }
     },
@@ -306,7 +306,7 @@
         "homeScore": "1",
         "awayScore": "0",
         "otherScoresOdds": "35",
-        "odds": "4.24"
+        "odds": "4.32"
       },
       {
         "matchId": 354760923,
@@ -528,8 +528,8 @@
         "initialHandicap": "0.25",
         "initialHome": "0.82",
         "initialAway": "1.02",
-        "instantHome": "1.02",
-        "instantAway": "0.82",
+        "instantHome": "1.00",
+        "instantAway": "0.84",
         "instantHandicap": "0.25"
       },
       "europe": {
@@ -725,7 +725,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "4",
-        "otherScoresOdds": "69",
+        "otherScoresOdds": "64",
         "odds": "20"
       },
       {
@@ -798,8 +798,8 @@
         "initialHandicap": "2.5",
         "initialOver": "0.82",
         "initialUnder": "0.98",
-        "instantOver": "0.92",
-        "instantUnder": "0.88",
+        "instantOver": "0.90",
+        "instantUnder": "0.90",
         "instantHandicap": "2.5"
       }
     },
@@ -810,7 +810,7 @@
         "homeScore": "1",
         "awayScore": "0",
         "otherScoresOdds": "16.5",
-        "odds": "14.8"
+        "odds": "16.0"
       },
       {
         "matchId": 324760920,
@@ -961,7 +961,7 @@
         "companyId": "31",
         "homeScore": "1",
         "awayScore": "3",
-        "otherScoresOdds": "14.5",
+        "otherScoresOdds": "14",
         "odds": "11.2"
       },
       {

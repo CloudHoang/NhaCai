@@ -4,7 +4,7 @@
 - **Trận đấu:** Uzbekistan vs Colombia
   - Đội nhà: Uzbekistan
   - Đội khách: Colombia
-- **Thời gian diễn ra:** 2026-06-18 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 02:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
@@ -20,15 +20,15 @@
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.5 (Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái))
-- Cược Tài (Over): 0.92
-- Cược Xỉu (Under): 0.88
+- Cược Tài (Over): 0.90
+- Cược Xỉu (Under): 0.90
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 14.4
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
-| 1 - 0 | 14.8 |
+| 1 - 0 | 16.0 |
 | 2 - 0 | 20 |
 | 2 - 1 | 20 |
 | 3 - 0 | 20 |

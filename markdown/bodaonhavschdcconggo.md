@@ -4,13 +4,13 @@
 - **Trận đấu:** Bồ Đào Nha vs CHDC Công gô
   - Đội nhà: Bồ Đào Nha
   - Đội khách: CHDC Công gô
-- **Thời gian diễn ra:** 2026-06-18 00:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 17:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -1.5 (Bồ Đào Nha chấp CHDC Công gô 1.5 trái)
-- Cược Bồ Đào Nha thắng (Home): 0.86
-- Cược CHDC Công gô thắng (Away): 0.98
+- Cược Bồ Đào Nha thắng (Home): 0.83
+- Cược CHDC Công gô thắng (Away): 1.01
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Bồ Đào Nha thắng (1), Hòa (X), CHDC Công gô thắng (2))
@@ -20,8 +20,8 @@
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.75 (Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái))
-- Cược Tài (Over): 1.02
-- Cược Xỉu (Under): 0.78
+- Cược Tài (Over): 1.00
+- Cược Xỉu (Under): 0.80
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 14.4

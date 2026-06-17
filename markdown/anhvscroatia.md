@@ -4,7 +4,7 @@
 - **Trận đấu:** Anh vs Croatia
   - Đội nhà: Anh
   - Đội khách: Croatia
-- **Thời gian diễn ra:** 2026-06-18 03:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 20:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
@@ -20,15 +20,15 @@
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.25 (Tài (Trên 2.25 trái) / Xỉu (Dưới 2.25 trái))
-- Cược Tài (Over): 0.80
-- Cược Xỉu (Under): 1.00
+- Cược Tài (Over): 0.78
+- Cược Xỉu (Under): 1.02
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 14.4
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
-| 1 - 0 | 4.24 |
+| 1 - 0 | 4.32 |
 | 2 - 0 | 5.36 |
 | 2 - 1 | 6.48 |
 | 3 - 0 | 11.2 |
