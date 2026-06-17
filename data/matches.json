@@ -6,10 +6,10 @@
     "homeName": "Bồ Đào Nha",
     "awayName": "CHDC Công gô",
     "homeTeam": {
-      "logo": "flags/004c56b4c79de2c1058123ef7bc1ae19.png"
+      "logo": "flags/portugal.png"
     },
     "awayTeam": {
-      "logo": "flags/86ec7ebb9e2893a676a2d37466352f71.png"
+      "logo": "flags/congo_dr.png"
     },
     "handicapOdds": [],
     "league": {
@@ -109,7 +109,7 @@
         "companyId": "31",
         "homeScore": "4",
         "awayScore": "1",
-        "otherScoresOdds": "9.5",
+        "otherScoresOdds": "8.8",
         "odds": "17.6"
       },
       {
@@ -133,7 +133,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "0",
-        "otherScoresOdds": "9.5",
+        "otherScoresOdds": "9",
         "odds": "12.4"
       },
       {
@@ -165,7 +165,7 @@
         "companyId": "31",
         "homeScore": "4",
         "awayScore": "4",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       },
       {
@@ -197,7 +197,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "3",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       },
       {
@@ -221,7 +221,7 @@
         "companyId": "31",
         "homeScore": "0",
         "awayScore": "4",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       },
       {
@@ -229,7 +229,7 @@
         "companyId": "31",
         "homeScore": "1",
         "awayScore": "4",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       },
       {
@@ -237,7 +237,7 @@
         "companyId": "31",
         "homeScore": "2",
         "awayScore": "4",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       },
       {
@@ -245,7 +245,7 @@
         "companyId": "31",
         "homeScore": "3",
         "awayScore": "4",
-        "otherScoresOdds": "9",
+        "otherScoresOdds": "8.8",
         "odds": "20"
       }
     ],
@@ -258,10 +258,10 @@
     "homeName": "Anh",
     "awayName": "Croatia",
     "homeTeam": {
-      "logo": "flags/c06314730823ca0795668130cafe1e5b.png"
+      "logo": "flags/england.png"
     },
     "awayTeam": {
-      "logo": "flags/34464830328522301edcf4ea5272d8c9.png"
+      "logo": "flags/croatia.png"
     },
     "handicapOdds": [],
     "league": {
@@ -276,8 +276,8 @@
         "initialHandicap": "0.75",
         "initialHome": "0.84",
         "initialAway": "1.00",
-        "instantHome": "0.92",
-        "instantAway": "0.92",
+        "instantHome": "0.90",
+        "instantAway": "0.94",
         "instantHandicap": "0.75"
       },
       "europe": {
@@ -285,17 +285,17 @@
         "initialHome": "1.58",
         "initialDraw": "3.78",
         "initialAway": "4.55",
-        "instantHome": "1.70",
+        "instantHome": "1.66",
         "instantDraw": "3.50",
-        "instantAway": "4.10"
+        "instantAway": "4.35"
       },
       "overUnder": {
         "companyId": "1",
         "initialHandicap": "2.5",
         "initialOver": "0.97",
         "initialUnder": "0.83",
-        "instantOver": "0.84",
-        "instantUnder": "0.96",
+        "instantOver": "0.80",
+        "instantUnder": "1.00",
         "instantHandicap": "2.25"
       }
     },
@@ -481,7 +481,7 @@
         "companyId": "31",
         "homeScore": "1",
         "awayScore": "4",
-        "otherScoresOdds": "33",
+        "otherScoresOdds": "31",
         "odds": "20"
       },
       {
@@ -489,7 +489,7 @@
         "companyId": "31",
         "homeScore": "2",
         "awayScore": "4",
-        "otherScoresOdds": "33",
+        "otherScoresOdds": "31",
         "odds": "20"
       },
       {
@@ -510,10 +510,10 @@
     "homeName": "Ghana",
     "awayName": "Panama",
     "homeTeam": {
-      "logo": "flags/1af45c2bbd512baee485c3e2253424ec.png"
+      "logo": "flags/ghana.png"
     },
     "awayTeam": {
-      "logo": "flags/27fc99ac07efac137b7008e4cc801b67.png"
+      "logo": "flags/panama.png"
     },
     "handicapOdds": [],
     "league": {
@@ -762,10 +762,10 @@
     "homeName": "Uzbekistan",
     "awayName": "Colombia",
     "homeTeam": {
-      "logo": "flags/b764075074ef0987e9449d4b3b7728ac.png"
+      "logo": "flags/uzbekistan.png"
     },
     "awayTeam": {
-      "logo": "flags/48d95301572545e29b7d59dc94f9266c.png"
+      "logo": "flags/colombia.png"
     },
     "handicapOdds": [],
     "league": {
@@ -780,8 +780,8 @@
         "initialHandicap": "-1.25",
         "initialHome": "0.86",
         "initialAway": "0.98",
-        "instantHome": "1.00",
-        "instantAway": "0.84",
+        "instantHome": "0.98",
+        "instantAway": "0.86",
         "instantHandicap": "-1.25"
       },
       "europe": {
@@ -789,9 +789,9 @@
         "initialHome": "6.40",
         "initialDraw": "4.35",
         "initialAway": "1.38",
-        "instantHome": "6.60",
+        "instantHome": "8.10",
         "instantDraw": "4.35",
-        "instantAway": "1.37"
+        "instantAway": "1.32"
       },
       "overUnder": {
         "companyId": "1",
