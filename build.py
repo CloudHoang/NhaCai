@@ -132,7 +132,7 @@ def build_static():
     matches = load_matches_data()
 
     # Tạo thư mục markdown nếu chưa có
-    md_dir = "/home/cloud/00.Claude/Bet/markdown"
+    md_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "markdown")
     os.makedirs(md_dir, exist_ok=True)
 
     rounds = {}
@@ -170,13 +170,13 @@ def build_static():
         rounds[r].sort(key=lambda x: x.get("matchTime", 0))
 
     # Cấu hình Jinja2 để render template index.html tĩnh
-    env = Environment(loader=FileSystemLoader('/home/cloud/00.Claude/Bet/templates'))
+    env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')))
     template = env.get_template('index.html')
 
     output = template.render(rounds=rounds)
 
     # Ghi file index.html ra thư mục gốc để GitHub Pages đọc trực tiếp
-    output_path = "/home/cloud/00.Claude/Bet/index.html"
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(output)
     print(f"Build index.html thành công tại: {output_path}")

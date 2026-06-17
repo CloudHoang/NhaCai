@@ -34,7 +34,7 @@ HEADERS = {
     "Connection": "keep-alive"
 }
 
-DATA_DIR = "/home/cloud/00.Claude/Bet/data"
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 DATA_FILE = os.path.join(DATA_DIR, "matches.json")
 
 def clamp_odds(val):
@@ -63,7 +63,7 @@ def download_flag(url):
             import hashlib
             filename = hashlib.md5(url.encode('utf-8')).hexdigest() + ".png"
 
-        flags_dir = "/home/cloud/00.Claude/Bet/flags"
+        flags_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "flags")
         os.makedirs(flags_dir, exist_ok=True)
         local_path = os.path.join(flags_dir, filename)
 

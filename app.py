@@ -3,7 +3,7 @@ import json
 import os
 
 app = Flask(__name__)
-DATA_FILE = "/home/cloud/00.Claude/Bet/data/matches.json"
+DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches.json")
 
 def clamp_odds(val):
     """Giới hạn tỷ lệ odds tối đa là 20"""
@@ -87,7 +87,8 @@ def api_matches():
 @app.route("/flags/<path:filename>")
 def serve_flag(filename):
     """Serve local team flag images"""
-    return send_from_directory("/home/cloud/00.Claude/Bet/flags", filename)
+    flags_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "flags")
+    return send_from_directory(flags_dir, filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
