@@ -4,11 +4,11 @@
 - **Trận đấu:** Mexico vs Hàn Quốc
   - Đội nhà: Mexico
   - Đội khách: Hàn Quốc
-- **Thời gian diễn ra:** 2026-06-18 18:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-19 08:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.5 (Hàn Quốc chấp Mexico 0.5 trái)
+- Mức chấp: -0.5 (Mexico chấp Hàn Quốc 0.5 trái)
 - Cược Mexico thắng (Home): 1.04
 - Cược Hàn Quốc thắng (Away): 0.80
 
@@ -24,7 +24,7 @@
 - Cược Xỉu (Under): 0.82
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
-- **Tỷ số ngoài bảng (AOS):** 14.4
+- **Tỷ số ngoài bảng (AOS):** 11.5
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |

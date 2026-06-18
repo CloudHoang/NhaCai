@@ -344,19 +344,19 @@ def run_crawler():
     payload = clean_rsc_payload(html)
     matches = extract_matches(payload)
 
-    # Lọc trận đấu từ 17:00 hôm nay đến 15:00 hôm sau (GMT+7)
+    # Lọc trận đấu từ 15:00 hôm nay đến 14:00 hôm sau (GMT+7)
     # Tính toán timezone-independent để tránh lỗi lệch múi giờ trên máy chủ
     now = time.time()
     gmt7_struct = time.gmtime(now + 7 * 3600)
     year, month, day = gmt7_struct.tm_year, gmt7_struct.tm_mon, gmt7_struct.tm_mday
 
-    # 17:00 hôm nay GMT+7 đổi sang epoch timestamp thực tế
-    start_today = calendar.timegm((year, month, day, 17, 0, 0, 0, 0, 0)) - 7 * 3600
+    # 15:00 hôm nay GMT+7 đổi sang epoch timestamp thực tế
+    start_today = calendar.timegm((year, month, day, 15, 0, 0, 0, 0, 0)) - 7 * 3600
 
-    # 15:00 hôm sau GMT+7 đổi sang epoch timestamp thực tế
+    # 14:00 hôm sau GMT+7 đổi sang epoch timestamp thực tế
     gmt7_tomorrow_struct = time.gmtime(now + 7 * 3600 + 24 * 3600)
     ty, tm, td = gmt7_tomorrow_struct.tm_year, gmt7_tomorrow_struct.tm_mon, gmt7_tomorrow_struct.tm_mday
-    end_tomorrow = calendar.timegm((ty, tm, td, 15, 0, 0, 0, 0, 0)) - 7 * 3600
+    end_tomorrow = calendar.timegm((ty, tm, td, 14, 0, 0, 0, 0, 0)) - 7 * 3600
 
     filtered_matches = [m for m in matches if start_today <= m.get("matchTime", 0) <= end_tomorrow]
 
@@ -383,7 +383,25 @@ def run_crawler():
             m["correctScores"] = extract_correct_score(detail_payload)
             print(f"  -> Tìm thấy {len(m['correctScores'])} tỷ lệ tỷ số.")
 
-        # Giới hạn odds của correct scores: giảm 20% trước, sau đó áp trần tối đa là 20
+        # Tính toán tỷ lệ AOS trước khi áp trần 20 cho correctScores
+        # Tạo bản sao correctScores chỉ giảm 20% (không áp trần) để tính toán AOS
+        temp_scores = []
+        if "correctScores" in m and m["correctScores"]:
+            for score in m["correctScores"]:
+                if "odds" in score:
+                    try:
+                        raw_odds = float(score["odds"])
+                        reduced_odds = raw_odds * 0.80
+                        temp_scores.append({
+                            "homeScore": score.get("homeScore"),
+                            "awayScore": score.get("awayScore"),
+                            "odds": str(reduced_odds)
+                        })
+                    except (ValueError, TypeError):
+                        temp_scores.append(score)
+        m["aosOdds"] = calculate_aos(temp_scores)
+
+        # Giới hạn odds của correct scores: giảm 20% trước, sau đó áp trần tối đa là 20 để hiển thị
         if "correctScores" in m and m["correctScores"]:
             for score in m["correctScores"]:
                 if "odds" in score:
@@ -397,10 +415,6 @@ def run_crawler():
                             score["odds"] = str(round(reduced_odds, 2))
                     except (ValueError, TypeError):
                         score["odds"] = clamp_odds(score["odds"])
-
-        # Tính toán tỷ lệ AOS sau khi đã xử lý xong correctScores
-        # Thuật toán calculate_aos lấy odds từ correctScores (đã được giảm 20% và áp trần 20)
-        m["aosOdds"] = calculate_aos(m.get("correctScores", []))
 
         # Giới hạn odds của các kèo chính về tối đa 20
         if "odds" in m and m["odds"]:

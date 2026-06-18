@@ -4,11 +4,11 @@
 - **Trận đấu:** Canada vs Qatar
   - Đội nhà: Canada
   - Đội khách: Qatar
-- **Thời gian diễn ra:** 2026-06-18 15:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-19 05:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1.5 (Qatar chấp Canada 1.5 trái)
+- Mức chấp: -1.5 (Canada chấp Qatar 1.5 trái)
 - Cược Canada thắng (Home): 0.86
 - Cược Qatar thắng (Away): 0.98
 
@@ -24,7 +24,7 @@
 - Cược Xỉu (Under): 0.92
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
-- **Tỷ số ngoài bảng (AOS):** 14.4
+- **Tỷ số ngoài bảng (AOS):** 8.5
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |

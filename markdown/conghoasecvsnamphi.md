@@ -4,11 +4,11 @@
 - **Trận đấu:** Cộng Hòa Séc vs Nam Phi
   - Đội nhà: Cộng Hòa Séc
   - Đội khách: Nam Phi
-- **Thời gian diễn ra:** 2026-06-18 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 23:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.5 (Nam Phi chấp Cộng Hòa Séc 0.5 trái)
+- Mức chấp: -0.5 (Cộng Hòa Séc chấp Nam Phi 0.5 trái)
 - Cược Cộng Hòa Séc thắng (Home): 0.84
 - Cược Nam Phi thắng (Away): 1.00
 
@@ -24,7 +24,7 @@
 - Cược Xỉu (Under): 0.94
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
-- **Tỷ số ngoài bảng (AOS):** 14.4
+- **Tỷ số ngoài bảng (AOS):** 10.3
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
