@@ -1,7 +1,7 @@
 name: Update Matches & Deploy
 on:
   schedule:
-    - cron: '45 8 * * *'  # 15:45 GMT+7 (8:45 UTC)
+    - cron: '26 11 * * *'  # Chạy test lúc 11:26 UTC (18:26 GMT+7)
   workflow_dispatch:
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run Crawler
-        run: python3 crawler.py
+        run: echo "Tạm thời bỏ qua crawler để test"
       - name: Build static site
         run: python3 build.py
       - name: Commit and push if changed
