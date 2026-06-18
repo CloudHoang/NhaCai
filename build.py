@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
 from jinja2 import Environment, FileSystemLoader
 from app import load_matches_data
 
@@ -161,7 +161,14 @@ def build_static():
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(md_content)
 
-        r_name = m.get("roundName", "Khác")
+        # Lấy timestamp, chuyển sang GMT+7
+        ts = m.get("matchTime", 0)
+        # Gom nhóm loạt trận: trừ đi 15 tiếng so với GMT+7 (ts + 7h - 15h = ts - 8h)
+        dt_logical = datetime.utcfromtimestamp(ts - 8 * 3600)
+        date1 = dt_logical.strftime("%d/%m")
+        date2 = (dt_logical + timedelta(days=1)).strftime("%d/%m")
+        r_name = f"Loạt trận ngày {date1} - {date2}"
+
         if r_name not in rounds:
             rounds[r_name] = []
         rounds[r_name].append(m)
@@ -169,11 +176,16 @@ def build_static():
     for r in rounds:
         rounds[r].sort(key=lambda x: x.get("matchTime", 0))
 
+    # Sắp xếp rounds theo ngày mới nhất lên đầu (dựa vào trận đầu tiên của loạt trận)
+    sorted_rounds = {}
+    for r_name in sorted(rounds.keys(), key=lambda k: rounds[k][0].get("matchTime", 0), reverse=True):
+        sorted_rounds[r_name] = rounds[r_name]
+
     # Cấu hình Jinja2 để render template index.html tĩnh
     env = Environment(loader=FileSystemLoader(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')))
     template = env.get_template('index.html')
 
-    output = template.render(rounds=rounds)
+    output = template.render(rounds=sorted_rounds)
 
     # Ghi file index.html ra thư mục gốc để GitHub Pages đọc trực tiếp
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "index.html")

@@ -112,6 +112,21 @@
 </div>
 
 <div class="container mb-5">
+    <!-- Khu Vực Nút Lọc Theo Ngày -->
+    <div class="mb-4 d-flex flex-wrap align-items-center gap-2" id="dateButtonsContainer">
+        <!-- JS sẽ tạo các nút ở đây -->
+    </div>
+
+    <div class="row mb-4" id="dateSelectContainer" style="display: none;">
+        <div class="col-md-4">
+            <select id="dateFilter" class="form-select fw-bold shadow-sm border-primary" onchange="filterByDate(this.value)">
+                <option value="" disabled selected>Các loạt trận cũ hơn...</option>
+                <option value="all">📅 Hiển thị tất cả loạt trận</option>
+                <!-- Các option cũ hơn sẽ được JS điền tự động -->
+            </select>
+        </div>
+    </div>
+
     <!-- Khối thông báo đang lọc kèo -->
     <div id="filter-alert" class="alert alert-warning d-none align-items-center justify-content-between mb-4 shadow-sm" role="alert">
         <div>
@@ -443,7 +458,117 @@
 
     // Theo dõi sự thay đổi của hash và load trang
     window.addEventListener('hashchange', applyFilter);
-    window.addEventListener('DOMContentLoaded', applyFilter);
+    window.addEventListener('DOMContentLoaded', () => {
+        applyFilter();
+        initDateFilter();
+    });
+
+    // --- XỬ LÝ LỌC THEO NGÀY ---
+    let currentSelectedDate = 'latest';
+
+    function initDateFilter() {
+        let rounds = document.querySelectorAll('.round-card-header > span:first-child');
+        let select = document.getElementById('dateFilter');
+        let buttonsContainer = document.getElementById('dateButtonsContainer');
+        let dates = new Set();
+
+        rounds.forEach(r => {
+            dates.add(r.innerText.trim());
+        });
+
+        let datesArray = Array.from(dates); // datesArray đã được sort mới nhất lên đầu từ Python
+
+        // Tạo nút "Mới Nhất"
+        let btnLatest = document.createElement('button');
+        btnLatest.className = 'btn btn-primary fw-bold shadow-sm rounded-pill';
+        btnLatest.innerText = '🔥 Mới nhất';
+        btnLatest.onclick = () => selectDate('latest', btnLatest);
+        buttonsContainer.appendChild(btnLatest);
+
+        // Hiển thị tối đa 4 nút loạt trận gần đây (sau nút Mới Nhất)
+        let maxButtons = 4;
+        let buttonElements = [btnLatest];
+
+        datesArray.forEach((date, index) => {
+            if (index < maxButtons) {
+                let btn = document.createElement('button');
+                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill';
+                // Chỉ lấy ngày tháng để nút gọn hơn (VD: "Loạt trận ngày 17/06 - 18/06" -> "17/06 - 18/06")
+                let shortDate = date.replace("Loạt trận ngày ", "");
+                btn.innerText = shortDate;
+                btn.onclick = () => selectDate(date, btn);
+                buttonsContainer.appendChild(btn);
+                buttonElements.push(btn);
+            } else {
+                // Các ngày còn lại đưa vào dropdown
+                document.getElementById('dateSelectContainer').style.display = 'block';
+                let option = document.createElement('option');
+                option.value = date;
+                option.text = date;
+                select.appendChild(option);
+            }
+        });
+
+        window.dateButtonElements = buttonElements;
+
+        // Mặc định kích hoạt loạt trận mới nhất
+        selectDate('latest', btnLatest);
+    }
+
+    function selectDate(value, activeBtn) {
+        currentSelectedDate = value;
+
+        // Reset class cho tất cả các nút
+        if (window.dateButtonElements) {
+            window.dateButtonElements.forEach(btn => {
+                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill';
+            });
+        }
+
+        // Active nút hiện tại
+        if (activeBtn) {
+            activeBtn.className = 'btn btn-primary fw-bold shadow-sm rounded-pill';
+        }
+
+        // Reset droplist nếu chọn bằng nút
+        let select = document.getElementById('dateFilter');
+        if (value !== 'all' && !value.startsWith('Loạt trận')) {
+            select.value = "";
+        } else if (value.startsWith('Loạt trận') && Array.from(select.options).some(o => o.value === value)) {
+            select.value = value;
+        }
+
+        filterByDate(value);
+    }
+
+    function filterByDate(selectedValue) {
+        // Nếu đang xem URL hash thì ko lọc theo ngày
+        if (getFilterFromUrl()) return;
+
+        let rounds = document.querySelectorAll('.round-card');
+
+        if (selectedValue === 'latest') {
+            rounds.forEach((roundCard, index) => {
+                if (index === 0) {
+                    roundCard.style.display = 'block';
+                    roundCard.querySelectorAll('.match-card').forEach(card => card.style.display = 'block');
+                } else {
+                    roundCard.style.display = 'none';
+                }
+            });
+            return;
+        }
+
+        rounds.forEach(roundCard => {
+            let roundName = roundCard.querySelector('.round-card-header > span:first-child').innerText.trim();
+            if (selectedValue === 'all' || roundName === selectedValue) {
+                roundCard.style.display = 'block';
+                roundCard.querySelectorAll('.match-card').forEach(card => card.style.display = 'block');
+            } else {
+                roundCard.style.display = 'none';
+            }
+        });
+    }
 </script>
 
 <script>

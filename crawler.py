@@ -417,14 +417,32 @@ def run_crawler():
 
     if not filtered_matches:
         print("Không tìm thấy trận đấu nào trong khung giờ yêu cầu.")
-        # Vẫn ghi mảng rỗng để xóa dữ liệu cũ
 
     # Tạo thư mục lưu trữ nếu chưa tồn tại
     os.makedirs(DATA_DIR, exist_ok=True)
 
+    # Đọc dữ liệu cũ nếu có
+    existing_matches = []
+    if os.path.exists(DATA_FILE):
+        try:
+            with open(DATA_FILE, "r", encoding="utf-8") as f:
+                existing_matches = json.load(f)
+        except Exception as e:
+            print(f"Lỗi đọc file data cũ: {e}")
+
+    # Gộp dữ liệu mới vào dữ liệu cũ (ghi đè nếu trùng id trận đấu)
+    matches_dict = {str(m.get("id")): m for m in existing_matches if m.get("id")}
+    for m in filtered_matches:
+        if m.get("id"):
+            matches_dict[str(m.get("id"))] = m
+
+    # Chuyển lại thành list và sắp xếp theo thời gian
+    final_matches = list(matches_dict.values())
+    final_matches.sort(key=lambda x: x.get("matchTime", 0))
+
     # Ghi dữ liệu JSON
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(filtered_matches, f, indent=2, ensure_ascii=False)
+        json.dump(final_matches, f, indent=2, ensure_ascii=False)
 
     print(f"Ghi file dữ liệu thành công vào: {DATA_FILE}")
 

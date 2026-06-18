@@ -62,11 +62,18 @@ def index():
     """
     Trang chính hiển thị giao diện danh sách trận đấu và tỷ lệ kèo.
     """
+    import datetime
     matches = load_matches_data()
-    # Nhóm trận đấu theo vòng đấu (roundName) hoặc bảng đấu (group)
+    # Nhóm trận đấu theo ngày (khung 15:00 hôm nay đến 14:59 hôm sau GMT+7)
     rounds = {}
     for m in matches:
-        r_name = m.get("roundName", "Khác")
+        ts = m.get("matchTime", 0)
+        # Giờ GMT+7 trừ đi 15 tiếng (ts + 7h - 15h = ts - 8h) để gom nhóm 1 loạt trận
+        dt_logical = datetime.datetime.utcfromtimestamp(ts - 8 * 3600)
+        date1 = dt_logical.strftime("%d/%m")
+        date2 = (dt_logical + datetime.timedelta(days=1)).strftime("%d/%m")
+        r_name = f"Loạt trận ngày {date1} - {date2}"
+
         if r_name not in rounds:
             rounds[r_name] = []
         rounds[r_name].append(m)
@@ -75,7 +82,12 @@ def index():
     for r in rounds:
         rounds[r].sort(key=lambda x: x.get("matchTime", 0))
 
-    return render_template("index.html", rounds=rounds)
+    # Sắp xếp rounds theo ngày mới nhất lên đầu (dựa vào trận đầu tiên của loạt trận)
+    sorted_rounds = {}
+    for r_name in sorted(rounds.keys(), key=lambda k: rounds[k][0].get("matchTime", 0), reverse=True):
+        sorted_rounds[r_name] = rounds[r_name]
+
+    return render_template("index.html", rounds=sorted_rounds)
 
 @app.route("/api/matches")
 def api_matches():

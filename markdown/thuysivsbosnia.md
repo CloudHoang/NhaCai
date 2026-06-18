@@ -4,11 +4,11 @@
 - **Trận đấu:** Thụy Sĩ vs Bosnia
   - Đội nhà: Thụy Sĩ
   - Đội khách: Bosnia
-- **Thời gian diễn ra:** 2026-06-18 19:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 12:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: -1 (Thụy Sĩ chấp Bosnia 1 trái)
+- Mức chấp: 1 (Bosnia chấp Thụy Sĩ 1 trái)
 - Cược Thụy Sĩ thắng (Home): 0.94
 - Cược Bosnia thắng (Away): 0.90
 
