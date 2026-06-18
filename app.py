@@ -17,18 +17,22 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
-def invert_handicap(handicap_str):
-    """Đảo ngược dấu của tỷ lệ chấp bóng đá"""
-    if not handicap_str:
-        return handicap_str
+def get_handicap_description(home, away, handicap_str):
+    if not handicap_str or handicap_str == "-":
+        return "Chưa cập nhật kèo chấp"
     try:
         val = float(handicap_str)
-        inverted = -val
-        if inverted == int(inverted):
-            return str(int(inverted))
-        return str(inverted)
-    except (ValueError, TypeError):
-        return handicap_str
+        if val < 0:
+            abs_val = abs(val)
+            abs_val_str = str(int(abs_val)) if abs_val == int(abs_val) else str(abs_val)
+            return f"{home} chấp {away} {abs_val_str} trái"
+        elif val > 0:
+            val_str = str(int(val)) if val == int(val) else str(val)
+            return f"{away} chấp {home} {val_str} trái"
+        else:
+            return "Kèo đồng banh (0)"
+    except ValueError:
+        return "Chưa cập nhật kèo chấp"
 
 def load_matches_data():
     """
@@ -41,16 +45,24 @@ def load_matches_data():
             matches = json.load(f)
 
         for m in matches:
+            home = m.get("homeName", "")
+            away = m.get("awayName", "")
             if "odds" in m and m["odds"]:
                 o = m["odds"]
                 for market in ["handicap", "europe", "overUnder"]:
                     if market in o and o[market]:
                         for key in list(o[market].keys()):
-                            if "Handicap" in key and market == "handicap":
-                                # Đảo ngược dấu của Handicap tỷ lệ chấp bóng đá
-                                o[market][key] = invert_handicap(o[market][key])
-                            else:
+                            if "Handicap" not in key:
                                 o[market][key] = clamp_odds(o[market][key])
+
+            # Tạo các thuộc tính chú thích cho template giống build.py
+            hc_line = m.get("odds", {}).get("handicap", {}).get("instantHandicap", "-")
+            m["handicap_desc"] = get_handicap_description(home, away, hc_line)
+
+            ou_line = m.get("odds", {}).get("overUnder", {}).get("instantHandicap", "-")
+            m["ou_desc"] = f"Tài (Trên {ou_line} trái) / Xỉu (Dưới {ou_line} trái)" if ou_line != "-" else "Chưa cập nhật kèo tài xỉu"
+
+            m["eu_desc"] = f"{home} thắng (1), Hòa (X), {away} thắng (2)"
 
         return matches
     except Exception as e:

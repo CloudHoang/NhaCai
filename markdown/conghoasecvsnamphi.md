@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.5 (Nam Phi chấp Cộng Hòa Séc 0.5 trái)
+- Mức chấp: -0.5 (Cộng Hòa Séc chấp Nam Phi 0.5 trái)
 - Cược Cộng Hòa Séc thắng (Home): 0.84
 - Cược Nam Phi thắng (Away): 1.00
 

@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1.5 (CHDC Công gô chấp Bồ Đào Nha 1.5 trái)
+- Mức chấp: -1.5 (Bồ Đào Nha chấp CHDC Công gô 1.5 trái)
 - Cược Bồ Đào Nha thắng (Home): 0.86
 - Cược CHDC Công gô thắng (Away): 0.98
 

@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.5 (Hàn Quốc chấp Mexico 0.5 trái)
+- Mức chấp: -0.5 (Mexico chấp Hàn Quốc 0.5 trái)
 - Cược Mexico thắng (Home): 1.04
 - Cược Hàn Quốc thắng (Away): 0.80
 

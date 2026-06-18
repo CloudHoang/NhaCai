@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.75 (Croatia chấp Anh 0.75 trái)
+- Mức chấp: -0.75 (Anh chấp Croatia 0.75 trái)
 - Cược Anh thắng (Home): 0.90
 - Cược Croatia thắng (Away): 0.94
 

@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1.5 (Qatar chấp Canada 1.5 trái)
+- Mức chấp: -1.5 (Canada chấp Qatar 1.5 trái)
 - Cược Canada thắng (Home): 0.86
 - Cược Qatar thắng (Away): 0.98
 

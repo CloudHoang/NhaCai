@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1 (Bosnia chấp Thụy Sĩ 1 trái)
+- Mức chấp: -1 (Thụy Sĩ chấp Bosnia 1 trái)
 - Cược Thụy Sĩ thắng (Home): 0.94
 - Cược Bosnia thắng (Away): 0.90
 

@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 0.25 (Panama chấp Ghana 0.25 trái)
+- Mức chấp: -0.25 (Ghana chấp Panama 0.25 trái)
 - Cược Ghana thắng (Home): 1.02
 - Cược Panama thắng (Away): 0.82
 

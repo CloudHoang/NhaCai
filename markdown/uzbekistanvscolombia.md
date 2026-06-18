@@ -8,7 +8,7 @@
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: -1.25 (Uzbekistan chấp Colombia 1.25 trái)
+- Mức chấp: 1.25 (Colombia chấp Uzbekistan 1.25 trái)
 - Cược Uzbekistan thắng (Home): 0.98
 - Cược Colombia thắng (Away): 0.86
 

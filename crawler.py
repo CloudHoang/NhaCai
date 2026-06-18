@@ -252,7 +252,7 @@ def format_match_message(m):
     # Handicap
     hdp = odds.get("handicap", {})
     if hdp:
-        msg += f"🔹 <b>Kèo Chấp:</b> {invert_handicap(hdp.get('instantHandicap'))}\n"
+        msg += f"🔹 <b>Kèo Chấp:</b> {hdp.get('instantHandicap')}\n"
         msg += f"   └ Home: <code>{clamp_odds(hdp.get('instantHome'))}</code> | Away: <code>{clamp_odds(hdp.get('instantAway'))}</code>\n"
 
     # Over/Under
