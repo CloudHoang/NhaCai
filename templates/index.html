@@ -97,6 +97,23 @@
             transform: translateY(-1px);
             box-shadow: 0 4px 6px rgba(0,0,0,0.08);
         }
+        /* Style cho nút lọc ngày có xuống dòng */
+        .date-filter-btn {
+            white-space: pre-line !important;
+            line-height: 1.2 !important;
+            padding: 8px 20px !important;
+            font-size: 0.85rem !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 48px; /* Chiều cao đồng bộ với dropdown */
+        }
+        #dateFilter {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            min-height: 48px;
+        }
     </style>
 </head>
 <body>
@@ -113,17 +130,19 @@
 
 <div class="container mb-5">
     <!-- Khu Vực Nút Lọc Theo Ngày -->
-    <div class="mb-4 d-flex flex-wrap align-items-center gap-2" id="dateButtonsContainer">
+    <div class="mb-4 d-flex flex-wrap align-items-stretch gap-2" id="dateButtonsContainer">
         <!-- JS sẽ tạo các nút ở đây -->
-    </div>
 
-    <div class="row mb-4" id="dateSelectContainer" style="display: none;">
-        <div class="col-md-4">
-            <select id="dateFilter" class="form-select fw-bold shadow-sm border-primary" onchange="filterByDate(this.value)">
-                <option value="" disabled selected>Các loạt trận cũ hơn...</option>
-                <option value="all">📅 Hiển thị tất cả loạt trận</option>
+        <!-- Dropdown Bootstrap cho các ngày cũ -->
+        <div class="dropdown" id="dateSelectContainer" style="display: none;">
+            <button class="btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn dropdown-toggle" type="button" id="dateDropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                📅 Cũ hơn...
+            </button>
+            <ul class="dropdown-menu shadow" aria-labelledby="dateDropdownMenuButton" id="dateDropdownList">
+                <li><a class="dropdown-item fw-bold" href="#" onclick="selectDropdownDate(event, 'all', '📅 Tất cả loạt trận')">📅 Hiển thị tất cả</a></li>
+                <li><hr class="dropdown-divider"></li>
                 <!-- Các option cũ hơn sẽ được JS điền tự động -->
-            </select>
+            </ul>
         </div>
     </div>
 
@@ -144,7 +163,7 @@
     {% for round_name, matches in rounds.items() %}
         <div class="round-card">
             <div class="round-card-header d-flex justify-content-between align-items-center">
-                <span>{{ round_name }}</span>
+                <span>{{ round_name.replace('\n', ' ') }}</span>
                 <span class="badge bg-primary">{{ matches|length }} Trận</span>
             </div>
             <div class="card-body p-3 d-flex flex-column gap-3">
@@ -468,7 +487,7 @@
 
     function initDateFilter() {
         let rounds = document.querySelectorAll('.round-card-header > span:first-child');
-        let select = document.getElementById('dateFilter');
+        let dropdownList = document.getElementById('dateDropdownList');
         let buttonsContainer = document.getElementById('dateButtonsContainer');
         let dates = new Set();
 
@@ -478,41 +497,65 @@
 
         let datesArray = Array.from(dates); // datesArray đã được sort mới nhất lên đầu từ Python
 
-        // Tạo nút "Mới Nhất"
-        let btnLatest = document.createElement('button');
-        btnLatest.className = 'btn btn-primary fw-bold shadow-sm rounded-pill';
-        btnLatest.innerText = '🔥 Mới nhất';
-        btnLatest.onclick = () => selectDate('latest', btnLatest);
-        buttonsContainer.appendChild(btnLatest);
-
-        // Hiển thị tối đa 4 nút loạt trận gần đây (sau nút Mới Nhất)
         let maxButtons = 4;
-        let buttonElements = [btnLatest];
+        let buttonElements = [];
+        let selectContainer = document.getElementById('dateSelectContainer');
 
         datesArray.forEach((date, index) => {
             if (index < maxButtons) {
                 let btn = document.createElement('button');
-                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill';
-                // Chỉ lấy ngày tháng để nút gọn hơn (VD: "Loạt trận ngày 17/06 - 18/06" -> "17/06 - 18/06")
-                let shortDate = date.replace("Loạt trận ngày ", "");
-                btn.innerText = shortDate;
+                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn';
+                btn.innerText = date;
                 btn.onclick = () => selectDate(date, btn);
-                buttonsContainer.appendChild(btn);
+                // Chèn button lên trước cái dropdown container
+                buttonsContainer.insertBefore(btn, selectContainer);
                 buttonElements.push(btn);
             } else {
                 // Các ngày còn lại đưa vào dropdown
-                document.getElementById('dateSelectContainer').style.display = 'block';
-                let option = document.createElement('option');
-                option.value = date;
-                option.text = date;
-                select.appendChild(option);
+                selectContainer.style.display = 'block';
+
+                let li = document.createElement('li');
+                let a = document.createElement('a');
+                a.className = 'dropdown-item fw-bold';
+                a.href = '#';
+                let cleanLabel = date.replace('\n', ' ');
+                a.innerText = cleanLabel;
+                a.onclick = (e) => selectDropdownDate(e, date, cleanLabel);
+                li.appendChild(a);
+                dropdownList.appendChild(li);
             }
         });
 
         window.dateButtonElements = buttonElements;
 
-        // Mặc định kích hoạt loạt trận mới nhất
-        selectDate('latest', btnLatest);
+        // Mặc định kích hoạt loạt trận đầu tiên (mới nhất)
+        if (datesArray.length > 0 && buttonElements.length > 0) {
+            selectDate(datesArray[0], buttonElements[0]);
+        }
+    }
+
+    function selectDropdownDate(event, value, label) {
+        if (event) event.preventDefault();
+        currentSelectedDate = value;
+
+        // Reset class cho tất cả các nút filter thường
+        if (window.dateButtonElements) {
+            window.dateButtonElements.forEach(btn => {
+                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn';
+            });
+        }
+
+        // Active nút Dropdown và thay đổi nhãn của nó
+        let dropdownBtn = document.getElementById('dateDropdownMenuButton');
+        if (value === 'all') {
+            dropdownBtn.innerText = '📅 Cũ hơn...';
+            dropdownBtn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn dropdown-toggle';
+        } else {
+            dropdownBtn.innerText = '📅 ' + label;
+            dropdownBtn.className = 'btn btn-primary fw-bold shadow-sm rounded-pill date-filter-btn dropdown-toggle';
+        }
+
+        filterByDate(value);
     }
 
     function selectDate(value, activeBtn) {
@@ -521,47 +564,49 @@
         // Reset class cho tất cả các nút
         if (window.dateButtonElements) {
             window.dateButtonElements.forEach(btn => {
-                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill';
+                btn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn';
             });
         }
 
         // Active nút hiện tại
         if (activeBtn) {
-            activeBtn.className = 'btn btn-primary fw-bold shadow-sm rounded-pill';
+            activeBtn.className = 'btn btn-primary fw-bold shadow-sm rounded-pill date-filter-btn';
         }
 
-        // Reset droplist nếu chọn bằng nút
-        let select = document.getElementById('dateFilter');
-        if (value !== 'all' && !value.startsWith('Loạt trận')) {
-            select.value = "";
-        } else if (value.startsWith('Loạt trận') && Array.from(select.options).some(o => o.value === value)) {
-            select.value = value;
+        // Reset nút dropdown về trạng thái ban đầu
+        let dropdownBtn = document.getElementById('dateDropdownMenuButton');
+        if (dropdownBtn) {
+            dropdownBtn.innerText = '📅 Cũ hơn...';
+            dropdownBtn.className = 'btn btn-outline-primary fw-bold shadow-sm rounded-pill date-filter-btn dropdown-toggle';
         }
 
         filterByDate(value);
     }
 
     function filterByDate(selectedValue) {
+        // Tắt active tất cả các nút bấm nếu chọn từ dropdown
+        // Mặc dù bây giờ không còn \n, cứ reset lại class
+        if (window.dateButtonElements) {
+            window.dateButtonElements.forEach(btn => {
+                // Nếu selectedValue trùng với btn.innerText, thì active nó (trường hợp chọn qua dropdown nhưng trùng)
+                if (btn.innerText === selectedValue) {
+                    btn.className = 'btn btn-primary fw-bold shadow-sm rounded-pill date-filter-btn';
+                }
+            });
+        }
+
         // Nếu đang xem URL hash thì ko lọc theo ngày
         if (getFilterFromUrl()) return;
 
         let rounds = document.querySelectorAll('.round-card');
 
-        if (selectedValue === 'latest') {
-            rounds.forEach((roundCard, index) => {
-                if (index === 0) {
-                    roundCard.style.display = 'block';
-                    roundCard.querySelectorAll('.match-card').forEach(card => card.style.display = 'block');
-                } else {
-                    roundCard.style.display = 'none';
-                }
-            });
-            return;
-        }
-
-        rounds.forEach(roundCard => {
+        rounds.forEach((roundCard, index) => {
             let roundName = roundCard.querySelector('.round-card-header > span:first-child').innerText.trim();
-            if (selectedValue === 'all' || roundName === selectedValue) {
+            // So khớp chuẩn hóa không còn \n
+            let roundNameNorm = roundName.replace(/\s+/g, ' ');
+            let selectedNorm = selectedValue.replace(/\s+/g, ' ');
+
+            if (selectedValue === 'all' || roundNameNorm === selectedNorm) {
                 roundCard.style.display = 'block';
                 roundCard.querySelectorAll('.match-card').forEach(card => card.style.display = 'block');
             } else {

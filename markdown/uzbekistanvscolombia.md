@@ -4,11 +4,11 @@
 - **Trận đấu:** Uzbekistan vs Colombia
   - Đội nhà: Uzbekistan
   - Đội khách: Colombia
-- **Thời gian diễn ra:** 2026-06-18 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 02:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1.25 (Colombia chấp Uzbekistan 1.25 trái)
+- Mức chấp: -1.25 (Uzbekistan chấp Colombia 1.25 trái)
 - Cược Uzbekistan thắng (Home): 0.98
 - Cược Colombia thắng (Away): 0.86
 

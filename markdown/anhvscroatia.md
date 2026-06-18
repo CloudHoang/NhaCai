@@ -4,11 +4,11 @@
 - **Trận đấu:** Anh vs Croatia
   - Đội nhà: Anh
   - Đội khách: Croatia
-- **Thời gian diễn ra:** 2026-06-18 03:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 20:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: -0.75 (Anh chấp Croatia 0.75 trái)
+- Mức chấp: 0.75 (Croatia chấp Anh 0.75 trái)
 - Cược Anh thắng (Home): 0.90
 - Cược Croatia thắng (Away): 0.94
 

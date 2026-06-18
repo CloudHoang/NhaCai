@@ -127,6 +127,22 @@ def generate_match_markdown(m):
 {scores_table}"""
     return md
 
+def get_logical_date_label(ts):
+    """Tính toán tên loạt trận dựa trên timestamp trận đấu (GMT+7) tương tự app.py"""
+    # Lùi lại mốc thời gian để gom chung (chỉnh sửa lùi 28 tiếng từ GMT+7, tức -21*3600 từ ts để match mọi trận ngày 16 vào cụm 15-16)
+    dt_logical = datetime.utcfromtimestamp(ts - 21 * 3600)
+    date1_str = dt_logical.strftime("%d/%m")
+    date2_str = (dt_logical + timedelta(days=1)).strftime("%d/%m")
+
+    today_logical = datetime.utcfromtimestamp((datetime.utcnow() + timedelta(hours=7)).timestamp() - 21 * 3600)
+
+    label = f"{date1_str} - {date2_str}"
+    diff_days = (dt_logical.date() - today_logical.date()).days
+
+    if diff_days == 0:
+        return "🔥 Hôm nay"
+    return label
+
 def build_static():
     # Tải dữ liệu đã làm sạch qua logic của app.py
     matches = load_matches_data()
@@ -161,13 +177,9 @@ def build_static():
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(md_content)
 
-        # Lấy timestamp, chuyển sang GMT+7
+        # Lấy timestamp và gắn nhãn theo logic ngày
         ts = m.get("matchTime", 0)
-        # Gom nhóm loạt trận: trừ đi 15 tiếng so với GMT+7 (ts + 7h - 15h = ts - 8h)
-        dt_logical = datetime.utcfromtimestamp(ts - 8 * 3600)
-        date1 = dt_logical.strftime("%d/%m")
-        date2 = (dt_logical + timedelta(days=1)).strftime("%d/%m")
-        r_name = f"Loạt trận ngày {date1} - {date2}"
+        r_name = get_logical_date_label(ts)
 
         if r_name not in rounds:
             rounds[r_name] = []
