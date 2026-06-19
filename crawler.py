@@ -331,6 +331,67 @@ def fetch_html(url):
         print(f"Lỗi truy cập URL {url}: {e}")
         return None
 
+def generate_oddsrate_json(matches):
+    """
+    Tạo file data/oddsrate.json từ 4 trận đấu mới nhất dựa vào codename.md.
+    """
+    try:
+        # Load codename mapping
+        codename_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "codename.md")
+        name_to_code = {}
+        if os.path.exists(codename_path):
+            with open(codename_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    parts = [p.strip() for p in line.split("|")]
+                    if len(parts) >= 4:
+                        en = parts[1].strip()
+                        vi = parts[2].strip()
+                        code = parts[3].strip()
+                        if en and vi and code and code != "Code" and not code.startswith(":-"):
+                            name_to_code[en.lower()] = code
+                            name_to_code[vi.lower()] = code
+
+        # Lấy 4 trận đấu mới nhất (ở cuối danh sách đã sắp xếp theo thời gian tăng dần)
+        latest_4 = matches[-4:] if len(matches) >= 4 else matches
+
+        oddsrate_data = []
+        for m in latest_4:
+            home = m.get("homeName", "")
+            away = m.get("awayName", "")
+
+            home_code = name_to_code.get(home.lower(), home)
+            away_code = name_to_code.get(away.lower(), away)
+            match_code = f"{home_code}{away_code}".upper()
+
+            odds = m.get("odds", {})
+            handicap = odds.get("handicap", {})
+            over_under = odds.get("overUnder", {})
+
+            oddsrate_data.append({
+                "homeName": home,
+                "awayName": away,
+                "matchCode": match_code,
+                "odds": {
+                    "handicap": {
+                        "instantHandicap": handicap.get("instantHandicap", ""),
+                        "instantHome": handicap.get("instantHome", ""),
+                        "instantAway": handicap.get("instantAway", "")
+                    },
+                    "overUnder": {
+                        "instantHandicap": over_under.get("instantHandicap", ""),
+                        "instantOver": over_under.get("instantOver", ""),
+                        "instantUnder": over_under.get("instantUnder", "")
+                    }
+                }
+            })
+
+        oddsrate_file = os.path.join(DATA_DIR, "oddsrate.json")
+        with open(oddsrate_file, "w", encoding="utf-8") as f:
+            json.dump(oddsrate_data, f, indent=2, ensure_ascii=False)
+        print(f"Ghi file oddsrate thành công vào: {oddsrate_file}")
+    except Exception as e:
+        print(f"Lỗi ghi file oddsrate.json: {e}")
+
 def run_crawler():
     """
     Điều phối cào dữ liệu và ghi vào file matches.json.
@@ -459,6 +520,9 @@ def run_crawler():
         json.dump(final_matches, f, indent=2, ensure_ascii=False)
 
     print(f"Ghi file dữ liệu thành công vào: {DATA_FILE}")
+
+    # Ghi file oddsrate.json
+    generate_oddsrate_json(final_matches)
 
     # Gửi thông báo Telegram cho từng trận đấu mới cập nhật
     if filtered_matches:
