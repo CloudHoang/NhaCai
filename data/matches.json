@@ -2172,8 +2172,8 @@
         "initialHandicap": "-0.25",
         "initialHome": "1.00",
         "initialAway": "0.84",
-        "instantHome": "0.92",
-        "instantAway": "0.92",
+        "instantHome": "0.94",
+        "instantAway": "0.90",
         "instantHandicap": "-0.75"
       },
       "europe": {
@@ -2181,17 +2181,17 @@
         "initialHome": "3.32",
         "initialDraw": "3.03",
         "initialAway": "2.08",
-        "instantHome": "4.60",
-        "instantDraw": "3.25",
-        "instantAway": "1.70"
+        "instantHome": "4.80",
+        "instantDraw": "3.30",
+        "instantAway": "1.66"
       },
       "overUnder": {
         "companyId": "1",
         "initialHandicap": "2.25",
         "initialOver": "1.05",
         "initialUnder": "0.75",
-        "instantOver": "0.96",
-        "instantUnder": "0.84",
+        "instantOver": "0.98",
+        "instantUnder": "0.82",
         "instantHandicap": "2.25"
       }
     },
@@ -2424,8 +2424,8 @@
         "initialHandicap": "3.25",
         "initialHome": "1.10",
         "initialAway": "0.74",
-        "instantHome": "0.84",
-        "instantAway": "1.00",
+        "instantHome": "0.80",
+        "instantAway": "1.04",
         "instantHandicap": "2.5"
       },
       "europe": {
@@ -2694,8 +2694,8 @@
         "initialHandicap": "2.25",
         "initialOver": "1.05",
         "initialUnder": "0.75",
-        "instantOver": "0.80",
-        "instantUnder": "1.00",
+        "instantOver": "0.78",
+        "instantUnder": "1.02",
         "instantHandicap": "2.25"
       }
     },

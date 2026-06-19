@@ -207,18 +207,21 @@ def normalize_handicap(handicap_str, eu_home_str, eu_away_str):
         return handicap_str
     try:
         val = abs(float(handicap_str))
-        if not eu_home_str or not eu_away_str:
-            return handicap_str
-        eu_home = float(eu_home_str)
-        eu_away = float(eu_away_str)
-        if eu_home < eu_away:
-            # Home favorite -> negative
-            normalized = -val
-        elif eu_home > eu_away:
-            # Away favorite -> positive
-            normalized = val
+        if eu_home_str and eu_away_str:
+            eu_home = float(eu_home_str)
+            eu_away = float(eu_away_str)
+            if eu_home < eu_away:
+                # Home favorite -> negative
+                normalized = -val
+            elif eu_home > eu_away:
+                # Away favorite -> positive
+                normalized = val
+            else:
+                raw_val = float(handicap_str)
+                normalized = -raw_val
         else:
-            return handicap_str
+            raw_val = float(handicap_str)
+            normalized = -raw_val
 
         if normalized == int(normalized):
             return str(int(normalized))
@@ -349,6 +352,12 @@ def generate_oddsrate_json(matches):
     Tạo file data/oddsrate.json từ 4 trận đấu mới nhất dựa vào codename.md.
     """
     try:
+        import unicodedata
+        def clean_team_name(name):
+            if not name:
+                return ""
+            return unicodedata.normalize('NFC', name.strip().replace("\xa0", " "))
+
         # Load codename mapping
         codename_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "codename.md")
         name_to_code = {}
@@ -357,8 +366,8 @@ def generate_oddsrate_json(matches):
                 for line in f:
                     parts = [p.strip() for p in line.split("|")]
                     if len(parts) >= 4:
-                        en = parts[1].strip()
-                        vi = parts[2].strip()
+                        en = clean_team_name(parts[1])
+                        vi = clean_team_name(parts[2])
                         code = parts[3].strip()
                         if en and vi and code and code != "Code" and not code.startswith(":-"):
                             name_to_code[en.lower()] = code
@@ -372,8 +381,11 @@ def generate_oddsrate_json(matches):
             home = m.get("homeName", "")
             away = m.get("awayName", "")
 
-            home_code = name_to_code.get(home.lower(), home)
-            away_code = name_to_code.get(away.lower(), away)
+            home_clean = clean_team_name(home)
+            away_clean = clean_team_name(away)
+
+            home_code = name_to_code.get(home_clean.lower(), home)
+            away_code = name_to_code.get(away_clean.lower(), away)
             match_code = f"{home_code}{away_code}".upper()
 
             odds = m.get("odds", {})

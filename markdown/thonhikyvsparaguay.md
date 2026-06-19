@@ -20,8 +20,8 @@
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.25 (Tài (Trên 2.25 trái) / Xỉu (Dưới 2.25 trái))
-- Cược Tài (Over): 0.80
-- Cược Xỉu (Under): 1.00
+- Cược Tài (Over): 0.78
+- Cược Xỉu (Under): 1.02
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 12.7

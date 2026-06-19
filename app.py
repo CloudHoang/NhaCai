@@ -22,18 +22,21 @@ def normalize_handicap(handicap_str, eu_home_str, eu_away_str):
         return handicap_str
     try:
         val = abs(float(handicap_str))
-        if not eu_home_str or not eu_away_str:
-            return handicap_str
-        eu_home = float(eu_home_str)
-        eu_away = float(eu_away_str)
-        if eu_home < eu_away:
-            # Home favorite -> negative
-            normalized = -val
-        elif eu_home > eu_away:
-            # Away favorite -> positive
-            normalized = val
+        if eu_home_str and eu_away_str:
+            eu_home = float(eu_home_str)
+            eu_away = float(eu_away_str)
+            if eu_home < eu_away:
+                # Home favorite -> negative
+                normalized = -val
+            elif eu_home > eu_away:
+                # Away favorite -> positive
+                normalized = val
+            else:
+                raw_val = float(handicap_str)
+                normalized = -raw_val
         else:
-            return handicap_str
+            raw_val = float(handicap_str)
+            normalized = -raw_val
 
         if normalized == int(normalized):
             return str(int(normalized))

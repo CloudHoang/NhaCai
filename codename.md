@@ -58,3 +58,8 @@
 | South Africa | Nam Phi | RSA |
 | Scotland | Scotland | SCO |
 | Turkey | Thổ Nhĩ Kỳ | TUR |
+| Cape Verde | Cape Verde | CPV |
+| Congo DR | CHDC Công gô | COD |
+| Curacao | Curacao | CUW |
+| Haiti | Haiti | HAI |
+| Sweden | Thụy Điển | SWE |

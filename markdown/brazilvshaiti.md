@@ -9,8 +9,8 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -2.5 (Brazil chấp Haiti 2.5 trái)
-- Cược Brazil thắng (Home): 0.84
-- Cược Haiti thắng (Away): 1.00
+- Cược Brazil thắng (Home): 0.80
+- Cược Haiti thắng (Away): 1.04
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Brazil thắng (1), Hòa (X), Haiti thắng (2))
@@ -31,7 +31,7 @@
 | 1 - 0 | 7.6 |
 | 2 - 0 | 4.88 |
 | 2 - 1 | 10.8 |
-| 3 - 0 | 4.4 |
+| 3 - 0 | 4.48 |
 | 3 - 1 | 9.6 |
 | 3 - 2 | 20 |
 | 4 - 0 | 5.6 |

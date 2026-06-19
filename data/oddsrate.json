@@ -19,29 +19,29 @@
   {
     "homeName": "Scotland",
     "awayName": "Morocco",
-    "matchCode": "SCOTLANDMAR",
+    "matchCode": "SCOMAR",
     "odds": {
       "handicap": {
         "instantHandicap": "0.75",
-        "instantHome": "0.92",
-        "instantAway": "0.92"
+        "instantHome": "0.94",
+        "instantAway": "0.90"
       },
       "overUnder": {
         "instantHandicap": "2.25",
-        "instantOver": "0.96",
-        "instantUnder": "0.84"
+        "instantOver": "0.98",
+        "instantUnder": "0.82"
       }
     }
   },
   {
     "homeName": "Brazil",
     "awayName": "Haiti",
-    "matchCode": "BRAHAITI",
+    "matchCode": "BRAHAI",
     "odds": {
       "handicap": {
         "instantHandicap": "-2.5",
-        "instantHome": "0.84",
-        "instantAway": "1.00"
+        "instantHome": "0.80",
+        "instantAway": "1.04"
       },
       "overUnder": {
         "instantHandicap": "3.5",
@@ -53,7 +53,7 @@
   {
     "homeName": "Thổ Nhĩ Kỳ",
     "awayName": "Paraguay",
-    "matchCode": "THỔ NHĨ KỲPAR",
+    "matchCode": "TURPAR",
     "odds": {
       "handicap": {
         "instantHandicap": "-0.5",
@@ -62,8 +62,8 @@
       },
       "overUnder": {
         "instantHandicap": "2.25",
-        "instantOver": "0.80",
-        "instantUnder": "1.00"
+        "instantOver": "0.78",
+        "instantUnder": "1.02"
       }
     }
   }

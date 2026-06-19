@@ -4,7 +4,7 @@
 - **Trận đấu:** Anh vs Croatia
   - Đội nhà: Anh
   - Đội khách: Croatia
-- **Thời gian diễn ra:** 2026-06-17 13:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 20:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

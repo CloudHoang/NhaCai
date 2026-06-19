@@ -9,19 +9,19 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: 0.75 (Morocco chấp Scotland 0.75 trái)
-- Cược Scotland thắng (Home): 0.92
-- Cược Morocco thắng (Away): 0.92
+- Cược Scotland thắng (Home): 0.94
+- Cược Morocco thắng (Away): 0.90
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Scotland thắng (1), Hòa (X), Morocco thắng (2))
-  - Scotland thắng (Home): 4.60
-  - Hòa (Draw): 3.25
-  - Morocco thắng (Away): 1.70
+  - Scotland thắng (Home): 4.80
+  - Hòa (Draw): 3.30
+  - Morocco thắng (Away): 1.66
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.25 (Tài (Trên 2.25 trái) / Xỉu (Dưới 2.25 trái))
-- Cược Tài (Over): 0.96
-- Cược Xỉu (Under): 0.84
+- Cược Tài (Over): 0.98
+- Cược Xỉu (Under): 0.82
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 11.2
@@ -30,7 +30,7 @@
 | :---: | :---: |
 | 1 - 0 | 7.6 |
 | 2 - 0 | 20 |
-| 2 - 1 | 14.0 |
+| 2 - 1 | 14.4 |
 | 3 - 0 | 20 |
 | 3 - 1 | 20 |
 | 3 - 2 | 20 |
@@ -39,7 +39,7 @@
 | 4 - 2 | 20 |
 | 4 - 3 | 20 |
 | 0 - 0 | 6.48 |
-| 1 - 1 | 5.04 |
+| 1 - 1 | 5.12 |
 | 2 - 2 | 17.6 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |
