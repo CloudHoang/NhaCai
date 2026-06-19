@@ -129,17 +129,24 @@ def generate_match_markdown(m):
 
 def get_logical_date_label(ts):
     """Tính toán tên loạt trận dựa trên timestamp trận đấu (GMT+7) tương tự app.py"""
-    # Lùi lại mốc thời gian để gom chung (chỉnh sửa lùi 28 tiếng từ GMT+7, tức -21*3600 từ ts để match mọi trận ngày 16 vào cụm 15-16)
-    dt_logical = datetime.utcfromtimestamp(ts - 21 * 3600)
-    date1_str = dt_logical.strftime("%d/%m")
-    date2_str = (dt_logical + timedelta(days=1)).strftime("%d/%m")
+    # Trận đấu GMT+7
+    dt_gmt7 = datetime.utcfromtimestamp(ts + 7 * 3600)
+    # Tính ngày logic
+    if dt_gmt7.hour >= 15:
+        logical_date = dt_gmt7.date()
+    else:
+        logical_date = (dt_gmt7 - timedelta(days=1)).date()
 
-    today_logical = datetime.utcfromtimestamp((datetime.utcnow() + timedelta(hours=7)).timestamp() - 21 * 3600)
-
+    # Nhãn hiển thị dạng dd/mm - dd/mm
+    date1_str = logical_date.strftime("%d/%m")
+    date2_str = (logical_date + timedelta(days=1)).strftime("%d/%m")
     label = f"{date1_str} - {date2_str}"
-    diff_days = (dt_logical.date() - today_logical.date()).days
 
-    if diff_days == 0:
+    # Lấy ngày logic của "hiện tại" theo GMT+7
+    now_gmt7 = datetime.utcnow() + timedelta(hours=7)
+    today_date = now_gmt7.date()
+
+    if logical_date == today_date:
         return "🔥 Hôm nay"
     return label
 

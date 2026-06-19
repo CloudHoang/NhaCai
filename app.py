@@ -75,26 +75,27 @@ def get_logical_date_label(ts):
     Khung giờ một loạt trận: 15:00 hôm nay -> 14:59 hôm sau (GMT+7)
     """
     import datetime
-    # Quy đổi về logical date (lùi lại 28 tiếng từ GMT+7 để trận ngày 16/06 -> logical date 15/06)
-    dt_logical = datetime.datetime.utcfromtimestamp(ts - 21 * 3600)
+    # Trận đấu GMT+7
+    dt_gmt7 = datetime.datetime.utcfromtimestamp(ts + 7 * 3600)
+    # Tính ngày logic
+    if dt_gmt7.hour >= 15:
+        logical_date = dt_gmt7.date()
+    else:
+        logical_date = (dt_gmt7 - datetime.timedelta(days=1)).date()
 
-    # Ngày bắt đầu (hôm nay) và ngày kết thúc (ngày mai) theo GMT+7 của loạt trận
-    date1_str = dt_logical.strftime("%d/%m")
-    date2_str = (dt_logical + datetime.timedelta(days=1)).strftime("%d/%m")
+    # Nhãn hiển thị dạng dd/mm - dd/mm
+    date1_str = logical_date.strftime("%d/%m")
+    date2_str = (logical_date + datetime.timedelta(days=1)).strftime("%d/%m")
+    label = f"{date1_str} - {date2_str}"
 
-    # Kiểm tra xem có phải Hôm nay, Hôm qua, hay Ngày mai không
-    # Lấy thời gian hiện tại theo GMT+7
+    # Lấy ngày logic của "hiện tại" theo GMT+7
     now_gmt7 = datetime.datetime.utcnow() + datetime.timedelta(hours=7)
-    today_logical = datetime.datetime.utcfromtimestamp((datetime.datetime.utcnow() + datetime.timedelta(hours=7)).timestamp() - 21 * 3600)
+    today_date = now_gmt7.date()
 
-    label = f"({date1_str} - {date2_str})"
-
-    # So sánh ngày
-    diff_days = (dt_logical.date() - today_logical.date()).days
-    if diff_days == 0:
+    if logical_date == today_date:
         return "🔥 Hôm nay"
 
-    return f"{date1_str} - {date2_str}"
+    return label
 
 @app.route("/")
 def index():

@@ -56,3 +56,5 @@
 | Czechia | Cộng Hòa Séc | CZE |
 | Bosnia | Bosnia | BIH |
 | South Africa | Nam Phi | RSA |
+| Scotland | Scotland | SCO |
+| Turkey | Thổ Nhĩ Kỳ | TUR |
