@@ -202,16 +202,27 @@ def calculate_aos(correct_scores):
 
     return round(odds_aos, 1)
 
-def invert_handicap(handicap_str):
-    """Đảo ngược dấu của tỷ lệ chấp bóng đá"""
-    if not handicap_str:
+def normalize_handicap(handicap_str, eu_home_str, eu_away_str):
+    if not handicap_str or handicap_str == "-":
         return handicap_str
     try:
-        val = float(handicap_str)
-        inverted = -val
-        if inverted == int(inverted):
-            return str(int(inverted))
-        return str(inverted)
+        val = abs(float(handicap_str))
+        if not eu_home_str or not eu_away_str:
+            return handicap_str
+        eu_home = float(eu_home_str)
+        eu_away = float(eu_away_str)
+        if eu_home < eu_away:
+            # Home favorite -> negative
+            normalized = -val
+        elif eu_home > eu_away:
+            # Away favorite -> positive
+            normalized = val
+        else:
+            return handicap_str
+
+        if normalized == int(normalized):
+            return str(int(normalized))
+        return str(normalized)
     except (ValueError, TypeError):
         return handicap_str
 
@@ -248,11 +259,13 @@ def format_match_message(m):
     msg += f"🏆 {m.get('roundName', 'World Cup')} | Bảng {m.get('group', '-')}\n\n"
 
     odds = m.get("odds", {})
+    eu = odds.get("europe", {})
 
     # Handicap
     hdp = odds.get("handicap", {})
     if hdp:
-        msg += f"🔹 <b>Kèo Chấp:</b> {hdp.get('instantHandicap')}\n"
+        norm_hdp = normalize_handicap(hdp.get('instantHandicap'), eu.get('instantHome'), eu.get('instantAway'))
+        msg += f"🔹 <b>Kèo Chấp:</b> {norm_hdp}\n"
         msg += f"   └ Home: <code>{clamp_odds(hdp.get('instantHome'))}</code> | Away: <code>{clamp_odds(hdp.get('instantAway'))}</code>\n"
 
     # Over/Under
@@ -365,7 +378,10 @@ def generate_oddsrate_json(matches):
 
             odds = m.get("odds", {})
             handicap = odds.get("handicap", {})
+            europe = odds.get("europe", {})
             over_under = odds.get("overUnder", {})
+
+            norm_hdp = normalize_handicap(handicap.get("instantHandicap", ""), europe.get("instantHome"), europe.get("instantAway"))
 
             oddsrate_data.append({
                 "homeName": home,
@@ -373,7 +389,7 @@ def generate_oddsrate_json(matches):
                 "matchCode": match_code,
                 "odds": {
                     "handicap": {
-                        "instantHandicap": handicap.get("instantHandicap", ""),
+                        "instantHandicap": norm_hdp,
                         "instantHome": handicap.get("instantHome", ""),
                         "instantAway": handicap.get("instantAway", "")
                     },

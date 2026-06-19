@@ -5,7 +5,7 @@
     "matchCode": "USAAUS",
     "odds": {
       "handicap": {
-        "instantHandicap": "1",
+        "instantHandicap": "-1",
         "instantHome": "1.02",
         "instantAway": "0.82"
       },
@@ -22,7 +22,7 @@
     "matchCode": "SCOTLANDMAR",
     "odds": {
       "handicap": {
-        "instantHandicap": "-0.75",
+        "instantHandicap": "0.75",
         "instantHome": "0.92",
         "instantAway": "0.92"
       },
@@ -39,7 +39,7 @@
     "matchCode": "BRAHAITI",
     "odds": {
       "handicap": {
-        "instantHandicap": "2.5",
+        "instantHandicap": "-2.5",
         "instantHome": "0.84",
         "instantAway": "1.00"
       },
@@ -56,7 +56,7 @@
     "matchCode": "THỔ NHĨ KỲPAR",
     "odds": {
       "handicap": {
-        "instantHandicap": "0.5",
+        "instantHandicap": "-0.5",
         "instantHome": "1.00",
         "instantAway": "0.84"
       },

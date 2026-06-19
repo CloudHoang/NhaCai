@@ -17,6 +17,30 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def normalize_handicap(handicap_str, eu_home_str, eu_away_str):
+    if not handicap_str or handicap_str == "-":
+        return handicap_str
+    try:
+        val = abs(float(handicap_str))
+        if not eu_home_str or not eu_away_str:
+            return handicap_str
+        eu_home = float(eu_home_str)
+        eu_away = float(eu_away_str)
+        if eu_home < eu_away:
+            # Home favorite -> negative
+            normalized = -val
+        elif eu_home > eu_away:
+            # Away favorite -> positive
+            normalized = val
+        else:
+            return handicap_str
+
+        if normalized == int(normalized):
+            return str(int(normalized))
+        return str(normalized)
+    except (ValueError, TypeError):
+        return handicap_str
+
 def get_handicap_description(home, away, handicap_str):
     if not handicap_str or handicap_str == "-":
         return "Chưa cập nhật kèo chấp"
@@ -47,6 +71,20 @@ def load_matches_data():
         for m in matches:
             home = m.get("homeName", "")
             away = m.get("awayName", "")
+
+            # Normalize handicap signs based on Europe 1x2 odds
+            if "odds" in m and m["odds"]:
+                o = m["odds"]
+                eu = o.get("europe", {})
+                eu_home = eu.get("instantHome")
+                eu_away = eu.get("instantAway")
+
+                hdp = o.get("handicap", {})
+                if hdp:
+                    for key in ["instantHandicap", "initialHandicap"]:
+                        if key in hdp:
+                            hdp[key] = normalize_handicap(hdp[key], eu_home, eu_away)
+
             if "odds" in m and m["odds"]:
                 o = m["odds"]
                 for market in ["handicap", "europe", "overUnder"]:

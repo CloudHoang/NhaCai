@@ -4,11 +4,11 @@
 - **Trận đấu:** Scotland vs Morocco
   - Đội nhà: Scotland
   - Đội khách: Morocco
-- **Thời gian diễn ra:** 2026-06-19 22:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-20 05:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: -0.75 (Scotland chấp Morocco 0.75 trái)
+- Mức chấp: 0.75 (Morocco chấp Scotland 0.75 trái)
 - Cược Scotland thắng (Home): 0.92
 - Cược Morocco thắng (Away): 0.92
 
@@ -30,7 +30,7 @@
 | :---: | :---: |
 | 1 - 0 | 7.6 |
 | 2 - 0 | 20 |
-| 2 - 1 | 14.4 |
+| 2 - 1 | 14.0 |
 | 3 - 0 | 20 |
 | 3 - 1 | 20 |
 | 3 - 2 | 20 |
@@ -39,7 +39,7 @@
 | 4 - 2 | 20 |
 | 4 - 3 | 20 |
 | 0 - 0 | 6.48 |
-| 1 - 1 | 5.12 |
+| 1 - 1 | 5.04 |
 | 2 - 2 | 17.6 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |

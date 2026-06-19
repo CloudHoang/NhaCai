@@ -4,11 +4,11 @@
 - **Trận đấu:** Mỹ vs Úc
   - Đội nhà: Mỹ
   - Đội khách: Úc
-- **Thời gian diễn ra:** 2026-06-19 19:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-20 02:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
-- Mức chấp: 1 (Úc chấp Mỹ 1 trái)
+- Mức chấp: -1 (Mỹ chấp Úc 1 trái)
 - Cược Mỹ thắng (Home): 1.02
 - Cược Úc thắng (Away): 0.82
 
