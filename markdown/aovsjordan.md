@@ -4,7 +4,7 @@
 - **Trận đấu:** Áo vs Jordan
   - Đội nhà: Áo
   - Đội khách: Jordan
-- **Thời gian diễn ra:** 2026-06-16 21:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-16 14:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
