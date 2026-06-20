@@ -96,6 +96,17 @@ def generate_match_markdown(m):
 
     aos_odds = m.get("aosOdds", 20)
 
+    # Dự đoán tỷ lệ thắng
+    predictions = m.get("predictions")
+    pred_str = ""
+    if predictions:
+        pred_str = f"""
+## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
+- **{home} thắng (Home Win):** {predictions.get('homeWin')}%
+- **Hòa (Draw):** {predictions.get('draw')}%
+- **{away} thắng (Away Win):** {predictions.get('awayWin')}%
+"""
+
     md = f"""# THÔNG TIN TRẬN ĐẤU & TỶ LỆ CƯỢC: {home.upper()} VS {away.upper()}
 
 ## 1. Thông Tin Chung
@@ -103,7 +114,7 @@ def generate_match_markdown(m):
   - Đội nhà: {home}
   - Đội khách: {away}
 - **Thời gian diễn ra:** {time_str}
-
+{pred_str}
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: {hc_line} ({handicap_desc})

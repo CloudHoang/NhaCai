@@ -4,7 +4,7 @@
 - **Trận đấu:** Ghana vs Panama
   - Đội nhà: Ghana
   - Đội khách: Panama
-- **Thời gian diễn ra:** 2026-06-17 16:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 23:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

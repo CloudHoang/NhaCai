@@ -114,11 +114,65 @@
             padding-bottom: 8px;
             min-height: 48px;
         }
+
+        /* Dark Mode overrides */
+        [data-bs-theme="dark"] body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        [data-bs-theme="dark"] .round-card {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        [data-bs-theme="dark"] .round-card-header {
+            background-color: #252525;
+            color: #ffffff;
+            border-bottom: 2px solid #2d2d2d;
+        }
+        [data-bs-theme="dark"] .match-card {
+            background-color: #252525;
+            border-color: #2d2d2d;
+        }
+        [data-bs-theme="dark"] .match-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        [data-bs-theme="dark"] .team-name {
+            color: #ffffff;
+        }
+        [data-bs-theme="dark"] .badge-cs {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #3d3d3d;
+        }
+        [data-bs-theme="dark"] .badge-cs b {
+            color: #39a2db;
+        }
+        [data-bs-theme="dark"] .card {
+            background-color: #252525;
+            border-color: #2d2d2d !important;
+        }
+        [data-bs-theme="dark"] .bg-light {
+            background-color: #1e1e1e !important;
+            border-color: #2d2d2d !important;
+        }
+        [data-bs-theme="dark"] .text-secondary {
+            color: #b0b0b0 !important;
+        }
+        [data-bs-theme="dark"] .text-muted {
+            color: #a0a0a0 !important;
+        }
+        [data-bs-theme="dark"] .progress {
+            background-color: #2d2d2d !important;
+        }
     </style>
 </head>
 <body>
 
 <div class="header text-center position-relative">
+    <!-- Nút Dark Mode -->
+    <button class="btn btn-outline-light btn-sm position-absolute end-0 top-0 m-3 fw-bold rounded-pill" id="darkModeToggle" onclick="toggleDarkMode()">
+        🌙 Tối
+    </button>
     <div class="container">
         <h1>Bảng Tỷ Lệ Kèo World Cup 2026</h1>
         <p class="lead mb-3">Dữ liệu được cập nhật tự động hàng ngày lúc 15:45</p>
@@ -159,7 +213,7 @@
     
         <div class="round-card">
             <div class="round-card-header d-flex justify-content-between align-items-center">
-                <span>🔥 Hôm nay</span>
+                <span>20/06 - 21/06</span>
                 <span class="badge bg-primary">4 Trận</span>
             </div>
             <div class="card-body p-3 d-flex flex-column gap-3">
@@ -191,12 +245,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/netherlands.png" alt="logo">
                                     <span class="team-name">Hà Lan</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/netherlands.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/sweden.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/sweden.png" alt="logo">
                                     <span class="team-name">Thụy Điển</span>
                                 </div>
                             </div>
@@ -218,6 +272,20 @@
                             </div>
                         </div>
 
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
+                            <div class="mb-3 d-flex align-items-center gap-2 px-2" style="margin-top: -8px;">
+                                <span class="text-secondary fw-bold font-monospace" style="font-size: 0.65rem; letter-spacing: 0.5px; min-width: 80px; text-transform: uppercase;">AI Predict:</span>
+                                <span class="fw-bold text-success font-monospace text-end" style="width: 32px; font-size: 0.75rem;">53%</span>
+                                <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background-color: #eef2f7;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 53%" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 21%" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="fw-bold text-danger font-monospace text-start" style="width: 32px; font-size: 0.75rem;">21%</span>
+                            </div>
+                        
+
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
@@ -229,7 +297,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Hà Lan</div>
-                                                    <div class="text-primary fw-bold">0.86</div>
+                                                    <div class="text-primary fw-bold">0.82</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -237,7 +305,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Thụy Điển</div>
-                                                    <div class="text-primary fw-bold">0.98</div>
+                                                    <div class="text-primary fw-bold">1.02</div>
                                                 </div>
                                             </div>
                                         
@@ -257,21 +325,21 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.76</div>
+                                                    <div class="text-primary fw-bold">1.00</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-secondary font-monospace">2.75</span>
+                                                    <span class="badge bg-secondary font-monospace">3</span>
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">1.04</div>
+                                                    <div class="text-primary fw-bold">0.80</div>
                                                 </div>
                                             </div>
                                         
                                     </div>
                                     <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái)
+                                        *Tài (Trên 3 trái) / Xỉu (Dưới 3 trái)
                                     </div>
                                 </div>
                             </div>
@@ -292,7 +360,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    2-0 <b>6.8</b>
+                                                    2-0 <b>7.04</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -300,7 +368,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    3-0 <b>11.6</b>
+                                                    3-0 <b>12.0</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -362,7 +430,7 @@
                                             <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Thụy Điển</span>
                                             
                                                 <span class="badge-cs">
-                                                    0-1 <b>12.0</b>
+                                                    0-1 <b>13.6</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -408,7 +476,7 @@
                                         <div class="d-flex align-items-center flex-wrap gap-1">
                                             <span class="badge bg-warning text-dark me-2" style="min-width: 90px; text-transform: uppercase;">Kèo AOS</span>
                                             <span class="badge-cs border-warning bg-warning-subtle text-warning-emphasis fw-bold shadow-sm" style="border-color: #ffc107 !important; background-color: #fff3cd !important; color: #664d03 !important;">
-                                                Tỷ số khác: <span class="text-danger"><b>8.8</b></span>
+                                                Tỷ số khác: <span class="text-danger"><b>9.1</b></span>
                                             </span>
                                             <small class="text-muted ms-2">(Bao gồm tất cả các tỷ số không nằm trong danh sách trên)</small>
                                         </div>
@@ -445,12 +513,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/germany.png" alt="logo">
                                     <span class="team-name">Đức</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/germany.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/ivory_coast.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/ivory_coast.png" alt="logo">
                                     <span class="team-name">Bờ Biển Ngà</span>
                                 </div>
                             </div>
@@ -472,6 +540,20 @@
                             </div>
                         </div>
 
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
+                            <div class="mb-3 d-flex align-items-center gap-2 px-2" style="margin-top: -8px;">
+                                <span class="text-secondary fw-bold font-monospace" style="font-size: 0.65rem; letter-spacing: 0.5px; min-width: 80px; text-transform: uppercase;">AI Predict:</span>
+                                <span class="fw-bold text-success font-monospace text-end" style="width: 32px; font-size: 0.75rem;">59%</span>
+                                <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background-color: #eef2f7;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 59%" aria-valuenow="59" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 16%" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="fw-bold text-danger font-monospace text-start" style="width: 32px; font-size: 0.75rem;">16%</span>
+                            </div>
+                        
+
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
@@ -483,21 +565,21 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Đức</div>
-                                                    <div class="text-primary fw-bold">0.80</div>
+                                                    <div class="text-primary fw-bold">1.04</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-dark font-monospace">-1</span>
+                                                    <span class="badge bg-dark font-monospace">-1.25</span>
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Bờ Biển Ngà</div>
-                                                    <div class="text-primary fw-bold">1.04</div>
+                                                    <div class="text-primary fw-bold">0.80</div>
                                                 </div>
                                             </div>
                                         
                                     </div>
                                     <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Đức chấp Bờ Biển Ngà 1 trái
+                                        *Đức chấp Bờ Biển Ngà 1.25 trái
                                     </div>
                                 </div>
                             </div>
@@ -511,7 +593,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.92</div>
+                                                    <div class="text-primary fw-bold">0.96</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -519,7 +601,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.88</div>
+                                                    <div class="text-primary fw-bold">0.84</div>
                                                 </div>
                                             </div>
                                         
@@ -542,7 +624,7 @@
                                             <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Đức</span>
                                             
                                                 <span class="badge-cs">
-                                                    1-0 <b>6.0</b>
+                                                    1-0 <b>6.32</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -554,7 +636,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    3-0 <b>9.2</b>
+                                                    3-0 <b>7.2</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -589,11 +671,11 @@
                                             <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
                                             
                                                 <span class="badge-cs">
-                                                    0-0 <b>14.0</b>
+                                                    0-0 <b>14.4</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    1-1 <b>6.08</b>
+                                                    1-1 <b>6.24</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -616,7 +698,7 @@
                                             <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Bờ Biển Ngà</span>
                                             
                                                 <span class="badge-cs">
-                                                    0-1 <b>14.4</b>
+                                                    0-1 <b>16.0</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -624,7 +706,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    1-2 <b>14.4</b>
+                                                    1-2 <b>15.2</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -662,7 +744,7 @@
                                         <div class="d-flex align-items-center flex-wrap gap-1">
                                             <span class="badge bg-warning text-dark me-2" style="min-width: 90px; text-transform: uppercase;">Kèo AOS</span>
                                             <span class="badge-cs border-warning bg-warning-subtle text-warning-emphasis fw-bold shadow-sm" style="border-color: #ffc107 !important; background-color: #fff3cd !important; color: #664d03 !important;">
-                                                Tỷ số khác: <span class="text-danger"><b>8.3</b></span>
+                                                Tỷ số khác: <span class="text-danger"><b>14.4</b></span>
                                             </span>
                                             <small class="text-muted ms-2">(Bao gồm tất cả các tỷ số không nằm trong danh sách trên)</small>
                                         </div>
@@ -699,12 +781,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/ecuador.png" alt="logo">
                                     <span class="team-name">Ecuador</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/ecuador.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/curacao.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/curacao.png" alt="logo">
                                     <span class="team-name">Curacao</span>
                                 </div>
                             </div>
@@ -726,6 +808,20 @@
                             </div>
                         </div>
 
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
+                            <div class="mb-3 d-flex align-items-center gap-2 px-2" style="margin-top: -8px;">
+                                <span class="text-secondary fw-bold font-monospace" style="font-size: 0.65rem; letter-spacing: 0.5px; min-width: 80px; text-transform: uppercase;">AI Predict:</span>
+                                <span class="fw-bold text-success font-monospace text-end" style="width: 32px; font-size: 0.75rem;">69%</span>
+                                <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background-color: #eef2f7;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 69%" aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 21%" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 9%" aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="fw-bold text-danger font-monospace text-start" style="width: 32px; font-size: 0.75rem;">9%</span>
+                            </div>
+                        
+
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
@@ -737,7 +833,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Ecuador</div>
-                                                    <div class="text-primary fw-bold">0.94</div>
+                                                    <div class="text-primary fw-bold">0.96</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -745,7 +841,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Curacao</div>
-                                                    <div class="text-primary fw-bold">0.90</div>
+                                                    <div class="text-primary fw-bold">0.88</div>
                                                 </div>
                                             </div>
                                         
@@ -765,7 +861,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.88</div>
+                                                    <div class="text-primary fw-bold">0.90</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -773,7 +869,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.92</div>
+                                                    <div class="text-primary fw-bold">0.90</div>
                                                 </div>
                                             </div>
                                         
@@ -953,12 +1049,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/tunisia.png" alt="logo">
                                     <span class="team-name">Tunisia</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/tunisia.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/japan.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/japan.png" alt="logo">
                                     <span class="team-name">Nhật Bản</span>
                                 </div>
                             </div>
@@ -980,6 +1076,20 @@
                             </div>
                         </div>
 
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
+                            <div class="mb-3 d-flex align-items-center gap-2 px-2" style="margin-top: -8px;">
+                                <span class="text-secondary fw-bold font-monospace" style="font-size: 0.65rem; letter-spacing: 0.5px; min-width: 80px; text-transform: uppercase;">AI Predict:</span>
+                                <span class="fw-bold text-success font-monospace text-end" style="width: 32px; font-size: 0.75rem;">20%</span>
+                                <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background-color: #eef2f7;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 53%" aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="fw-bold text-danger font-monospace text-start" style="width: 32px; font-size: 0.75rem;">53%</span>
+                            </div>
+                        
+
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
                             <!-- Kèo Chấp -->
@@ -991,7 +1101,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Tunisia</div>
-                                                    <div class="text-primary fw-bold">0.85</div>
+                                                    <div class="text-primary fw-bold">0.94</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -999,7 +1109,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small text-truncate">Nhật Bản</div>
-                                                    <div class="text-primary fw-bold">0.99</div>
+                                                    <div class="text-primary fw-bold">0.90</div>
                                                 </div>
                                             </div>
                                         
@@ -1019,7 +1129,7 @@
                                             <div class="d-flex justify-content-between text-center align-items-center">
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.82</div>
+                                                    <div class="text-primary fw-bold">0.80</div>
                                                 </div>
                                                 <div class="border-start border-end px-2" style="width: 30%;">
                                                     <div class="text-muted small mb-1">Tỷ lệ</div>
@@ -1027,7 +1137,7 @@
                                                 </div>
                                                 <div class="text-center" style="width: 35%;">
                                                     <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.98</div>
+                                                    <div class="text-primary fw-bold">1.00</div>
                                                 </div>
                                             </div>
                                         
@@ -1058,7 +1168,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    2-1 <b>17.6</b>
+                                                    2-1 <b>20.0</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -1101,7 +1211,7 @@
                                                 </span>
                                             
                                                 <span class="badge-cs">
-                                                    1-1 <b>5.68</b>
+                                                    1-1 <b>5.84</b>
                                                 </span>
                                             
                                                 <span class="badge-cs">
@@ -1217,12 +1327,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/usa.png" alt="logo">
                                     <span class="team-name">Mỹ</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/usa.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/australia.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/australia.png" alt="logo">
                                     <span class="team-name">Úc</span>
                                 </div>
                             </div>
@@ -1243,6 +1353,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -1471,12 +1584,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/scotland.png" alt="logo">
                                     <span class="team-name">Scotland</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/scotland.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Morocco</span>
                                 </div>
                             </div>
@@ -1497,6 +1610,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -1725,12 +1841,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/brazil.png" alt="logo">
                                     <span class="team-name">Brazil</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/brazil.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/haiti.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/haiti.png" alt="logo">
                                     <span class="team-name">Haiti</span>
                                 </div>
                             </div>
@@ -1751,6 +1867,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -1979,12 +2098,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/turkiye.png" alt="logo">
                                     <span class="team-name">Thổ Nhĩ Kỳ</span>
+                                    <img class="team-logo ms-2 me-0" src="flags/turkiye.png" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="flags/paraguay.png" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="flags/paraguay.png" alt="logo">
                                     <span class="team-name">Paraguay</span>
                                 </div>
                             </div>
@@ -2005,6 +2124,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -2243,12 +2365,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Cộng Hòa Séc</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Nam Phi</span>
                                 </div>
                             </div>
@@ -2269,6 +2391,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -2497,12 +2622,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Thụy Sĩ</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Bosnia</span>
                                 </div>
                             </div>
@@ -2523,6 +2648,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -2751,12 +2879,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Canada</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Qatar</span>
                                 </div>
                             </div>
@@ -2777,6 +2905,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -3005,12 +3136,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Mexico</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Hàn Quốc</span>
                                 </div>
                             </div>
@@ -3031,6 +3162,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -3269,12 +3403,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Bồ Đào Nha</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">CHDC Công gô</span>
                                 </div>
                             </div>
@@ -3295,6 +3429,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -3523,12 +3660,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Anh</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Croatia</span>
                                 </div>
                             </div>
@@ -3549,6 +3686,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -3777,12 +3917,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Ghana</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Panama</span>
                                 </div>
                             </div>
@@ -3803,6 +3943,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -4031,12 +4174,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Uzbekistan</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Colombia</span>
                                 </div>
                             </div>
@@ -4057,6 +4200,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -4295,12 +4441,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Iraq</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Na Uy</span>
                                 </div>
                             </div>
@@ -4321,6 +4467,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -4549,12 +4698,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Argentina</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Algeria</span>
                                 </div>
                             </div>
@@ -4575,6 +4724,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -4803,12 +4955,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Áo</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Jordan</span>
                                 </div>
                             </div>
@@ -4829,6 +4981,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -5067,12 +5222,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
                                     <span class="team-name">Pháp</span>
+                                    <img class="team-logo ms-2 me-0" src="" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="" alt="logo">
                                     <span class="team-name">Senegal</span>
                                 </div>
                             </div>
@@ -5093,6 +5248,9 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -5308,6 +5466,36 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    // --- KHỞI TẠO VÀ XỬ LÝ DARK MODE ---
+    function toggleDarkMode() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        const btn = document.getElementById('darkModeToggle');
+        if (newTheme === 'dark') {
+            btn.innerHTML = '☀️ Sáng';
+            btn.classList.replace('btn-outline-light', 'btn-light');
+        } else {
+            btn.innerHTML = '🌙 Tối';
+            btn.classList.replace('btn-light', 'btn-outline-light');
+        }
+    }
+
+    // Áp dụng theme lưu trữ ngay lập tức
+    (function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        window.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('darkModeToggle');
+            if (btn && savedTheme === 'dark') {
+                btn.innerHTML = '☀️ Sáng';
+                btn.classList.replace('btn-outline-light', 'btn-light');
+            }
+        });
+    })();
+
     // Hàm xóa dấu tiếng Việt để tạo slug so khớp không dấu
     function removeVietnameseTones(str) {
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
@@ -5590,11 +5778,15 @@
 
         document.body.appendChild(clone);
 
+        // Lấy theme hiện tại để quyết định màu nền ảnh chụp
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        const bgCanvas = currentTheme === 'dark' ? '#252525' : '#ffffff';
+
         // Cấu hình html2canvas hỗ trợ CORS cho logo đội bóng (nếu tải từ CDN ngoài)
         html2canvas(clone, {
             useCORS: true,
             allowTaint: false,
-            backgroundColor: "#ffffff",
+            backgroundColor: bgCanvas,
             scale: 2, // Tăng chất lượng ảnh (retina)
             windowWidth: 1024,
             imageTimeout: 0,

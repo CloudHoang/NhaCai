@@ -114,11 +114,65 @@
             padding-bottom: 8px;
             min-height: 48px;
         }
+
+        /* Dark Mode overrides */
+        [data-bs-theme="dark"] body {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        [data-bs-theme="dark"] .round-card {
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        [data-bs-theme="dark"] .round-card-header {
+            background-color: #252525;
+            color: #ffffff;
+            border-bottom: 2px solid #2d2d2d;
+        }
+        [data-bs-theme="dark"] .match-card {
+            background-color: #252525;
+            border-color: #2d2d2d;
+        }
+        [data-bs-theme="dark"] .match-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        [data-bs-theme="dark"] .team-name {
+            color: #ffffff;
+        }
+        [data-bs-theme="dark"] .badge-cs {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border-color: #3d3d3d;
+        }
+        [data-bs-theme="dark"] .badge-cs b {
+            color: #39a2db;
+        }
+        [data-bs-theme="dark"] .card {
+            background-color: #252525;
+            border-color: #2d2d2d !important;
+        }
+        [data-bs-theme="dark"] .bg-light {
+            background-color: #1e1e1e !important;
+            border-color: #2d2d2d !important;
+        }
+        [data-bs-theme="dark"] .text-secondary {
+            color: #b0b0b0 !important;
+        }
+        [data-bs-theme="dark"] .text-muted {
+            color: #a0a0a0 !important;
+        }
+        [data-bs-theme="dark"] .progress {
+            background-color: #2d2d2d !important;
+        }
     </style>
 </head>
 <body>
 
 <div class="header text-center position-relative">
+    <!-- Nút Dark Mode -->
+    <button class="btn btn-outline-light btn-sm position-absolute end-0 top-0 m-3 fw-bold rounded-pill" id="darkModeToggle" onclick="toggleDarkMode()">
+        🌙 Tối
+    </button>
     <div class="container">
         <h1>Bảng Tỷ Lệ Kèo World Cup 2026</h1>
         <p class="lead mb-3">Dữ liệu được cập nhật tự động hàng ngày lúc 15:45</p>
@@ -195,12 +249,12 @@
                             <!-- Đội đấu (canh giữa) -->
                             <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo">
                                     <span class="team-name">{{ m.homeName }}</span>
+                                    <img class="team-logo ms-2 me-0" src="{{ m.homeTeam.logo if m.homeTeam else '' }}" alt="logo">
                                 </div>
                                 <span class="text-muted fw-bold">vs</span>
                                 <div class="d-flex align-items-center">
-                                    <img class="team-logo" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo">
+                                    <img class="team-logo me-2 ms-0" src="{{ m.awayTeam.logo if m.awayTeam else '' }}" alt="logo">
                                     <span class="team-name">{{ m.awayName }}</span>
                                 </div>
                             </div>
@@ -221,6 +275,20 @@
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
+                        {% if m.predictions %}
+                            <div class="mb-3 d-flex align-items-center gap-2 px-2" style="margin-top: -8px;">
+                                <span class="text-secondary fw-bold font-monospace" style="font-size: 0.65rem; letter-spacing: 0.5px; min-width: 80px; text-transform: uppercase;">AI Predict:</span>
+                                <span class="fw-bold text-success font-monospace text-end" style="width: 32px; font-size: 0.75rem;">{{ m.predictions.homeWin }}%</span>
+                                <div class="progress flex-grow-1" style="height: 6px; border-radius: 3px; background-color: #eef2f7;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ m.predictions.homeWin }}%" aria-valuenow="{{ m.predictions.homeWin }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ m.predictions.draw }}%" aria-valuenow="{{ m.predictions.draw }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ m.predictions.awayWin }}%" aria-valuenow="{{ m.predictions.awayWin }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <span class="fw-bold text-danger font-monospace text-start" style="width: 32px; font-size: 0.75rem;">{{ m.predictions.awayWin }}%</span>
+                            </div>
+                        {% endif %}
 
                         <!-- Khu vực kèo chính xếp hàng ngang -->
                         <div class="row g-3">
@@ -352,6 +420,36 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+    // --- KHỞI TẠO VÀ XỬ LÝ DARK MODE ---
+    function toggleDarkMode() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-bs-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        const btn = document.getElementById('darkModeToggle');
+        if (newTheme === 'dark') {
+            btn.innerHTML = '☀️ Sáng';
+            btn.classList.replace('btn-outline-light', 'btn-light');
+        } else {
+            btn.innerHTML = '🌙 Tối';
+            btn.classList.replace('btn-light', 'btn-outline-light');
+        }
+    }
+
+    // Áp dụng theme lưu trữ ngay lập tức
+    (function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        window.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('darkModeToggle');
+            if (btn && savedTheme === 'dark') {
+                btn.innerHTML = '☀️ Sáng';
+                btn.classList.replace('btn-outline-light', 'btn-light');
+            }
+        });
+    })();
+
     // Hàm xóa dấu tiếng Việt để tạo slug so khớp không dấu
     function removeVietnameseTones(str) {
         str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
@@ -634,11 +732,15 @@
 
         document.body.appendChild(clone);
 
+        // Lấy theme hiện tại để quyết định màu nền ảnh chụp
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+        const bgCanvas = currentTheme === 'dark' ? '#252525' : '#ffffff';
+
         // Cấu hình html2canvas hỗ trợ CORS cho logo đội bóng (nếu tải từ CDN ngoài)
         html2canvas(clone, {
             useCORS: true,
             allowTaint: false,
-            backgroundColor: "#ffffff",
+            backgroundColor: bgCanvas,
             scale: 2, // Tăng chất lượng ảnh (retina)
             windowWidth: 1024,
             imageTimeout: 0,

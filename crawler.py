@@ -420,6 +420,110 @@ def generate_oddsrate_json(matches):
     except Exception as e:
         print(f"Lỗi ghi file oddsrate.json: {e}")
 
+def load_codename_mapping():
+    """
+    Tải bản đồ tên đội bóng sang Code quốc gia từ codename.md.
+    """
+    import unicodedata
+    def clean_name(name):
+        if not name:
+            return ""
+        nfkd_form = unicodedata.normalize('NFKD', name.strip().replace("\xa0", " "))
+        cleaned = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+        return cleaned.lower()
+
+    codename_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "codename.md")
+    name_to_code = {}
+    if os.path.exists(codename_path):
+        try:
+            with open(codename_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    parts = [p.strip() for p in line.split("|")]
+                    if len(parts) >= 4:
+                        en = clean_name(parts[1])
+                        vi = clean_name(parts[2])
+                        code = parts[3].strip()
+                        if en and vi and code and code != "Code" and not code.startswith(":-"):
+                            name_to_code[en] = code
+                            name_to_code[vi] = code
+        except Exception as e:
+            print(f"Lỗi tải codename mapping: {e}")
+    return name_to_code
+
+def fetch_cup26_predictions():
+    """
+    Cào dự đoán tỷ lệ thắng từ cup26matches.com/en
+    """
+    import re
+    url = "https://cup26matches.com/en/"
+    print(f"Đang cào tỷ lệ thắng từ: {url}")
+    html = fetch_html(url)
+    if not html:
+        print("Không thể lấy dữ liệu từ cup26matches.com.")
+        return {}
+
+    name_to_code = load_codename_mapping()
+
+    import unicodedata
+    def clean_name(name):
+        if not name:
+            return ""
+        nfkd_form = unicodedata.normalize('NFKD', name.strip().replace("\xa0", " "))
+        cleaned = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+        return cleaned.lower()
+
+    predictions = {}
+
+    match_blocks = []
+    start_idx = 0
+    while True:
+        start_idx = html.find("<a href=\"/en/match/", start_idx)
+        if start_idx == -1:
+            break
+        end_idx = html.find("</a>", start_idx)
+        if end_idx == -1:
+            break
+        block = html[start_idx:end_idx+4]
+        match_blocks.append(block)
+        start_idx = end_idx + 4
+
+    print(f"Tìm thấy {len(match_blocks)} trận đấu trên cup26matches.com")
+
+    for block in match_blocks:
+        teams = re.findall(r"class=\"truncate font-display text-sm md:text-lg\">([^<]+)</span>", block)
+        if len(teams) < 2:
+            continue
+
+        home_en = teams[0].strip()
+        away_en = teams[1].strip()
+
+        widths = re.findall(r"style=\"width:([0-9.]+)%\"", block)
+        if len(widths) < 3:
+            continue
+
+        try:
+            home_win = int(round(float(widths[0])))
+            draw = int(round(float(widths[1])))
+            away_win = int(round(float(widths[2])))
+        except (ValueError, TypeError):
+            continue
+
+        home_code = name_to_code.get(clean_name(home_en), "")
+        away_code = name_to_code.get(clean_name(away_en), "")
+
+        if home_code and away_code:
+            key = (home_code, away_code)
+            predictions[key] = {
+                "homeWin": home_win,
+                "draw": draw,
+                "awayWin": away_win
+            }
+            print(f"  -> Trích xuất: {home_en} ({home_code}) vs {away_en} ({away_code}) | {home_win}% - {draw}% - {away_win}%")
+        else:
+            print(f"  -> Không khớp Code cho: {home_en} vs {away_en}")
+
+    return predictions
+
 def run_crawler():
     """
     Điều phối cào dữ liệu và ghi vào file matches.json.
@@ -432,6 +536,10 @@ def run_crawler():
 
     payload = clean_rsc_payload(html)
     matches = extract_matches(payload)
+
+    # Lấy mapping mã quốc gia và cào dự đoán tỷ lệ thắng từ cup26matches.com/en
+    name_to_code = load_codename_mapping()
+    predictions_map = fetch_cup26_predictions()
 
     # Lọc trận đấu từ 15:00 hôm nay đến 14:00 hôm sau (GMT+7)
     # Tính toán timezone-independent để tránh lỗi lệch múi giờ trên máy chủ
@@ -462,6 +570,35 @@ def run_crawler():
             m["homeTeam"]["logo"] = get_local_flag(m.get("homeName", ""))
         if "awayTeam" in m and m["awayTeam"]:
             m["awayTeam"]["logo"] = get_local_flag(m.get("awayName", ""))
+
+        # Thêm tỷ lệ dự đoán thắng từ cup26matches.com
+        import unicodedata
+        def clean_name(name):
+            if not name:
+                return ""
+            nfkd_form = unicodedata.normalize('NFKD', name.strip().replace("\xa0", " "))
+            cleaned = "".join([c for c in nfkd_form if not unicodedata.combining(c)])
+            return cleaned.lower()
+
+        home_code = name_to_code.get(clean_name(m.get("homeName")), "")
+        away_code = name_to_code.get(clean_name(m.get("awayName")), "")
+
+        m["predictions"] = None
+        if home_code and away_code:
+            key = (home_code, away_code)
+            if key in predictions_map:
+                m["predictions"] = predictions_map[key]
+                print(f"  -> Khớp dự đoán: {m.get('homeName')} vs {m.get('awayName')} -> {m['predictions']}")
+            else:
+                inv_key = (away_code, home_code)
+                if inv_key in predictions_map:
+                    pred = predictions_map[inv_key]
+                    m["predictions"] = {
+                        "homeWin": pred["awayWin"],
+                        "draw": pred["draw"],
+                        "awayWin": pred["homeWin"]
+                    }
+                    print(f"  -> Khớp dự đoán (ngược): {m.get('homeName')} vs {m.get('awayName')} -> {m['predictions']}")
 
         detail_url = DETAIL_URL_TEMPLATE.format(id=match_id)
         print(f"Đang lấy tỷ số chính xác cho trận: {m.get('homeName')} vs {m.get('awayName')} ({match_id})")

@@ -1,69 +1,69 @@
 [
   {
-    "homeName": "Mỹ",
-    "awayName": "Úc",
-    "matchCode": "USAAUS",
+    "homeName": "Hà Lan",
+    "awayName": "Thụy Điển",
+    "matchCode": "NEDSWE",
     "odds": {
       "handicap": {
-        "instantHandicap": "-1",
-        "instantHome": "1.02",
-        "instantAway": "0.82"
+        "instantHandicap": "-0.75",
+        "instantHome": "0.82",
+        "instantAway": "1.02"
       },
       "overUnder": {
-        "instantHandicap": "2.5",
-        "instantOver": "0.86",
-        "instantUnder": "0.94"
+        "instantHandicap": "3",
+        "instantOver": "1.00",
+        "instantUnder": "0.80"
       }
     }
   },
   {
-    "homeName": "Scotland",
-    "awayName": "Morocco",
-    "matchCode": "SCOMAR",
+    "homeName": "Đức",
+    "awayName": "Bờ Biển Ngà",
+    "matchCode": "GERCIV",
     "odds": {
       "handicap": {
-        "instantHandicap": "0.75",
+        "instantHandicap": "-1.25",
+        "instantHome": "1.04",
+        "instantAway": "0.80"
+      },
+      "overUnder": {
+        "instantHandicap": "3",
+        "instantOver": "0.96",
+        "instantUnder": "0.84"
+      }
+    }
+  },
+  {
+    "homeName": "Ecuador",
+    "awayName": "Curacao",
+    "matchCode": "ECUCUW",
+    "odds": {
+      "handicap": {
+        "instantHandicap": "-2.25",
+        "instantHome": "0.96",
+        "instantAway": "0.88"
+      },
+      "overUnder": {
+        "instantHandicap": "3",
+        "instantOver": "0.90",
+        "instantUnder": "0.90"
+      }
+    }
+  },
+  {
+    "homeName": "Tunisia",
+    "awayName": "Nhật Bản",
+    "matchCode": "TUNJPN",
+    "odds": {
+      "handicap": {
+        "instantHandicap": "1",
         "instantHome": "0.94",
         "instantAway": "0.90"
       },
       "overUnder": {
         "instantHandicap": "2.25",
-        "instantOver": "0.98",
-        "instantUnder": "0.82"
-      }
-    }
-  },
-  {
-    "homeName": "Brazil",
-    "awayName": "Haiti",
-    "matchCode": "BRAHAI",
-    "odds": {
-      "handicap": {
-        "instantHandicap": "-2.5",
-        "instantHome": "0.80",
-        "instantAway": "1.04"
-      },
-      "overUnder": {
-        "instantHandicap": "3.5",
         "instantOver": "0.80",
         "instantUnder": "1.00"
-      }
-    }
-  },
-  {
-    "homeName": "Thổ Nhĩ Kỳ",
-    "awayName": "Paraguay",
-    "matchCode": "TURPAR",
-    "odds": {
-      "handicap": {
-        "instantHandicap": "-0.5",
-        "instantHome": "1.00",
-        "instantAway": "0.84"
-      },
-      "overUnder": {
-        "instantHandicap": "2.25",
-        "instantOver": "0.78",
-        "instantUnder": "1.02"
       }
     }
   }
