@@ -4,7 +4,7 @@
 - **Trận đấu:** Uzbekistan vs Colombia
   - Đội nhà: Uzbekistan
   - Đội khách: Colombia
-- **Thời gian diễn ra:** 2026-06-18 02:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-17 19:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
