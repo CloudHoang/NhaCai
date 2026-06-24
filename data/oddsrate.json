@@ -1,69 +1,69 @@
 [
   {
-    "homeName": "Hà Lan",
-    "awayName": "Thụy Điển",
-    "matchCode": "NEDSWE",
+    "homeName": "Morocco",
+    "awayName": "Haiti",
+    "matchCode": "MARHAI",
     "odds": {
       "handicap": {
-        "instantHandicap": "-0.75",
-        "instantHome": "0.82",
-        "instantAway": "1.02"
+        "instantHandicap": "-2",
+        "instantHome": "0.92",
+        "instantAway": "0.92"
       },
       "overUnder": {
         "instantHandicap": "3",
-        "instantOver": "1.00",
-        "instantUnder": "0.80"
+        "instantOver": "0.80",
+        "instantUnder": "1.00"
       }
     }
   },
   {
-    "homeName": "Đức",
-    "awayName": "Bờ Biển Ngà",
-    "matchCode": "GERCIV",
+    "homeName": "Scotland",
+    "awayName": "Brazil",
+    "matchCode": "SCOBRA",
     "odds": {
       "handicap": {
-        "instantHandicap": "-1.25",
-        "instantHome": "1.04",
-        "instantAway": "0.80"
+        "instantHandicap": "1.5",
+        "instantHome": "0.86",
+        "instantAway": "0.98"
       },
       "overUnder": {
-        "instantHandicap": "3",
-        "instantOver": "0.96",
-        "instantUnder": "0.84"
+        "instantHandicap": "2.5",
+        "instantOver": "0.74",
+        "instantUnder": "1.06"
       }
     }
   },
   {
-    "homeName": "Ecuador",
-    "awayName": "Curacao",
-    "matchCode": "ECUCUW",
+    "homeName": "Nam Phi",
+    "awayName": "Hàn Quốc",
+    "matchCode": "RSAKOR",
     "odds": {
       "handicap": {
-        "instantHandicap": "-2.25",
-        "instantHome": "0.96",
-        "instantAway": "0.88"
-      },
-      "overUnder": {
-        "instantHandicap": "3",
-        "instantOver": "0.90",
-        "instantUnder": "0.90"
-      }
-    }
-  },
-  {
-    "homeName": "Tunisia",
-    "awayName": "Nhật Bản",
-    "matchCode": "TUNJPN",
-    "odds": {
-      "handicap": {
-        "instantHandicap": "1",
-        "instantHome": "0.94",
-        "instantAway": "0.90"
+        "instantHandicap": "0.75",
+        "instantHome": "1.02",
+        "instantAway": "0.82"
       },
       "overUnder": {
         "instantHandicap": "2.25",
         "instantOver": "0.80",
         "instantUnder": "1.00"
+      }
+    }
+  },
+  {
+    "homeName": "Cộng Hòa Séc",
+    "awayName": "Mexico",
+    "matchCode": "CZEMEX",
+    "odds": {
+      "handicap": {
+        "instantHandicap": "0.5",
+        "instantHome": "0.90",
+        "instantAway": "0.94"
+      },
+      "overUnder": {
+        "instantHandicap": "2.5",
+        "instantOver": "0.97",
+        "instantUnder": "0.83"
       }
     }
   }

@@ -52,3 +52,18 @@
 * Max odds ceiling is capped at 20.0 (`clamp_odds` in [app.py](app.py) and [crawler.py](crawler.py)).
 * Football handicap signs must be inverted via `invert_handicap` to align with local display standards.
 * Daily matches filtered from 17:00 today to 15:00 tomorrow (GMT+7 timezone).
+
+## Recent Changes
+* **Tích hợp cup26matches.com**:
+  * Tự động crawl tỷ lệ dự đoán thắng (Win Probabilities / AI Predictions) từ `https://cup26matches.com/en/` hàng ngày.
+  * So khớp các trận đấu dựa trên mã quốc gia (Code) từ file `codename.md`.
+  * Lưu kết quả vào trường `predictions` (`homeWin`, `draw`, `awayWin`) trong `data/matches.json` và cập nhật thông tin trong file markdown chi tiết.
+* **Giao diện Web & Bố cục**:
+  * Hiển thị tỷ lệ dự đoán thắng ngay dưới tên đội bóng dạng thanh Progress Bar 3 màu cực kỳ nhỏ gọn (Xanh lá - Xám - Đỏ).
+  * Di chuyển cờ quốc gia của hai đội vào giữa, hiển thị sát hai bên chữ `vs` (định dạng `Tên Đội 1 [Cờ] vs [Cờ] Tên Đội 2`).
+  * Tích hợp tính năng **Dark Mode** với nút chuyển đổi ở góc trên bên phải, lưu trạng thái bằng `localStorage` và tự động điều chỉnh màu nền của `html2canvas` khi chụp ảnh kèo.
+* **Môi trường vận hành hiện tại**:
+  * Localhost server Flask chạy trên cổng 5000 (`app.py`).
+  * Build tĩnh index.html và các file markdown thành công.
+  * Đã commit và push tất cả thay đổi lên branch `main`.
+

@@ -5,7 +5,7 @@
       "cron": "30 16 * * *",
       "prompt": "Run python3 crawler.py inside /home/cloud/00.Claude/Bet",
       "createdAt": 1781539971355,
-      "lastFiredAt": 1781777223717,
+      "lastFiredAt": 1781963293752,
       "recurring": true,
       "createdBySessionId": "84129d25-83c5-4f3b-b515-b21a585423e1",
       "createdByPid": 52641,
