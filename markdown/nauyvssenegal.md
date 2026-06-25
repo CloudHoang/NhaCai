@@ -4,7 +4,7 @@
 - **Trận đấu:** Na Uy vs Senegal
   - Đội nhà: Na Uy
   - Đội khách: Senegal
-- **Thời gian diễn ra:** 2026-06-23 07:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-23 00:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Na Uy thắng (Home Win):** 39%

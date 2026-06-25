@@ -4,7 +4,7 @@
 - **Trận đấu:** Morocco vs Haiti
   - Đội nhà: Morocco
   - Đội khách: Haiti
-- **Thời gian diễn ra:** 2026-06-25 05:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-24 22:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Morocco thắng (Home Win):** 75%

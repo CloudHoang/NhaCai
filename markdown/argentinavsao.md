@@ -4,7 +4,7 @@
 - **Trận đấu:** Argentina vs Áo
   - Đội nhà: Argentina
   - Đội khách: Áo
-- **Thời gian diễn ra:** 2026-06-23 00:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-22 17:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Argentina thắng (Home Win):** 66%

@@ -4,7 +4,7 @@
 - **Trận đấu:** Đức vs Bờ Biển Ngà
   - Đội nhà: Đức
   - Đội khách: Bờ Biển Ngà
-- **Thời gian diễn ra:** 2026-06-21 03:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-20 20:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Đức thắng (Home Win):** 59%
