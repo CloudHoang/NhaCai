@@ -10082,5 +10082,1547 @@
       }
     ],
     "aosOdds": 20.0
+  },
+  {
+    "id": 327370920,
+    "matchTime": 1782500400,
+    "group": "I",
+    "homeName": "Senegal",
+    "awayName": "Iraq",
+    "homeTeam": {
+      "logo": "flags/senegal.png"
+    },
+    "awayTeam": {
+      "logo": "flags/iraq.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "Toronto Stadium",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "1",
+        "initialHome": "0.89",
+        "initialAway": "0.95",
+        "instantHome": "0.80",
+        "instantAway": "1.04",
+        "instantHandicap": "1.75"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "1.48",
+        "initialDraw": "3.75",
+        "initialAway": "6.00",
+        "instantHome": "1.22",
+        "instantDraw": "5.35",
+        "instantAway": "9.50"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "2.25",
+        "initialOver": "0.77",
+        "initialUnder": "1.03",
+        "instantOver": "0.76",
+        "instantUnder": "1.04",
+        "instantHandicap": "3"
+      }
+    },
+    "predictions": {
+      "homeWin": 65,
+      "draw": 23,
+      "awayWin": 12
+    },
+    "correctScores": [
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "6.9",
+        "odds": "5.6"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "6.1",
+        "odds": "4.56"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "6.1",
+        "odds": "7.04"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "6",
+        "odds": "6.4"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "6.1",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "6",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "6.9",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "6.9",
+        "odds": "20.0"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "6.9",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "6.9",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "6.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "6.1",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "5.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "5.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 327370920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "5.9",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 7.1
+  },
+  {
+    "id": 486960920,
+    "matchTime": 1782500400,
+    "group": "I",
+    "homeName": "Na Uy",
+    "awayName": "Pháp",
+    "homeTeam": {
+      "logo": "flags/norway.png"
+    },
+    "awayTeam": {
+      "logo": "flags/france.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "Boston Stadium",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "-0.75",
+        "initialHome": "0.99",
+        "initialAway": "0.85",
+        "instantHome": "0.80",
+        "instantAway": "1.04",
+        "instantHandicap": "-1"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "4.50",
+        "initialDraw": "3.45",
+        "initialAway": "1.67",
+        "instantHome": "4.50",
+        "instantDraw": "4.15",
+        "instantAway": "1.54"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "2.5",
+        "initialOver": "1.01",
+        "initialUnder": "0.79",
+        "instantOver": "0.76",
+        "instantUnder": "1.04",
+        "instantHandicap": "3"
+      }
+    },
+    "predictions": {
+      "homeWin": 22,
+      "draw": 27,
+      "awayWin": 51
+    },
+    "correctScores": [
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "29",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "24",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "24",
+        "odds": "13.2"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "25",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "15.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "16",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "24",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "18.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "18.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "29",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "29",
+        "odds": "6.4"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "29",
+        "odds": "13.6"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "16.5",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "29",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "15",
+        "odds": "7.2"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "29",
+        "odds": "6.24"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "29",
+        "odds": "12.8"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "29",
+        "odds": "12.0"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "24",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 486960920,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 9.1
+  },
+  {
+    "id": 356960927,
+    "matchTime": 1782518400,
+    "group": "H",
+    "homeName": "Cape Verde",
+    "awayName": "Ả Rập Xê Út",
+    "homeTeam": {
+      "logo": "flags/cape_verde.png"
+    },
+    "awayTeam": {
+      "logo": "flags/saudi_arabia.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "Houston Stadium",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "-0.5",
+        "initialHome": "0.63",
+        "initialAway": "1.21",
+        "instantHome": "0.90",
+        "instantAway": "0.94",
+        "instantHandicap": "0"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "3.09",
+        "initialDraw": "2.97",
+        "initialAway": "2.21",
+        "instantHome": "2.48",
+        "instantDraw": "3.15",
+        "instantAway": "2.58"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "2.25",
+        "initialOver": "1.05",
+        "initialUnder": "0.75",
+        "instantOver": "0.90",
+        "instantUnder": "0.90",
+        "instantHandicap": "2.25"
+      }
+    },
+    "predictions": {
+      "homeWin": 29,
+      "draw": 29,
+      "awayWin": 42
+    },
+    "correctScores": [
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "59",
+        "odds": "6.32"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "59",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "59",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "59",
+        "odds": "7.2"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "59",
+        "odds": "4.64"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "59",
+        "odds": "12.4"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "59",
+        "odds": "6.64"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "59",
+        "odds": "12.8"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "59",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      },
+      {
+        "matchId": 356960927,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "59",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 20.0
+  },
+  {
+    "id": 366960928,
+    "matchTime": 1782518400,
+    "group": "H",
+    "homeName": "Uruguay",
+    "awayName": "Tây Ban Nha",
+    "homeTeam": {
+      "logo": "flags/uruguay.png"
+    },
+    "awayTeam": {
+      "logo": "flags/spain.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "Guadalajara Stadium",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "-0.75",
+        "initialHome": "1.06",
+        "initialAway": "0.78",
+        "instantHome": "1.02",
+        "instantAway": "0.82",
+        "instantHandicap": "-0.75"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "4.80",
+        "initialDraw": "3.62",
+        "initialAway": "1.60",
+        "instantHome": "5.40",
+        "instantDraw": "3.52",
+        "instantAway": "1.56"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "2.5",
+        "initialOver": "0.89",
+        "initialUnder": "0.91",
+        "instantOver": "0.90",
+        "instantUnder": "0.90",
+        "instantHandicap": "2.25"
+      }
+    },
+    "predictions": {
+      "homeWin": 17,
+      "draw": 26,
+      "awayWin": 57
+    },
+    "correctScores": [
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "31",
+        "odds": "12.8"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "29",
+        "odds": "20.0"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "31",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "31",
+        "odds": "6.16"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "29",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "31",
+        "odds": "4.72"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "31",
+        "odds": "5.04"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "29",
+        "odds": "6.24"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "31",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "31",
+        "odds": "11.6"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      },
+      {
+        "matchId": 366960928,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "31",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 8.8
+  },
+  {
+    "id": 316960923,
+    "matchTime": 1782529200,
+    "group": "G",
+    "homeName": "Ai Cập",
+    "awayName": "Iran",
+    "homeTeam": {
+      "logo": "flags/egypt.png"
+    },
+    "awayTeam": {
+      "logo": "flags/iran.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "Seattle Stadium",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "0.25",
+        "initialHome": "1.02",
+        "initialAway": "0.82",
+        "instantHome": "1.02",
+        "instantAway": "0.82",
+        "instantHandicap": "0.25"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "2.23",
+        "initialDraw": "3.03",
+        "initialAway": "3.00",
+        "instantHome": "2.28",
+        "instantDraw": "2.65",
+        "instantAway": "3.40"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "2.25",
+        "initialOver": "1.05",
+        "initialUnder": "0.75",
+        "instantOver": "0.74",
+        "instantUnder": "1.06",
+        "instantHandicap": "1.75"
+      }
+    },
+    "predictions": {
+      "homeWin": 30,
+      "draw": 29,
+      "awayWin": 42
+    },
+    "correctScores": [
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "99",
+        "odds": "4.0"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "99",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "69",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "99",
+        "odds": "4.96"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "99",
+        "odds": "4.56"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "94",
+        "odds": "17.6"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "119",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "99",
+        "odds": "6.4"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "99",
+        "odds": "17.6"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "99",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "94",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "94",
+        "odds": "20"
+      },
+      {
+        "matchId": 316960923,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "99",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 20.0
+  },
+  {
+    "id": 326960924,
+    "matchTime": 1782529200,
+    "group": "G",
+    "homeName": "New Zealand",
+    "awayName": "Bỉ",
+    "homeTeam": {
+      "logo": "flags/new_zealand.png"
+    },
+    "awayTeam": {
+      "logo": "flags/belgium.png"
+    },
+    "handicapOdds": [],
+    "league": {
+      "logo": "https://cdn.keobongvip.digital/images/leagues/wc2026.png"
+    },
+    "location": "BC Place Vancouver",
+    "roundName": "Vòng bảng",
+    "status": "0",
+    "odds": {
+      "handicap": {
+        "companyId": "1",
+        "initialHandicap": "-1.75",
+        "initialHome": "0.87",
+        "initialAway": "0.97",
+        "instantHome": "0.84",
+        "instantAway": "1.00",
+        "instantHandicap": "-2.25"
+      },
+      "europe": {
+        "companyId": "1",
+        "initialHome": "8.50",
+        "initialDraw": "5.25",
+        "initialAway": "1.23",
+        "instantHome": "13.00",
+        "instantDraw": "5.80",
+        "instantAway": "1.16"
+      },
+      "overUnder": {
+        "companyId": "1",
+        "initialHandicap": "3",
+        "initialOver": "1.03",
+        "initialUnder": "0.77",
+        "instantOver": "0.90",
+        "instantUnder": "0.90",
+        "instantHandicap": "3.5"
+      }
+    },
+    "predictions": {
+      "homeWin": 9,
+      "draw": 21,
+      "awayWin": 70
+    },
+    "correctScores": [
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "0",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "0",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "1",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "0",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "1",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "2",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "0",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "1",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "2",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "3",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "0",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "1",
+        "otherScoresOdds": "6.6",
+        "odds": "7.92"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "2",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "3",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "4",
+        "awayScore": "4",
+        "otherScoresOdds": "3.42",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "1",
+        "otherScoresOdds": "6.6",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "2",
+        "otherScoresOdds": "6.6",
+        "odds": "4.88"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "2",
+        "otherScoresOdds": "5.9",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "3",
+        "otherScoresOdds": "4.1",
+        "odds": "4.96"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "3",
+        "otherScoresOdds": "6.3",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "3",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "0",
+        "awayScore": "4",
+        "otherScoresOdds": "6.6",
+        "odds": "7.6"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "1",
+        "awayScore": "4",
+        "otherScoresOdds": "6.6",
+        "odds": "15.2"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "2",
+        "awayScore": "4",
+        "otherScoresOdds": "6.6",
+        "odds": "20"
+      },
+      {
+        "matchId": 326960924,
+        "companyId": "31",
+        "homeScore": "3",
+        "awayScore": "4",
+        "otherScoresOdds": "4",
+        "odds": "20"
+      }
+    ],
+    "aosOdds": 6.8
   }
 ]
