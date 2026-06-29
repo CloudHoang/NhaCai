@@ -28,10 +28,70 @@ def remove_vietnamese_tones(text):
     text = re.sub(r'[ˆ̛̆]', '', text)
     return text
 
+# Cache FIFA code từ codename.md: trận về sau dùng format <R>-<homecode><awaycode>
+_TEAM_CODE_CACHE = None
+_TEAM_CODE_ALIASES = {
+    # Data dùng tên EN nhưng codename.md dùng VI
+    "Morocco": "MAR",
+}
+
+def _load_team_codes():
+    global _TEAM_CODE_CACHE
+    if _TEAM_CODE_CACHE is not None:
+        return _TEAM_CODE_CACHE
+    mapping = dict(_TEAM_CODE_ALIASES)
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "codename.md"), "r", encoding="utf-8") as f:
+            for line in f.readlines()[2:]:
+                parts = [p.strip() for p in line.split("|") if p.strip()]
+                if len(parts) >= 3:
+                    en, vi, code = parts[0], parts[1], parts[2]
+                    if code:
+                        mapping[en] = code
+                        mapping[vi] = code
+    except Exception as e:
+        print(f"Không đọc được codename.md: {e}")
+    _TEAM_CODE_CACHE = mapping
+    return mapping
+
+def get_team_code(name):
+    """Tra FIFA 3-letter code từ tên đội (EN hoặc VI). Trả về None nếu không tìm thấy."""
+    if not name:
+        return None
+    return _load_team_codes().get(name)
+
+def get_round_prefix(round_name):
+    """
+    Map tên vòng tiếng Việt sang prefix slug theo quy tắc mới.
+    'Vòng 32 đội' -> 'R32', 'Vòng 16 đội' -> 'R16', ...
+    Vòng bảng -> None (giữ slug cũ).
+    """
+    if not round_name:
+        return None
+    m = re.search(r"vòng\s+(\d+)\s+đội", round_name.lower())
+    if m:
+        return f"R{m.group(1)}"
+    return None
+
 def get_match_slug(home, away):
     h = re.sub(r'[^a-z0-9]', '', remove_vietnamese_tones(home).lower())
     a = re.sub(r'[^a-z0-9]', '', remove_vietnamese_tones(away).lower())
     return f"{h}vs{a}"
+
+def get_knockout_slug(home, away, round_name):
+    """
+    Sinh slug format mới cho trận vòng knock-out: <R>-<homecode><awaycode>
+    Trả về None nếu round không phải knock-out hoặc thiếu code.
+    """
+    prefix = get_round_prefix(round_name)
+    if not prefix:
+        return None
+    hc = get_team_code(home)
+    ac = get_team_code(away)
+    if not hc or not ac:
+        print(f"⚠️  Không tìm thấy FIFA code cho {home} vs {away} (hc={hc}, ac={ac})")
+        return None
+    return f"{prefix}-{hc}{ac}"
 
 def get_handicap_description(home, away, handicap_str):
     if not handicap_str or handicap_str == "-":
@@ -194,6 +254,15 @@ def build_static():
         md_path = os.path.join(md_dir, f"{slug}.md")
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(md_content)
+
+        # Song song sinh file slug mới cho vòng knock-out (R32-, R16-, ...)
+        round_name = m.get("roundName", "")
+        new_slug = get_knockout_slug(home, away, round_name)
+        if new_slug and new_slug != slug:
+            new_md_path = os.path.join(md_dir, f"{new_slug}.md")
+            with open(new_md_path, "w", encoding="utf-8") as f:
+                f.write(md_content)
+            m["new_slug"] = new_slug
 
         # Lấy timestamp và gắn nhãn theo logic ngày
         ts = m.get("matchTime", 0)
