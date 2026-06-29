@@ -4,7 +4,7 @@
 - **Trận đấu:** Bồ Đào Nha vs Uzbekistan
   - Đội nhà: Bồ Đào Nha
   - Đội khách: Uzbekistan
-- **Thời gian diễn ra:** 2026-06-23 17:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-24 00:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Bồ Đào Nha thắng (Home Win):** 73%

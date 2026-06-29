@@ -111,6 +111,32 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def to_compact(m):
+    """Chuyển 1 match từ shape đầy đủ sang shape compact để lưu JSON"""
+    nm = {
+        "id": m.get("id"),
+        "home": m.get("homeName", ""),
+        "away": m.get("awayName", ""),
+        "time": m.get("matchTime", 0),
+        "round": m.get("roundName", ""),
+        "odds": m.get("odds", {}),
+        "aos": m.get("aosOdds", 0),
+        "cs": [
+            f"{cs.get('homeScore', 0)}:{cs.get('awayScore', 0)}:{cs.get('odds', '')}"
+            for cs in m.get("correctScores", [])
+        ],
+    }
+    ht = m.get("homeTeam") or {}
+    at = m.get("awayTeam") or {}
+    if ht.get("logo"):
+        nm["hl"] = ht["logo"]
+    if at.get("logo"):
+        nm["al"] = at["logo"]
+    pred = m.get("predictions")
+    if pred:
+        nm["pred"] = f"{pred.get('homeWin', 0)}|{pred.get('draw', 0)}|{pred.get('awayWin', 0)}"
+    return nm
+
 def download_flag(url):
     """Tải logo đội bóng về thư mục local flags/ để tránh lỗi CORS khi chụp ảnh"""
     if not url:
@@ -680,9 +706,12 @@ def run_crawler():
     final_matches = list(matches_dict.values())
     final_matches.sort(key=lambda x: x.get("matchTime", 0))
 
-    # Ghi dữ liệu JSON
+    # Chuyển sang format compact trước khi ghi
+    compact_matches = [to_compact(m) for m in final_matches]
+
+    # Ghi dữ liệu JSON dạng compact (không indent, separators gọn)
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(final_matches, f, indent=2, ensure_ascii=False)
+        json.dump(compact_matches, f, ensure_ascii=False, separators=(",", ":"))
 
     print(f"Ghi file dữ liệu thành công vào: {DATA_FILE}")
 

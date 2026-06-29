@@ -4,7 +4,7 @@
 - **Trận đấu:** Colombia vs Bồ Đào Nha
   - Đội nhà: Colombia
   - Đội khách: Bồ Đào Nha
-- **Thời gian diễn ra:** 2026-06-27 23:30 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-28 06:30 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Colombia thắng (Home Win):** 28%

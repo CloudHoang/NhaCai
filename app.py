@@ -17,6 +17,44 @@ def clamp_odds(val):
     except (ValueError, TypeError):
         return val
 
+def from_compact(m):
+    """Mở rộng 1 match từ shape compact (lưu JSON) sang shape đầy đủ (dùng cho render)"""
+    out = {
+        "id": m.get("id"),
+        "homeName": m.get("home", ""),
+        "awayName": m.get("away", ""),
+        "matchTime": m.get("time", 0),
+        "roundName": m.get("round", ""),
+        "odds": m.get("odds", {}),
+        "aosOdds": m.get("aos", 0),
+        "homeTeam": {"logo": m.get("hl", "")},
+        "awayTeam": {"logo": m.get("al", "")},
+        "correctScores": [],
+    }
+    for s in m.get("cs", []):
+        parts = s.split(":")
+        if len(parts) >= 3:
+            try:
+                hs = int(parts[0])
+                ass = int(parts[1])
+            except ValueError:
+                continue
+            out["correctScores"].append({
+                "homeScore": hs,
+                "awayScore": ass,
+                "odds": ":".join(parts[2:]),
+            })
+    pred_str = m.get("pred")
+    if pred_str:
+        parts = pred_str.split("|")
+        if len(parts) >= 3:
+            out["predictions"] = {
+                "homeWin": int(parts[0]),
+                "draw": int(parts[1]),
+                "awayWin": int(parts[2]),
+            }
+    return out
+
 def normalize_handicap(handicap_str, eu_home_str, eu_away_str):
     if not handicap_str or handicap_str == "-":
         return handicap_str
@@ -64,12 +102,17 @@ def get_handicap_description(home, away, handicap_str):
 def load_matches_data():
     """
     Đọc dữ liệu trận đấu đã cào từ file JSON và giới hạn odds tối đa là 20.
+    Hỗ trợ cả 2 format: compact (mới) và shape đầy đủ (cũ, để tương thích ngược).
     """
     if not os.path.exists(DATA_FILE):
         return []
     try:
         with open(DATA_FILE, "r", encoding="utf-8") as f:
-            matches = json.load(f)
+            raw = json.load(f)
+
+        # Phát hiện format: compact nếu có key "home" thay vì "homeName"
+        is_compact = bool(raw) and isinstance(raw[0], dict) and "home" in raw[0] and "homeName" not in raw[0]
+        matches = [from_compact(m) for m in raw] if is_compact else raw
 
         for m in matches:
             home = m.get("homeName", "")

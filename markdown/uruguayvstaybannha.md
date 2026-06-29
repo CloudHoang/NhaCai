@@ -4,7 +4,7 @@
 - **Trận đấu:** Uruguay vs Tây Ban Nha
   - Đội nhà: Uruguay
   - Đội khách: Tây Ban Nha
-- **Thời gian diễn ra:** 2026-06-27 00:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 07:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Uruguay thắng (Home Win):** 17%

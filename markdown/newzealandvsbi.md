@@ -4,7 +4,7 @@
 - **Trận đấu:** New Zealand vs Bỉ
   - Đội nhà: New Zealand
   - Đội khách: Bỉ
-- **Thời gian diễn ra:** 2026-06-27 03:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 10:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **New Zealand thắng (Home Win):** 9%
