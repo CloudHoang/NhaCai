@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhập tỷ số - Betting Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .header {
+            background: linear-gradient(135deg, #cb2d3e 0%, #ef473a 100%);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            background-color: #fff;
+        }
+        .form-card .card-header {
+            background-color: #fff;
+            border-bottom: 2px solid #eef2f7;
+            font-weight: bold;
+            color: #2c3e50;
+            border-top-left-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+        }
+        .team-vs {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .score-input {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            width: 80px;
+        }
+        /* ─── Match list cards ─── */
+        .match-list {
+            max-height: 380px;
+            overflow-y: auto;
+            border: 1px solid #eef2f7;
+            border-radius: 8px;
+            padding: 4px;
+            background: #fafbfc;
+        }
+        .match-card {
+            background: #fff;
+            border: 1px solid #e3e8ef;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+        .match-card:hover {
+            border-color: #cb2d3e;
+            background: #fff5f6;
+        }
+        .match-card.selected {
+            border-color: #cb2d3e;
+            background: #fff0f1;
+            box-shadow: 0 0 0 2px rgba(203, 45, 62, 0.15);
+        }
+        .match-card.done {
+            opacity: 0.7;
+        }
+        .match-card.done .team-name {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+        .match-card .team-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .match-card .team-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.92rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .match-card .match-meta {
+            font-size: 0.75rem;
+            color: #95a5a6;
+        }
+        .match-card .score-badge {
+            background: #2c3e50;
+            color: #fff;
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .match-card .score-badge.new {
+            background: #28a745;
+        }
+        .group-header {
+            background: #f4f6f9;
+            color: #2c3e50;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            user-select: none;
+        }
+        .group-header:hover { background: #e9ecef; }
+        .group-header .count {
+            background: #cb2d3e;
+            color: #fff;
+            border-radius: 12px;
+            padding: 1px 8px;
+            font-size: 0.75rem;
+        }
+        .group-header .toggle-icon {
+            transition: transform 0.2s;
+        }
+        .group-header.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .group-body.collapsed {
+            display: none;
+        }
+        .empty-msg {
+            color: #95a5a6;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 12px;
+            font-style: italic;
+        }
+        .round-section {
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px dashed #eef2f7;
+        }
+        .round-section:last-child { border-bottom: none; }
+        .round-title {
+            font-size: 0.95rem; font-weight: 700; color: #cb2d3e;
+            margin-bottom: 8px; padding-left: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header text-center">
+    <div class="container">
+        <h1 class="h3 mb-1">⚽ Nhập Tỷ Số Trận Đấu</h1>
+        <p class="lead mb-2" style="font-size: 1rem;">Cập nhật kết quả → tự động settle tất cả picks</p>
+        <div class="d-flex justify-content-center gap-2 flex-wrap">
+            <a href="/" class="btn btn-light btn-sm fw-bold px-3 py-2 shadow-sm">🏠 Trang Chủ</a>
+            <a href="/tracker" class="btn btn-light btn-sm fw-bold px-3 py-2 shadow-sm">📊 Xem Tracker</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5" style="max-width: 800px;">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, msg in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% if last_response %}
+        <div class="card form-card mb-3">
+            <div class="card-body">
+                <h6 class="text-muted">Chi tiết response từ GAS:</h6>
+                <pre class="bg-light p-2 rounded small mb-0">{{ last_response|tojson(indent=2) }}</pre>
+            </div>
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/admin/result" id="result-form">
+        <input type="hidden" id="match_id" name="match_id" value="{{ selected_id|default('') }}">
+        <input type="hidden" id="match_name" name="match_name" value="">
+
+        <!-- ─── Step 1: Chọn trận ─── -->
+        <div class="card form-card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>① Chọn trận đấu</span>
+                <span class="badge bg-secondary" id="selected-label">Chưa chọn</span>
+            </div>
+            <div class="card-body">
+                {% set pending = [] %}
+                {% set done = [] %}
+                {% for m in matches %}
+                    {% if m.id|string in existing_match_ids %}
+                        {% set _ = done.append(m) %}
+                    {% else %}
+                        {% set _ = pending.append(m) %}
+                    {% endif %}
+                {% endfor %}
+
+                <div class="group-header" data-target="group-done">
+                    <span>📋 Trận đã có tỷ số</span>
+                    <span>
+                        <span class="count">{{ done|length }}</span>
+                        <span class="toggle-icon ms-2">▼</span>
+                    </span>
+                </div>
+                <div class="group-body collapsed" id="group-done">
+                    {% if done %}
+                    <div class="match-list">
+                        {% for m in done %}
+                            <div class="match-card done"
+                                 data-id="{{ m.id }}"
+                                 data-home="{{ m.homeName }}"
+                                 data-away="{{ m.awayName }}"
+                                 data-time="{{ m.matchTime }}">
+                                <div class="team-info">
+                                    <div class="team-name">{{ m.homeName }} <span class="text-muted">vs</span> {{ m.awayName }}</div>
+                                    <div class="match-meta">id: {{ m.id }}</div>
+                                </div>
+                                <span class="score-badge">✓</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <div class="empty-msg">Chưa có trận nào được cập nhật.</div>
+                    {% endif %}
+                </div>
+
+                <div class="group-header mt-3" data-target="group-pending">
+                    <span>⚽ Trận chưa có tỷ số</span>
+                    <span>
+                        <span class="count">{{ pending|length }}</span>
+                        <span class="toggle-icon ms-2">▼</span>
+                    </span>
+                </div>
+                <div class="group-body" id="group-pending">
+                    {% if pending %}
+                        {% set by_round = {} %}
+                        {% for m in pending %}
+                            {% set r = m.roundName or 'Khác' %}
+                            {% if r not in by_round %}{% set _ = by_round.update({r: [] }) %}{% endif %}
+                            {% set _ = by_round[r].append(m) %}
+                        {% endfor %}
+                        {% for r, ms in by_round.items() %}
+                            <div class="round-section">
+                                <div class="round-title">🏆 {{ r }} <span class="text-muted small">({{ ms|length }})</span></div>
+                                <div class="match-list">
+                                    {% for m in ms %}
+                                        <div class="match-card"
+                                             data-id="{{ m.id }}"
+                                             data-home="{{ m.homeName }}"
+                                             data-away="{{ m.awayName }}"
+                                             data-time="{{ m.matchTime }}">
+                                            <div class="team-info">
+                                                <div class="team-name">{{ m.homeName }} <span class="text-muted">vs</span> {{ m.awayName }}</div>
+                                                <div class="match-meta">id: {{ m.id }}</div>
+                                            </div>
+                                            <span class="score-badge new">MỚI</span>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-msg">Đã cập nhật hết tất cả trận 🎉</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── Step 2: Nhập tỷ số ─── -->
+        <div class="card form-card mb-3">
+            <div class="card-header">② Nhập tỷ số</div>
+            <div class="card-body">
+                <div class="mb-3 p-3 bg-light rounded text-center" id="match-preview">
+                    <span class="text-muted">Chọn trận ở bước ① phía trên</span>
+                </div>
+
+                <div class="row g-3 align-items-end justify-content-center mb-3">
+                    <div class="col-4 text-center">
+                        <label for="home_score" class="form-label fw-bold d-block">Đội nhà</label>
+                        <input type="number" min="0" max="20" class="form-control score-input mx-auto" id="home_score" name="home_score" value="0" required>
+                    </div>
+                    <div class="col-2 text-center team-vs">-</div>
+                    <div class="col-4 text-center">
+                        <label for="away_score" class="form-label fw-bold d-block">Đội khách</label>
+                        <input type="number" min="0" max="20" class="form-control score-input mx-auto" id="away_score" name="away_score" value="0" required>
+                    </div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-danger btn-lg fw-bold" id="submit-btn" disabled>
+                        💾 Lưu &amp; Settle picks
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="card form-card mt-3">
+        <div class="card-header">📖 Hướng dẫn</div>
+        <div class="card-body small">
+            <ol class="mb-0">
+                <li>Click vào card trận ở nhóm <b>"Trận chưa có tỷ số"</b> để chọn.</li>
+                <li>Nhập tỷ số cuối cùng (số nguyên 0-20).</li>
+                <li>Click <b>Lưu &amp; Settle</b>: GAS tự động tính thắng/thua cho tất cả picks Active của trận.</li>
+                <li>Reload trang để xem trận vừa cập nhật chuyển sang nhóm <b>"Đã có tỷ số"</b>.</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script>
+    const matchIdField = document.getElementById('match_id');
+    const matchNameField = document.getElementById('match_name');
+    const preview = document.getElementById('match-preview');
+    const submitBtn = document.getElementById('submit-btn');
+    const selectedLabel = document.getElementById('selected-label');
+    const cards = document.querySelectorAll('.match-card');
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    // ── Group collapse toggle ──
+    document.querySelectorAll('.group-header').forEach(h => {
+        h.addEventListener('click', () => {
+            const target = document.getElementById(h.dataset.target);
+            if (target) {
+                target.classList.toggle('collapsed');
+                h.classList.toggle('collapsed');
+            }
+        });
+    });
+
+    // ── Auto-collapse "đã có tỷ số" on load ──
+    const doneHeader = document.querySelector('.group-header[data-target="group-done"]');
+    if (doneHeader) doneHeader.classList.add('collapsed');
+
+    // ── Card click → select match ──
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            cards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            const id = card.dataset.id;
+            const home = card.dataset.home;
+            const away = card.dataset.away;
+            matchIdField.value = id;
+            matchNameField.value = `${home} - ${away}`;
+            preview.innerHTML = `<span class="team-vs">${esc(home)} <span class="text-muted">vs</span> ${esc(away)}</span><div class="small text-muted mt-1">id: ${esc(id)}</div>`;
+            selectedLabel.textContent = `${home} vs ${away}`;
+            selectedLabel.classList.remove('bg-secondary');
+            selectedLabel.classList.add('bg-success');
+            submitBtn.disabled = false;
+        });
+    });
+
+    // ── Restore selected nếu form re-render sau POST ──
+    const preSelected = "{{ selected_id|default('') }}";
+    if (preSelected) {
+        const target = document.querySelector(`.match-card[data-id="${preSelected}"]`);
+        if (target) target.click();
+    }
+</script>
+
+</body>
+</html>

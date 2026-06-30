@@ -1,8 +1,12 @@
-from flask import Flask, render_template, jsonify, send_from_directory
+from flask import Flask, render_template, jsonify, send_from_directory, request, redirect, url_for, flash, session
 import json
 import os
 
+from tracker import build_summary_html, submit_result, fetch_tracker_data, upload_csv_text, fetch_recent_picks
+
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET", os.urandom(32).hex())
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")
 DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches.json")
 
 def clamp_odds(val):
@@ -206,7 +210,7 @@ def index():
     for r_name in sorted(rounds.keys(), key=lambda k: rounds[k][0].get("matchTime", 0), reverse=True):
         sorted_rounds[r_name] = rounds[r_name]
 
-    return render_template("index.html", rounds=sorted_rounds)
+    return render_template("index.html", rounds=sorted_rounds, is_local=True)
 
 @app.route("/api/matches")
 def api_matches():
@@ -220,6 +224,170 @@ def serve_flag(filename):
     """Serve local team flag images"""
     flags_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "flags")
     return send_from_directory(flags_dir, filename)
+
+
+# ─── Betting Tracker (Google Apps Script backend) ────────────────────────────
+
+@app.route("/tracker")
+def tracker():
+    """Trang tổng hợp thắng/thua picks từ GAS."""
+    ctx = build_summary_html()
+    return render_template("tracker.html", **ctx)
+
+
+@app.route("/api/tracker")
+def api_tracker():
+    """JSON API proxy sang GAS."""
+    action = request.args.get("action", "full")
+    data = fetch_tracker_data(action)
+    if data is None:
+        return jsonify({"error": "GAS unreachable"}), 502
+    return jsonify(data)
+
+
+# ─── Admin: login + dashboard (Upload CSV + Cập nhật tỷ số) ─────────────────
+
+def _is_admin():
+    return session.get("is_admin") is True
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if _is_admin():
+        return redirect(url_for("admin"))
+    error = None
+    if request.method == "POST":
+        pwd = request.form.get("password", "")
+        if pwd == ADMIN_PASSWORD:
+            session["is_admin"] = True
+            return redirect(url_for("admin"))
+        error = "Sai mật khẩu."
+    return render_template("admin_login.html", error=error)
+
+
+@app.route("/admin/logout", methods=["POST", "GET"])
+def admin_logout():
+    session.pop("is_admin", None)
+    return redirect(url_for("admin_login"))
+
+
+def _filter_knockout(matches):
+    """Lọc bỏ vòng bảng — chỉ giữ vòng knockout (Vòng 32 đội trở đi)."""
+    return [m for m in matches if (m.get("roundName") or "") != "Vòng bảng"]
+
+
+@app.route("/admin", methods=["GET"])
+def admin():
+    if not _is_admin():
+        return redirect(url_for("admin_login"))
+
+    matches = _filter_knockout(load_matches_data())
+    matches.sort(key=lambda m: m.get("matchTime", 0))
+    recent = fetch_recent_picks(10)
+    # Lấy existing_match_ids để tab "Cập nhật tỷ số" highlight card đã có
+    existing_results = fetch_tracker_data("results") or {}
+    existing_match_ids = {
+        str(r.get("match_id", "")).strip()
+        for r in (existing_results.get("results") or [])
+        if r.get("match_id") is not None
+    }
+    return render_template(
+        "admin.html",
+        matches=matches,
+        recent_picks=recent,
+        existing_match_ids=existing_match_ids,
+    )
+
+
+@app.route("/admin/upload", methods=["POST"])
+def admin_upload():
+    """Upload CSV từ form admin → GAS uploadCsv."""
+    if not _is_admin():
+        return jsonify({"error": "unauthorized"}), 401
+    csv_text = request.form.get("csv_text", "").strip()
+    if not csv_text:
+        flash("Vui lòng dán nội dung CSV trước khi upload.", "warning")
+        return redirect(url_for("admin", tab="upload"))
+    result = upload_csv_text(csv_text)
+    if result.get("success"):
+        flash(f"Upload OK · inserted={result.get('inserted')}.", "success")
+    else:
+        flash(f"Lỗi: {result.get('error', 'unknown')}", "danger")
+    return redirect(url_for("admin", tab="upload"))
+
+
+@app.route("/admin/result", methods=["GET", "POST"], endpoint="admin_result")
+def admin_result():
+    """Form nhập tỷ số admin (GET=render form, POST=submit) → GAS updateResult."""
+    if not _is_admin():
+        return jsonify({"error": "unauthorized"}), 401
+
+    if request.method == "GET":
+        matches = _filter_knockout(load_matches_data())
+        matches.sort(key=lambda m: m.get("matchTime", 0))
+        # Lấy danh sách match_id đã có tỷ số từ GAS Results sheet
+        existing_results = fetch_tracker_data("results") or {}
+        existing_match_ids = {
+            str(r.get("match_id", "")).strip()
+            for r in (existing_results.get("results") or [])
+            if r.get("match_id") is not None
+        }
+        return render_template(
+            "result_form.html",
+            matches=matches,
+            existing_match_ids=existing_match_ids,
+        )
+
+    # POST
+    match_id = request.form.get("match_id", "").strip()
+    match_name = request.form.get("match_name", "").strip()
+    try:
+        home_score = int(request.form.get("home_score", "-1"))
+        away_score = int(request.form.get("away_score", "-1"))
+    except (TypeError, ValueError):
+        home_score = away_score = -1
+
+    # Re-render form (không redirect) để giữ selected match + hiển thị response
+    matches = _filter_knockout(load_matches_data())
+    matches.sort(key=lambda m: m.get("matchTime", 0))
+    existing_results = fetch_tracker_data("results") or {}
+    existing_match_ids = {
+        str(r.get("match_id", "")).strip()
+        for r in (existing_results.get("results") or [])
+        if r.get("match_id") is not None
+    }
+
+    if not match_id or home_score < 0 or away_score < 0:
+        flash("Vui lòng chọn trận và nhập tỷ số hợp lệ (>= 0).", "danger")
+        return render_template(
+            "result_form.html",
+            matches=matches,
+            existing_match_ids=existing_match_ids,
+            selected_id=match_id,
+        )
+    result = submit_result(match_id, home_score, away_score, match_name=match_name)
+    if result.get("success"):
+        flash(
+            f"✓ Đã settle match_id={match_id} (settled={result.get('settled')}).",
+            "success",
+        )
+        # Reload existing_match_ids để cập nhật group "đã có tỷ số"
+        existing_results = fetch_tracker_data("results") or {}
+        existing_match_ids = {
+            str(r.get("match_id", "")).strip()
+            for r in (existing_results.get("results") or [])
+            if r.get("match_id") is not None
+        }
+    else:
+        flash(f"Lỗi từ GAS: {result.get('error', 'unknown')}", "danger")
+    return render_template(
+        "result_form.html",
+        matches=matches,
+        existing_match_ids=existing_match_ids,
+        selected_id=match_id,
+        last_response=result if not result.get("success") else None,
+    )
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

@@ -112,29 +112,45 @@ def clamp_odds(val):
         return val
 
 def to_compact(m):
-    """Chuyển 1 match từ shape đầy đủ sang shape compact để lưu JSON"""
+    """Chuyển 1 match từ shape đầy đủ sang shape compact để lưu JSON
+    Hỗ trợ cả raw (homeName/correctScores) và compact (home/cs) format vì merge hay re-read."""
+    home = m.get("homeName") or m.get("home") or ""
+    away = m.get("awayName") or m.get("away") or ""
+
+    raw_cs = m.get("correctScores", m.get("cs", []))
+    if raw_cs and isinstance(raw_cs[0], str):
+        cs = raw_cs  # đã compact
+    else:
+        cs = [
+            f"{cs.get('homeScore', 0)}:{cs.get('awayScore', 0)}:{cs.get('odds', '')}"
+            for cs in raw_cs
+        ]
+
     nm = {
         "id": m.get("id"),
-        "home": m.get("homeName", ""),
-        "away": m.get("awayName", ""),
-        "time": m.get("matchTime", 0),
-        "round": m.get("roundName", ""),
+        "home": home,
+        "away": away,
+        "time": m.get("matchTime") or m.get("time") or 0,
+        "round": m.get("roundName") or m.get("round") or "",
         "odds": m.get("odds", {}),
-        "aos": m.get("aosOdds", 0),
-        "cs": [
-            f"{cs.get('homeScore', 0)}:{cs.get('awayScore', 0)}:{cs.get('odds', '')}"
-            for cs in m.get("correctScores", [])
-        ],
+        "aos": m.get("aosOdds") if m.get("aosOdds") is not None else (m.get("aos") or 0),
+        "cs": cs,
     }
     ht = m.get("homeTeam") or {}
     at = m.get("awayTeam") or {}
-    if ht.get("logo"):
-        nm["hl"] = ht["logo"]
-    if at.get("logo"):
-        nm["al"] = at["logo"]
-    pred = m.get("predictions")
-    if pred:
+    logo_home = ht.get("logo") or m.get("hl") or ""
+    logo_away = at.get("logo") or m.get("al") or ""
+    if logo_home:
+        nm["hl"] = logo_home
+    if logo_away:
+        nm["al"] = logo_away
+
+    pred = m.get("predictions") or m.get("pred") or None
+    if isinstance(pred, dict):
         nm["pred"] = f"{pred.get('homeWin', 0)}|{pred.get('draw', 0)}|{pred.get('awayWin', 0)}"
+    elif isinstance(pred, str):
+        nm["pred"] = pred
+
     return nm
 
 def download_flag(url):

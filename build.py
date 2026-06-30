@@ -293,5 +293,53 @@ def build_static():
     print(f"Build index.html thành công tại: {output_path}")
     print(f"Đã xuất {len(matches)} file Markdown vào thư mục {md_dir}")
 
+    # ─── Build static pages cho Betting Tracker ──────────────────────────────
+    # tracker.html và result_form.html cần GAS runtime → không thể build tĩnh
+    # hoàn toàn. Tạo wrapper HTML tĩnh load data qua fetch() từ GAS endpoint.
+    build_tracker_static_pages(env, matches, sorted_rounds)
+
+
+def build_tracker_static_pages(env, matches, sorted_rounds):
+    """
+    Render 2 trang tĩnh cho GitHub Pages:
+      - tracker/index.html   - load JSON từ GAS ?action=full qua fetch()
+      - result/index.html    - form submit POST trực tiếp lên GAS
+    """
+    root = os.path.dirname(os.path.abspath(__file__))
+
+    # Tracker page
+    tracker_dir = os.path.join(root, "tracker")
+    os.makedirs(tracker_dir, exist_ok=True)
+    tracker_template = env.get_template("tracker_static.html")
+    tracker_html = tracker_template.render()
+    with open(os.path.join(tracker_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(tracker_html)
+    print(f"Build tracker/index.html thành công")
+
+    # Result form page
+    result_dir = os.path.join(root, "result")
+    os.makedirs(result_dir, exist_ok=True)
+    result_template = env.get_template("result_form_static.html")
+    # Lấy danh sách trận cho dropdown (round mới nhất hoặc round Hôm nay)
+    if "🔥 Hôm nay" in sorted_rounds:
+        result_matches = sorted_rounds["🔥 Hôm nay"]
+    elif sorted_rounds:
+        result_matches = list(sorted_rounds.values())[0]
+    else:
+        result_matches = []
+    result_html = result_template.render(matches=result_matches)
+    with open(os.path.join(result_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(result_html)
+    print(f"Build result/index.html thành công")
+
+    # Admin page (gộp Upload CSV + Cập nhật tỷ số, có pass gate)
+    admin_dir = os.path.join(root, "admin")
+    os.makedirs(admin_dir, exist_ok=True)
+    admin_template = env.get_template("admin_static.html")
+    admin_html = admin_template.render()
+    with open(os.path.join(admin_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(admin_html)
+    print(f"Build admin/index.html thành công")
+
 if __name__ == "__main__":
     build_static()
