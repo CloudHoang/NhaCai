@@ -1,69 +1,69 @@
 [
   {
-    "homeName": "Morocco",
-    "awayName": "Haiti",
-    "matchCode": "MARHAI",
+    "homeName": "",
+    "awayName": "",
+    "matchCode": "",
     "odds": {
       "handicap": {
-        "instantHandicap": "-2",
-        "instantHome": "0.92",
-        "instantAway": "0.92"
-      },
-      "overUnder": {
-        "instantHandicap": "3",
-        "instantOver": "0.80",
-        "instantUnder": "1.00"
-      }
-    }
-  },
-  {
-    "homeName": "Scotland",
-    "awayName": "Brazil",
-    "matchCode": "SCOBRA",
-    "odds": {
-      "handicap": {
-        "instantHandicap": "1.5",
-        "instantHome": "0.86",
-        "instantAway": "0.98"
+        "instantHandicap": "-0.25",
+        "instantHome": "0.90",
+        "instantAway": "0.95"
       },
       "overUnder": {
         "instantHandicap": "2.5",
-        "instantOver": "0.74",
-        "instantUnder": "1.06"
+        "instantOver": "1.15",
+        "instantUnder": "0.65"
       }
     }
   },
   {
-    "homeName": "Nam Phi",
-    "awayName": "Hàn Quốc",
-    "matchCode": "RSAKOR",
+    "homeName": "Bờ Biển Ngà",
+    "awayName": "Na Uy",
+    "matchCode": "CIVNOR",
     "odds": {
       "handicap": {
-        "instantHandicap": "0.75",
+        "instantHandicap": "0.25",
+        "instantHome": "1.03",
+        "instantAway": "0.81"
+      },
+      "overUnder": {
+        "instantHandicap": "2.5",
+        "instantOver": "0.92",
+        "instantUnder": "0.88"
+      }
+    }
+  },
+  {
+    "homeName": "Pháp",
+    "awayName": "Thụy Điển",
+    "matchCode": "FRASWE",
+    "odds": {
+      "handicap": {
+        "instantHandicap": "-1.75",
         "instantHome": "1.02",
         "instantAway": "0.82"
       },
       "overUnder": {
-        "instantHandicap": "2.25",
-        "instantOver": "0.80",
-        "instantUnder": "1.00"
+        "instantHandicap": "3.25",
+        "instantOver": "0.89",
+        "instantUnder": "0.91"
       }
     }
   },
   {
-    "homeName": "Cộng Hòa Séc",
-    "awayName": "Mexico",
-    "matchCode": "CZEMEX",
+    "homeName": "Mexico",
+    "awayName": "Ecuador",
+    "matchCode": "MEXECU",
     "odds": {
       "handicap": {
-        "instantHandicap": "0.5",
-        "instantHome": "0.90",
-        "instantAway": "0.94"
+        "instantHandicap": "-0.25",
+        "instantHome": "0.88",
+        "instantAway": "0.96"
       },
       "overUnder": {
-        "instantHandicap": "2.5",
-        "instantOver": "0.97",
-        "instantUnder": "0.83"
+        "instantHandicap": "1.75",
+        "instantOver": "0.80",
+        "instantUnder": "1.00"
       }
     }
   }

@@ -13,29 +13,40 @@
    * Tính toán tỷ số AOS (Any Other Score) dựa trên thuật toán `AOS.md` (`calculate_aos` trong `crawler.py`).
    * Lưu dữ liệu vào `data/matches.json` và gửi thông báo qua Telegram.
 2. **Parser (`parser.py`)**: Bóc tách dữ liệu RSC payload thô từ HTTP response.
-3. **Web Server (`app.py`)**: 
+3. **Web Server (`app.py`)**:
    * Đọc `data/matches.json`, phục vụ API và render HTML động qua `templates/index.html`.
    * Phục vụ static file `/flags/<filename>` từ thư mục local.
-4. **Static Builder (`build.py`)**: Tạo trang `index.html` tĩnh từ template để deploy GitHub Pages.
+   * Routes bổ sung: `/tracker`, `/admin/result`, `/api/tracker` (xem mục Betting Tracker).
+4. **Static Builder (`build.py`)**: Tạo trang `index.html` tĩnh từ template để deploy GitHub Pages. Đồng thời build `tracker/index.html` + `result/index.html` (load data qua fetch từ GAS).
+5. **Betting Tracker (`tracker.py` + `gas/BetTracker.gs`)**:
+   * Backend: **Google Apps Script** bound với Google Sheets (4 tab: Picks/Results/Settled/Summary).
+   * Client Python (`tracker.py`): wrapper gọi GAS Web App endpoint (urllib3).
+   * Cấu hình URL qua env `GAS_WEB_APP_URL` hoặc default trong `tracker.py`.
 
 ## Môi trường & Dependencies
 * Python 3.8+
 * Flask (Web app)
 * Jinja2 (HTML templating)
-* urllib3 (HTTP requests)
+* urllib3 (HTTP requests — dùng cho cả crawler và tracker client)
 * Cấu hình cron chạy qua file `cron_setup.sh` sinh file bash chạy ngầm `run_crawler.sh` lúc 16:30 hàng ngày.
 
 ## Commands
 
 ### Setup & Run
 * Run local web server: `python3 app.py` (runs on `http://localhost:5000`)
-* Run static builder (GitHub Pages): `python3 build.py` (generates `index.html`)
+* Run static builder (GitHub Pages): `python3 build.py` (generates `index.html`, `tracker/index.html`, `result/index.html`)
 * Run crawler: `python3 crawler.py`
 * Setup daily cronjob: `bash cron_setup.sh`
+
+### Betting Tracker
+* Flask local: `http://localhost:5000/tracker` (tổng hợp) · `/admin/result` (nhập tỷ số).
+* Static GitHub Pages: `/tracker/` · `/result/` (load trực tiếp từ GAS).
+* Setup Google Sheets + GAS: xem `gas/README.md` (tạo 4 tab, paste code, deploy Web App, set Script Properties).
 
 ### Testing
 * Verify static server: Python HTTP server on port 8000
 * Fetch odds data manually: `python3 crawler.py`
+* Test GAS endpoint: `curl "https://script.google.com/macros/s/<DEPLOY_ID>/exec?action=full"`
 
 ## Code Guidelines
 
@@ -66,4 +77,11 @@
   * Localhost server Flask chạy trên cổng 5000 (`app.py`).
   * Build tĩnh index.html và các file markdown thành công.
   * Đã commit và push tất cả thay đổi lên branch `main`.
+* **Betting Tracker (Google Apps Script)**:
+  * Tổng hợp thắng/thua picks từ email → Google Sheets qua GAS.
+  * Hỗ trợ 3 loại kèo: `correct_score`, `handicap`, `over_under`.
+  * Routes Flask: `/tracker` (tổng hợp), `/admin/result` (nhập tỷ số), `/api/tracker` (JSON).
+  * Static pages GitHub Pages: `tracker/index.html` + `result/index.html` (fetch trực tiếp GAS).
+  * Backend GAS: xem `gas/BetTracker.gs` (code) + `gas/README.md` (setup).
+  * Client Python: `tracker.py` (GAS_WEB_APP_URL qua env hoặc default).
 

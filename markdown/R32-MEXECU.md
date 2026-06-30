@@ -4,24 +4,24 @@
 - **Trận đấu:** Mexico vs Ecuador
   - Đội nhà: Mexico
   - Đội khách: Ecuador
-- **Thời gian diễn ra:** 2026-07-01 01:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-07-01 08:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -0.25 (Mexico chấp Ecuador 0.25 trái)
-- Cược Mexico thắng (Home): 0.86
-- Cược Ecuador thắng (Away): 0.98
+- Cược Mexico thắng (Home): 0.88
+- Cược Ecuador thắng (Away): 0.96
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Mexico thắng (1), Hòa (X), Ecuador thắng (2))
-  - Mexico thắng (Home): 2.20
-  - Hòa (Draw): 2.70
-  - Ecuador thắng (Away): 3.50
+  - Mexico thắng (Home): 2.18
+  - Hòa (Draw): 2.80
+  - Ecuador thắng (Away): 3.40
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 1.75 (Tài (Trên 1.75 trái) / Xỉu (Dưới 1.75 trái))
-- Cược Tài (Over): 0.82
-- Cược Xỉu (Under): 0.98
+- Cược Tài (Over): 0.80
+- Cược Xỉu (Under): 1.00
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 16.1

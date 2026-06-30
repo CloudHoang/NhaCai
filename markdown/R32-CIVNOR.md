@@ -4,27 +4,27 @@
 - **Trận đấu:** Bờ Biển Ngà vs Na Uy
   - Đội nhà: Bờ Biển Ngà
   - Đội khách: Na Uy
-- **Thời gian diễn ra:** 2026-06-30 17:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-07-01 00:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: 0.25 (Na Uy chấp Bờ Biển Ngà 0.25 trái)
-- Cược Bờ Biển Ngà thắng (Home): 1.00
-- Cược Na Uy thắng (Away): 0.84
+- Cược Bờ Biển Ngà thắng (Home): 1.03
+- Cược Na Uy thắng (Away): 0.81
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Bờ Biển Ngà thắng (1), Hòa (X), Na Uy thắng (2))
-  - Bờ Biển Ngà thắng (Home): 3.20
-  - Hòa (Draw): 3.10
-  - Na Uy thắng (Away): 2.10
+  - Bờ Biển Ngà thắng (Home): 3.15
+  - Hòa (Draw): 3.20
+  - Na Uy thắng (Away): 2.08
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.5 (Tài (Trên 2.5 trái) / Xỉu (Dưới 2.5 trái))
-- Cược Tài (Over): 0.78
-- Cược Xỉu (Under): 1.02
+- Cược Tài (Over): 0.92
+- Cược Xỉu (Under): 0.88
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
-- **Tỷ số ngoài bảng (AOS):** 10.3
+- **Tỷ số ngoài bảng (AOS):** 10.0
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
@@ -40,15 +40,15 @@
 | 4 - 3 | 20 |
 | 0 - 0 | 7.6 |
 | 1 - 1 | 4.8 |
-| 2 - 2 | 11.2 |
+| 2 - 2 | 10.8 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |
 | 0 - 1 | 6.0 |
 | 0 - 2 | 7.6 |
 | 1 - 2 | 6.08 |
 | 0 - 3 | 20.0 |
-| 1 - 3 | 13.6 |
-| 2 - 3 | 20 |
+| 1 - 3 | 13.2 |
+| 2 - 3 | 20.0 |
 | 0 - 4 | 20 |
 | 1 - 4 | 20 |
 | 2 - 4 | 20 |
