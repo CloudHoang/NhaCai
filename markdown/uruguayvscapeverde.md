@@ -4,7 +4,7 @@
 - **Trận đấu:** Uruguay vs Cape Verde
   - Đội nhà: Uruguay
   - Đội khách: Cape Verde
-- **Thời gian diễn ra:** 2026-06-22 05:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-21 22:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Uruguay thắng (Home Win):** 63%

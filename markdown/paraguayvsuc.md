@@ -4,7 +4,7 @@
 - **Trận đấu:** Paraguay vs Úc
   - Đội nhà: Paraguay
   - Đội khách: Úc
-- **Thời gian diễn ra:** 2026-06-26 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-26 02:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Paraguay thắng (Home Win):** 26%

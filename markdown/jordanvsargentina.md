@@ -4,7 +4,7 @@
 - **Trận đấu:** Jordan vs Argentina
   - Đội nhà: Jordan
   - Đội khách: Argentina
-- **Thời gian diễn ra:** 2026-06-28 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-28 02:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Jordan thắng (Home Win):** 3%

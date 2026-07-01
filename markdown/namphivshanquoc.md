@@ -4,7 +4,7 @@
 - **Trận đấu:** Nam Phi vs Hàn Quốc
   - Đội nhà: Nam Phi
   - Đội khách: Hàn Quốc
-- **Thời gian diễn ra:** 2026-06-25 08:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-25 01:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Nam Phi thắng (Home Win):** 18%

@@ -4,7 +4,7 @@
 - **Trận đấu:** Panama vs Croatia
   - Đội nhà: Panama
   - Đội khách: Croatia
-- **Thời gian diễn ra:** 2026-06-24 06:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-23 23:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Panama thắng (Home Win):** 12%
