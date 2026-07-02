@@ -4,7 +4,7 @@
 - **Trận đấu:** Senegal vs Iraq
   - Đội nhà: Senegal
   - Đội khách: Iraq
-- **Thời gian diễn ra:** 2026-06-26 19:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 02:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Senegal thắng (Home Win):** 65%

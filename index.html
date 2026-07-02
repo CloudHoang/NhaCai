@@ -213,787 +213,6 @@
     
         <div class="round-card">
             <div class="round-card-header d-flex justify-content-between align-items-center">
-                <span>🔥 Hôm nay</span>
-                <span class="badge bg-primary">3 Trận</span>
-            </div>
-            <div class="card-body p-3 d-flex flex-column gap-3">
-                
-                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
-                    <div class="match-card p-3" id="match-368370925" data-home="Tây Ban Nha" data-away="Áo">
-                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
-                        <div class="row align-items-center mb-3 pb-2 border-bottom">
-                            <!-- Ngày giờ thi đấu (canh trái) -->
-                            <div class="col-md-3 text-start">
-                                <span class="badge bg-light text-dark px-3 py-2 border">
-                                    ⏰ <span id="time-368370925"></span>
-                                    <script>
-                                        (function() {
-                                            const ts = 1783018800;
-                                            const date = new Date(ts * 1000);
-                                            const options = {
-                                                month: 'numeric',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                                hour12: false
-                                            };
-                                            document.getElementById('time-368370925').innerText = date.toLocaleDateString('vi-VN', options);
-                                        })();
-                                    </script>
-                                </span>
-                            </div>
-                            <!-- Đội đấu (canh giữa) -->
-                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <span class="team-name">Tây Ban Nha</span>
-                                    <img class="team-logo ms-2 me-0" src="flags/spain.png" alt="logo">
-                                </div>
-                                <span class="text-muted fw-bold">vs</span>
-                                <div class="d-flex align-items-center">
-                                    <img class="team-logo me-2 ms-0" src="flags/austria.png" alt="logo">
-                                    <span class="team-name">Áo</span>
-                                </div>
-                            </div>
-                            <!-- Nút tải và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
-                                <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/taybannhavsao.md"
-                                   download="taybannhavsao.md"
-                                   class="btn btn-outline-info btn-action-match text-decoration-none"
-                                   data-html2canvas-ignore="true">
-                                    📝 Tải MD
-                                </a>
-                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-action-match"
-                                        data-html2canvas-ignore="true"
-                                        onclick="captureCard('match-368370925', 'Tây Ban Nha_vs_Áo_Odds')">
-                                    📸 Tải ảnh kèo
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
-                        
-
-                        <!-- Khu vực kèo chính xếp hàng ngang -->
-                        <div class="row g-3">
-                            <!-- Kèo Chấp -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Tây Ban Nha</div>
-                                                    <div class="text-primary fw-bold">0.94</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-dark font-monospace">-1.5</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Áo</div>
-                                                    <div class="text-primary fw-bold">0.90</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Tây Ban Nha chấp Áo 1.5 trái
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tài Xỉu -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.86</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-secondary font-monospace">2.75</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.94</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
-                        
-                            <div class="mt-3 border rounded p-2 bg-light">
-                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
-                                <div class="row g-2">
-                                    <!-- Chủ Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Tây Ban Nha</span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-0 <b>4.48</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-0 <b>4.24</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-1 <b>7.04</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-0 <b>5.92</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-1 <b>7.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-0 <b>12.4</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-1 <b>20.0</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-3 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Hòa -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-0 <b>7.56</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-1 <b>7.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Khách Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Áo</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-1 <b>20.0</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- AOS Info -->
-                                    <div class="col-12 mt-2 pt-2 border-top">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-warning text-dark me-2" style="min-width: 90px; text-transform: uppercase;">Kèo AOS</span>
-                                            <span class="badge-cs border-warning bg-warning-subtle text-warning-emphasis fw-bold shadow-sm" style="border-color: #ffc107 !important; background-color: #fff3cd !important; color: #664d03 !important;">
-                                                Tỷ số khác: <span class="text-danger"><b>9.4</b></span>
-                                            </span>
-                                            <small class="text-muted ms-2">(Bao gồm tất cả các tỷ số không nằm trong danh sách trên)</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                    </div>
-                
-                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
-                    <div class="match-card p-3" id="match-378370926" data-home="Bồ Đào Nha" data-away="Croatia">
-                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
-                        <div class="row align-items-center mb-3 pb-2 border-bottom">
-                            <!-- Ngày giờ thi đấu (canh trái) -->
-                            <div class="col-md-3 text-start">
-                                <span class="badge bg-light text-dark px-3 py-2 border">
-                                    ⏰ <span id="time-378370926"></span>
-                                    <script>
-                                        (function() {
-                                            const ts = 1783033200;
-                                            const date = new Date(ts * 1000);
-                                            const options = {
-                                                month: 'numeric',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                                hour12: false
-                                            };
-                                            document.getElementById('time-378370926').innerText = date.toLocaleDateString('vi-VN', options);
-                                        })();
-                                    </script>
-                                </span>
-                            </div>
-                            <!-- Đội đấu (canh giữa) -->
-                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <span class="team-name">Bồ Đào Nha</span>
-                                    <img class="team-logo ms-2 me-0" src="flags/portugal.png" alt="logo">
-                                </div>
-                                <span class="text-muted fw-bold">vs</span>
-                                <div class="d-flex align-items-center">
-                                    <img class="team-logo me-2 ms-0" src="flags/croatia.png" alt="logo">
-                                    <span class="team-name">Croatia</span>
-                                </div>
-                            </div>
-                            <!-- Nút tải và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
-                                <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/bodaonhavscroatia.md"
-                                   download="bodaonhavscroatia.md"
-                                   class="btn btn-outline-info btn-action-match text-decoration-none"
-                                   data-html2canvas-ignore="true">
-                                    📝 Tải MD
-                                </a>
-                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-action-match"
-                                        data-html2canvas-ignore="true"
-                                        onclick="captureCard('match-378370926', 'Bồ Đào Nha_vs_Croatia_Odds')">
-                                    📸 Tải ảnh kèo
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
-                        
-
-                        <!-- Khu vực kèo chính xếp hàng ngang -->
-                        <div class="row g-3">
-                            <!-- Kèo Chấp -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Bồ Đào Nha</div>
-                                                    <div class="text-primary fw-bold">0.90</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-dark font-monospace">-0.75</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Croatia</div>
-                                                    <div class="text-primary fw-bold">0.94</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Bồ Đào Nha chấp Croatia 0.75 trái
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tài Xỉu -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.88</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-secondary font-monospace">2.75</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.92</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
-                        
-                            <div class="mt-3 border rounded p-2 bg-light">
-                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
-                                <div class="row g-2">
-                                    <!-- Chủ Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Bồ Đào Nha</span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-0 <b>4.96</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-0 <b>6.08</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-1 <b>6.4</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-0 <b>12.4</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-1 <b>12.4</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-0 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-1 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-3 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Hòa -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-0 <b>7.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-1 <b>5.04</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-2 <b>15.2</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Khách Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Croatia</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-1 <b>7.2</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-2 <b>12.8</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- AOS Info -->
-                                    <div class="col-12 mt-2 pt-2 border-top">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-warning text-dark me-2" style="min-width: 90px; text-transform: uppercase;">Kèo AOS</span>
-                                            <span class="badge-cs border-warning bg-warning-subtle text-warning-emphasis fw-bold shadow-sm" style="border-color: #ffc107 !important; background-color: #fff3cd !important; color: #664d03 !important;">
-                                                Tỷ số khác: <span class="text-danger"><b>9.4</b></span>
-                                            </span>
-                                            <small class="text-muted ms-2">(Bao gồm tất cả các tỷ số không nằm trong danh sách trên)</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                    </div>
-                
-                    <!-- Thêm padding-bottom nhỏ khi chụp hình cho đẹp -->
-                    <div class="match-card p-3" id="match-388370927" data-home="Thụy Sĩ" data-away="Algeria">
-                        <!-- Header trận đấu (Đội bóng, thời gian, bảng) -->
-                        <div class="row align-items-center mb-3 pb-2 border-bottom">
-                            <!-- Ngày giờ thi đấu (canh trái) -->
-                            <div class="col-md-3 text-start">
-                                <span class="badge bg-light text-dark px-3 py-2 border">
-                                    ⏰ <span id="time-388370927"></span>
-                                    <script>
-                                        (function() {
-                                            const ts = 1783047600;
-                                            const date = new Date(ts * 1000);
-                                            const options = {
-                                                month: 'numeric',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit',
-                                                hour12: false
-                                            };
-                                            document.getElementById('time-388370927').innerText = date.toLocaleDateString('vi-VN', options);
-                                        })();
-                                    </script>
-                                </span>
-                            </div>
-                            <!-- Đội đấu (canh giữa) -->
-                            <div class="col-md-6 d-flex justify-content-center align-items-center flex-wrap gap-3 my-2 my-md-0">
-                                <div class="d-flex align-items-center">
-                                    <span class="team-name">Thụy Sĩ</span>
-                                    <img class="team-logo ms-2 me-0" src="flags/switzerland.png" alt="logo">
-                                </div>
-                                <span class="text-muted fw-bold">vs</span>
-                                <div class="d-flex align-items-center">
-                                    <img class="team-logo me-2 ms-0" src="flags/algeria.png" alt="logo">
-                                    <span class="team-name">Algeria</span>
-                                </div>
-                            </div>
-                            <!-- Nút tải và nút chụp (canh phải) -->
-                            <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
-                                <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/thuysivsalgeria.md"
-                                   download="thuysivsalgeria.md"
-                                   class="btn btn-outline-info btn-action-match text-decoration-none"
-                                   data-html2canvas-ignore="true">
-                                    📝 Tải MD
-                                </a>
-                                <!-- Nút chụp ảnh màn hình (Sử dụng class data-html2canvas-ignore để ẩn khi chụp ảnh) -->
-                                <button class="btn btn-outline-secondary btn-action-match"
-                                        data-html2canvas-ignore="true"
-                                        onclick="captureCard('match-388370927', 'Thụy Sĩ_vs_Algeria_Odds')">
-                                    📸 Tải ảnh kèo
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Lệ Thắng (AI Predictions) - Theo style của cup26matches.com -->
-                        
-
-                        <!-- Khu vực kèo chính xếp hàng ngang -->
-                        <div class="row g-3">
-                            <!-- Kèo Chấp -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">KÈO CHẤP</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Thụy Sĩ</div>
-                                                    <div class="text-primary fw-bold">1.00</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-dark font-monospace">-0.5</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small text-truncate">Algeria</div>
-                                                    <div class="text-primary fw-bold">0.84</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Thụy Sĩ chấp Algeria 0.5 trái
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Tài Xỉu -->
-                            <div class="col-md-6">
-                                <div class="card p-2 border shadow-none h-100 mb-0 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <div class="text-center fw-bold text-secondary mb-2 small border-bottom pb-1">TÀI XỈU</div>
-                                        
-                                            <div class="d-flex justify-content-between text-center align-items-center">
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Tài</div>
-                                                    <div class="text-primary fw-bold">0.90</div>
-                                                </div>
-                                                <div class="border-start border-end px-2" style="width: 30%;">
-                                                    <div class="text-muted small mb-1">Tỷ lệ</div>
-                                                    <span class="badge bg-secondary font-monospace">2.25</span>
-                                                </div>
-                                                <div class="text-center" style="width: 35%;">
-                                                    <div class="text-muted small">Xỉu</div>
-                                                    <div class="text-primary fw-bold">0.90</div>
-                                                </div>
-                                            </div>
-                                        
-                                    </div>
-                                    <div class="text-center text-muted border-top pt-1 mt-2" style="font-size: 0.625rem;">
-                                        *Tài (Trên 2.25 trái) / Xỉu (Dưới 2.25 trái)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Tỷ Số Chính Xác (FT) - Hiển thị dạng badge nằm ngang -->
-                        
-                            <div class="mt-3 border rounded p-2 bg-light">
-                                <div class="fw-bold text-secondary mb-2 small pb-1 border-bottom">TỶ SỐ CHÍNH XÁC (FT)</div>
-                                <div class="row g-2">
-                                    <!-- Chủ Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-primary me-2" style="min-width: 90px; text-transform: uppercase;">Thụy Sĩ</span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-0 <b>4.64</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-0 <b>7.2</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-1 <b>6.56</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-0 <b>17.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-1 <b>14.8</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-0 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-1 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-2 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-3 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Hòa -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-secondary me-2" style="min-width: 90px; text-transform: uppercase;">HÒA</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-0 <b>6.96</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-1 <b>4.72</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-2 <b>13.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    4-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- Khách Thắng -->
-                                    <div class="col-12">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-danger me-2" style="min-width: 90px; text-transform: uppercase;">Algeria</span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-1 <b>7.6</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-2 <b>20.0</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-2 <b>11.2</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-3 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    0-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    1-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    2-4 <b>20</b>
-                                                </span>
-                                            
-                                                <span class="badge-cs">
-                                                    3-4 <b>20</b>
-                                                </span>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- AOS Info -->
-                                    <div class="col-12 mt-2 pt-2 border-top">
-                                        <div class="d-flex align-items-center flex-wrap gap-1">
-                                            <span class="badge bg-warning text-dark me-2" style="min-width: 90px; text-transform: uppercase;">Kèo AOS</span>
-                                            <span class="badge-cs border-warning bg-warning-subtle text-warning-emphasis fw-bold shadow-sm" style="border-color: #ffc107 !important; background-color: #fff3cd !important; color: #664d03 !important;">
-                                                Tỷ số khác: <span class="text-danger"><b>12.7</b></span>
-                                            </span>
-                                            <small class="text-muted ms-2">(Bao gồm tất cả các tỷ số không nằm trong danh sách trên)</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        
-                    </div>
-                
-            </div>
-        </div>
-    
-        <div class="round-card">
-            <div class="round-card-header d-flex justify-content-between align-items-center">
                 <span>01/07 - 02/07</span>
                 <span class="badge bg-primary">3 Trận</span>
             </div>
@@ -1038,8 +257,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/anhvschdcconggo.md"
-                                   download="anhvschdcconggo.md"
+                                <a href="markdown/R32-ENGCOD.md"
+                                   download="R32-ENGCOD.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -1295,8 +514,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/bivssenegal.md"
-                                   download="bivssenegal.md"
+                                <a href="markdown/R32-BELSEN.md"
+                                   download="R32-BELSEN.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -1552,8 +771,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/myvsbosnia.md"
-                                   download="myvsbosnia.md"
+                                <a href="markdown/R32-USABIH.md"
+                                   download="R32-USABIH.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -1819,8 +1038,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/bobienngavsnauy.md"
-                                   download="bobienngavsnauy.md"
+                                <a href="markdown/R32-CIVNOR.md"
+                                   download="R32-CIVNOR.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -2076,8 +1295,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/phapvsthuydien.md"
-                                   download="phapvsthuydien.md"
+                                <a href="markdown/R32-FRASWE.md"
+                                   download="R32-FRASWE.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -2333,8 +1552,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/mexicovsecuador.md"
-                                   download="mexicovsecuador.md"
+                                <a href="markdown/R32-MEXECU.md"
+                                   download="R32-MEXECU.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -2600,8 +1819,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/brazilvsnhatban.md"
-                                   download="brazilvsnhatban.md"
+                                <a href="markdown/R32-BRAJPN.md"
+                                   download="R32-BRAJPN.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -2857,8 +2076,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/ducvsparaguay.md"
-                                   download="ducvsparaguay.md"
+                                <a href="markdown/R32-GERPAR.md"
+                                   download="R32-GERPAR.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -3114,8 +2333,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/halanvsmorocco.md"
-                                   download="halanvsmorocco.md"
+                                <a href="markdown/R32-NEDMAR.md"
+                                   download="R32-NEDMAR.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD
@@ -3381,8 +2600,8 @@
                             <!-- Nút tải và nút chụp (canh phải) -->
                             <div class="col-md-3 d-flex justify-content-end align-items-center gap-2 flex-wrap">
                                 <!-- Nút Tải Markdown cho AI -->
-                                <a href="markdown/namphivscanada.md"
-                                   download="namphivscanada.md"
+                                <a href="markdown/R32-RSACAN.md"
+                                   download="R32-RSACAN.md"
                                    class="btn btn-outline-info btn-action-match text-decoration-none"
                                    data-html2canvas-ignore="true">
                                     📝 Tải MD

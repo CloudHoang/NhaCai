@@ -4,7 +4,7 @@
 - **Trận đấu:** Pháp vs Iraq
   - Đội nhà: Pháp
   - Đội khách: Iraq
-- **Thời gian diễn ra:** 2026-06-22 21:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-23 04:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Pháp thắng (Home Win):** 83%

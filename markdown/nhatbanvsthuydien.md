@@ -4,7 +4,7 @@
 - **Trận đấu:** Nhật Bản vs Thụy Điển
   - Đội nhà: Nhật Bản
   - Đội khách: Thụy Điển
-- **Thời gian diễn ra:** 2026-06-25 23:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-26 06:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Nhật Bản thắng (Home Win):** 44%

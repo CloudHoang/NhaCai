@@ -4,7 +4,7 @@
 - **Trận đấu:** Thụy Sĩ vs Bosnia
   - Đội nhà: Thụy Sĩ
   - Đội khách: Bosnia
-- **Thời gian diễn ra:** 2026-06-18 12:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 19:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

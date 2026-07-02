@@ -4,7 +4,7 @@
 - **Trận đấu:** Cape Verde vs Ả Rập Xê Út
   - Đội nhà: Cape Verde
   - Đội khách: Ả Rập Xê Út
-- **Thời gian diễn ra:** 2026-06-27 00:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 07:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Cape Verde thắng (Home Win):** 29%

@@ -245,24 +245,17 @@ def build_static():
         # Tạo chú thích kèo châu âu động
         m["eu_desc"] = f"{home} thắng (1), Hòa (X), {away} thắng (2)"
 
-        # Tạo slug và gắn vào object trận đấu
-        slug = get_match_slug(home, away)
+        # Tạo slug theo quy chuẩn mới (R32-XXXYYY) cho vòng knock-out.
+        # Vòng bảng cũng dùng slug mới nếu tra được FIFA code, fallback về slug cũ.
+        round_name = m.get("roundName", "")
+        slug = get_knockout_slug(home, away, round_name) or get_match_slug(home, away)
         m["slug"] = slug
 
-        # Sinh file Markdown cho trận đấu
+        # Sinh file Markdown cho trận đấu (chỉ 1 file duy nhất theo slug mới)
         md_content = generate_match_markdown(m)
         md_path = os.path.join(md_dir, f"{slug}.md")
         with open(md_path, "w", encoding="utf-8") as f:
             f.write(md_content)
-
-        # Song song sinh file slug mới cho vòng knock-out (R32-, R16-, ...)
-        round_name = m.get("roundName", "")
-        new_slug = get_knockout_slug(home, away, round_name)
-        if new_slug and new_slug != slug:
-            new_md_path = os.path.join(md_dir, f"{new_slug}.md")
-            with open(new_md_path, "w", encoding="utf-8") as f:
-                f.write(md_content)
-            m["new_slug"] = new_slug
 
         # Lấy timestamp và gắn nhãn theo logic ngày
         ts = m.get("matchTime", 0)
