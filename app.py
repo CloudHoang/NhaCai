@@ -1,13 +1,29 @@
 from flask import Flask, render_template, jsonify, send_from_directory, request, redirect, url_for, flash, session
+from tracker import build_summary_html, submit_result, fetch_tracker_data, upload_csv_text
 import json
 import os
-
-from tracker import build_summary_html, submit_result, fetch_tracker_data, upload_csv_text, fetch_recent_picks
+import time
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET", os.urandom(32).hex())
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")
 DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches.json")
+KNOCKOUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches32.json")
+
+# Cache GAS summary data trong 30s để tránh gọi GAS 3 lần mỗi lần load /admin
+_GAS_CACHE = {"data": None, "ts": 0.0}
+GAS_CACHE_TTL = 30  # seconds
+
+
+def _get_tracker_ctx(force=False):
+    """Lấy dữ liệu tracker từ GAS, có cache 30s. Trả về dict context."""
+    now = time.time()
+    if not force and _GAS_CACHE["data"] and (now - _GAS_CACHE["ts"]) < GAS_CACHE_TTL:
+        return _GAS_CACHE["data"]
+    data = build_summary_html()
+    _GAS_CACHE["data"] = data
+    _GAS_CACHE["ts"] = now
+    return data
 
 def clamp_odds(val):
     """Giới hạn tỷ lệ odds tối đa là 20"""
@@ -107,13 +123,25 @@ def load_matches_data():
     """
     Đọc dữ liệu trận đấu đã cào từ file JSON và giới hạn odds tối đa là 20.
     Hỗ trợ cả 2 format: compact (mới) và shape đầy đủ (cũ, để tương thích ngược).
+    Gộp từ 2 file: matches.json (vòng bảng) + matches32.json (knockout).
     """
-    if not os.path.exists(DATA_FILE):
-        return []
-    try:
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            raw = json.load(f)
+    raw_all = []
+    for path in (DATA_FILE, KNOCKOUT_FILE):
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            if isinstance(data, list):
+                raw_all.extend(data)
+        except Exception as e:
+            print(f"Lỗi đọc file JSON ({path}): {e}")
 
+    if not raw_all:
+        return []
+
+    try:
+        raw = raw_all
         # Phát hiện format: compact nếu có key "home" thay vì "homeName"
         is_compact = bool(raw) and isinstance(raw[0], dict) and "home" in raw[0] and "homeName" not in raw[0]
         matches = [from_compact(m) for m in raw] if is_compact else raw
@@ -154,7 +182,7 @@ def load_matches_data():
 
         return matches
     except Exception as e:
-        print(f"Lỗi đọc file JSON: {e}")
+        print(f"Lỗi xử lý dữ liệu: {e}")
         return []
 
 def get_logical_date_label(ts):
@@ -210,7 +238,7 @@ def index():
     for r_name in sorted(rounds.keys(), key=lambda k: rounds[k][0].get("matchTime", 0), reverse=True):
         sorted_rounds[r_name] = rounds[r_name]
 
-    return render_template("index.html", rounds=sorted_rounds, is_local=True)
+    return render_template("index.html", rounds=sorted_rounds)
 
 @app.route("/api/matches")
 def api_matches():
@@ -226,26 +254,7 @@ def serve_flag(filename):
     return send_from_directory(flags_dir, filename)
 
 
-# ─── Betting Tracker (Google Apps Script backend) ────────────────────────────
-
-@app.route("/tracker")
-def tracker():
-    """Trang tổng hợp thắng/thua picks từ GAS."""
-    ctx = build_summary_html()
-    return render_template("tracker.html", **ctx)
-
-
-@app.route("/api/tracker")
-def api_tracker():
-    """JSON API proxy sang GAS."""
-    action = request.args.get("action", "full")
-    data = fetch_tracker_data(action)
-    if data is None:
-        return jsonify({"error": "GAS unreachable"}), 502
-    return jsonify(data)
-
-
-# ─── Admin: login + dashboard (Upload CSV + Cập nhật tỷ số) ─────────────────
+# ─── Admin: login + dashboard (Tracker + Upload CSV + Cập nhật tỷ số) ────────
 
 def _is_admin():
     return session.get("is_admin") is True
@@ -283,19 +292,21 @@ def admin():
 
     matches = _filter_knockout(load_matches_data())
     matches.sort(key=lambda m: m.get("matchTime", 0))
-    recent = fetch_recent_picks(10)
-    # Lấy existing_match_ids để tab "Cập nhật tỷ số" highlight card đã có
-    existing_results = fetch_tracker_data("results") or {}
+    # Gọi GAS 1 lần duy nhất — _get_tracker_ctx() trả summary + picks + settled + results
+    # Từ đó suy ra recent_picks + existing_match_ids
+    tracker_ctx = _get_tracker_ctx()
+    recent_picks = (tracker_ctx.get("picks") or [])[:10]
     existing_match_ids = {
         str(r.get("match_id", "")).strip()
-        for r in (existing_results.get("results") or [])
+        for r in (tracker_ctx.get("results") or [])
         if r.get("match_id") is not None
     }
     return render_template(
         "admin.html",
         matches=matches,
-        recent_picks=recent,
+        recent_picks=recent_picks,
         existing_match_ids=existing_match_ids,
+        tracker=tracker_ctx,
     )
 
 
@@ -313,32 +324,16 @@ def admin_upload():
         flash(f"Upload OK · inserted={result.get('inserted')}.", "success")
     else:
         flash(f"Lỗi: {result.get('error', 'unknown')}", "danger")
+    _GAS_CACHE["data"] = None  # invalidate cache sau khi mutate
     return redirect(url_for("admin", tab="upload"))
 
 
-@app.route("/admin/result", methods=["GET", "POST"], endpoint="admin_result")
+@app.route("/admin/result", methods=["POST"], endpoint="admin_result")
 def admin_result():
-    """Form nhập tỷ số admin (GET=render form, POST=submit) → GAS updateResult."""
+    """POST nhập tỷ số → GAS updateResult, redirect về admin tab result."""
     if not _is_admin():
         return jsonify({"error": "unauthorized"}), 401
 
-    if request.method == "GET":
-        matches = _filter_knockout(load_matches_data())
-        matches.sort(key=lambda m: m.get("matchTime", 0))
-        # Lấy danh sách match_id đã có tỷ số từ GAS Results sheet
-        existing_results = fetch_tracker_data("results") or {}
-        existing_match_ids = {
-            str(r.get("match_id", "")).strip()
-            for r in (existing_results.get("results") or [])
-            if r.get("match_id") is not None
-        }
-        return render_template(
-            "result_form.html",
-            matches=matches,
-            existing_match_ids=existing_match_ids,
-        )
-
-    # POST
     match_id = request.form.get("match_id", "").strip()
     match_name = request.form.get("match_name", "").strip()
     try:
@@ -347,46 +342,20 @@ def admin_result():
     except (TypeError, ValueError):
         home_score = away_score = -1
 
-    # Re-render form (không redirect) để giữ selected match + hiển thị response
-    matches = _filter_knockout(load_matches_data())
-    matches.sort(key=lambda m: m.get("matchTime", 0))
-    existing_results = fetch_tracker_data("results") or {}
-    existing_match_ids = {
-        str(r.get("match_id", "")).strip()
-        for r in (existing_results.get("results") or [])
-        if r.get("match_id") is not None
-    }
-
     if not match_id or home_score < 0 or away_score < 0:
         flash("Vui lòng chọn trận và nhập tỷ số hợp lệ (>= 0).", "danger")
-        return render_template(
-            "result_form.html",
-            matches=matches,
-            existing_match_ids=existing_match_ids,
-            selected_id=match_id,
-        )
+        return redirect(url_for("admin", tab="result"))
+
     result = submit_result(match_id, home_score, away_score, match_name=match_name)
     if result.get("success"):
         flash(
             f"✓ Đã settle match_id={match_id} (settled={result.get('settled')}).",
             "success",
         )
-        # Reload existing_match_ids để cập nhật group "đã có tỷ số"
-        existing_results = fetch_tracker_data("results") or {}
-        existing_match_ids = {
-            str(r.get("match_id", "")).strip()
-            for r in (existing_results.get("results") or [])
-            if r.get("match_id") is not None
-        }
+        _GAS_CACHE["data"] = None  # invalidate cache
     else:
         flash(f"Lỗi từ GAS: {result.get('error', 'unknown')}", "danger")
-    return render_template(
-        "result_form.html",
-        matches=matches,
-        existing_match_ids=existing_match_ids,
-        selected_id=match_id,
-        last_response=result if not result.get("success") else None,
-    )
+    return redirect(url_for("admin", tab="result"))
 
 
 if __name__ == "__main__":

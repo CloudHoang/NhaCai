@@ -36,6 +36,7 @@ HEADERS = {
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 DATA_FILE = os.path.join(DATA_DIR, "matches.json")
+KNOCKOUT_FILE = os.path.join(DATA_DIR, "matches32.json")
 
 TEAM_FLAG_MAP = {
     "algeria": "algeria.png",
@@ -703,17 +704,25 @@ def run_crawler():
     # Tạo thư mục lưu trữ nếu chưa tồn tại
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    # Đọc dữ liệu cũ nếu có
-    existing_matches = []
+    # Đọc dữ liệu cũ nếu có — gộp từ CẢ matches.json (vòng bảng) và matches32.json (knockout)
+    # để tránh ghi đè mất trận knockout khi crawler chỉ trả về vòng bảng trong 1 lần chạy.
+    existing_group = []
+    existing_knockout = []
     if os.path.exists(DATA_FILE):
         try:
             with open(DATA_FILE, "r", encoding="utf-8") as f:
-                existing_matches = json.load(f)
+                existing_group = json.load(f)
         except Exception as e:
-            print(f"Lỗi đọc file data cũ: {e}")
+            print(f"Lỗi đọc file data cũ (vòng bảng): {e}")
+    if os.path.exists(KNOCKOUT_FILE):
+        try:
+            with open(KNOCKOUT_FILE, "r", encoding="utf-8") as f:
+                existing_knockout = json.load(f)
+        except Exception as e:
+            print(f"Lỗi đọc file data cũ (knockout): {e}")
 
     # Gộp dữ liệu mới vào dữ liệu cũ (ghi đè nếu trùng id trận đấu)
-    matches_dict = {str(m.get("id")): m for m in existing_matches if m.get("id")}
+    matches_dict = {str(m.get("id")): m for m in (existing_group + existing_knockout) if m.get("id")}
     for m in filtered_matches:
         if m.get("id"):
             matches_dict[str(m.get("id"))] = m
@@ -725,11 +734,19 @@ def run_crawler():
     # Chuyển sang format compact trước khi ghi
     compact_matches = [to_compact(m) for m in final_matches]
 
-    # Ghi dữ liệu JSON dạng compact (không indent, separators gọn)
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(compact_matches, f, ensure_ascii=False, separators=(",", ":"))
+    # Tách riêng vòng bảng vs knockout (compact dùng key "round")
+    group_compact = [m for m in compact_matches if m.get("round") == "Vòng bảng"]
+    knockout_compact = [m for m in compact_matches if m.get("round") != "Vòng bảng"]
 
-    print(f"Ghi file dữ liệu thành công vào: {DATA_FILE}")
+    # Ghi file vòng bảng
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(group_compact, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Ghi file dữ liệu thành công vào: {DATA_FILE} ({len(group_compact)} trận vòng bảng)")
+
+    # Ghi file knockout (Vòng 32 đội trở đi)
+    with open(KNOCKOUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(knockout_compact, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"Ghi file dữ liệu thành công vào: {KNOCKOUT_FILE} ({len(knockout_compact)} trận knockout)")
 
     # Ghi file oddsrate.json
     generate_oddsrate_json(final_matches)

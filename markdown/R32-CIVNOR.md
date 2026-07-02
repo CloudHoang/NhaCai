@@ -4,7 +4,7 @@
 - **Trận đấu:** Bờ Biển Ngà vs Na Uy
   - Đội nhà: Bờ Biển Ngà
   - Đội khách: Na Uy
-- **Thời gian diễn ra:** 2026-06-30 17:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-07-01 00:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
