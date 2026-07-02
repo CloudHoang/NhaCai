@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · BetTracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background: #0f1115; color: #e6e6e6; }
+    .navbar { background: #1a1d24 !important; }
+    .card { background: #181b22; border-color: #2a2f3a; color: #e6e6e6; }
+    .table { color: #e6e6e6; }
+    .table > :not(caption) > * > * { background-color: transparent; color: #e6e6e6; border-color: #2a2f3a; }
+    .table thead th { background: #1f232c; color: #fff; }
+    .nav-tabs .nav-link { color: #aaa; background: #181b22; border-color: #2a2f3a; }
+    .nav-tabs .nav-link.active { color: #fff; background: #1f232c; border-color: #2a2f3a; }
+    .stat-card { background: #1f232c; border-radius: 8px; padding: 16px; }
+    .stat-card .label { font-size: 0.85em; color: #aaa; }
+    .stat-card .value { font-size: 1.6em; font-weight: 700; }
+    .text-profit { color: #4ade80; }
+    .text-loss { color: #f87171; }
+    .badge-active { background: #2563eb; }
+    .badge-won { background: #16a34a; }
+    .badge-lost { background: #dc2626; }
+    select, input, textarea { background: #0f1115 !important; color: #e6e6e6 !important; border-color: #2a2f3a !important; }
+    .form-control:focus { background: #0f1115 !important; color: #fff !important; }
+    .btn-primary { background: #2563eb; border-color: #2563eb; }
+    .btn-success { background: #16a34a; border-color: #16a34a; }
+    .match-card { background: #1f232c; border: 1px solid #2a2f3a; border-radius: 6px; padding: 10px 14px; margin-bottom: 6px; cursor: pointer; }
+    .match-card:hover { border-color: #4b5563; background: #262a33; }
+    .match-card.selected { border-color: #2563eb; background: #1e3a8a; }
+    .match-card .round { font-size: 0.75em; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark px-3 mb-3">
+    <span class="navbar-brand">🔒 Admin · BetTracker</span>
+    <span id="status" class="text-muted small"></span>
+  </nav>
+
+  <div class="container-fluid px-4">
+    <ul class="nav nav-tabs mb-3" id="adminTabs" role="tablist">
+      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-tracker" type="button">📊 Tracker</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-upload" type="button">📥 Upload CSV</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-result" type="button">⚽ Cập nhật tỷ số</button></li>
+    </ul>
+
+    <div id="alertBox"></div>
+
+    <div class="tab-content">
+      <!-- TAB 1: TRACKER -->
+      <div class="tab-pane fade show active" id="tab-tracker">
+        <div id="trackerLoading" class="text-center py-5 text-muted">Đang tải dữ liệu từ GAS...</div>
+        <div id="trackerContent" style="display:none">
+          <div class="row g-2 mb-3">
+            <div class="col"><div class="stat-card"><div class="label">Tổng stake</div><div class="value" id="statStake">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Tổng profit</div><div class="value" id="statProfit">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Wins</div><div class="value text-profit" id="statWins">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Losses</div><div class="value text-loss" id="statLosses">0</div></div></div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">Tổng hợp theo người chơi</div>
+            <div class="card-body p-0">
+              <table class="table table-sm mb-0">
+                <thead><tr>
+                  <th>Người chơi</th><th class="text-end">Stake</th><th class="text-end">Profit</th>
+                  <th class="text-end">Wins</th><th class="text-end">Losses</th><th class="text-end">ROI</th>
+                </tr></thead>
+                <tbody id="summaryBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">Picks active</div>
+            <div class="card-body p-0">
+              <table class="table table-sm mb-0">
+                <thead><tr><th>Thời gian</th><th>Người</th><th>Trận</th><th>Loại</th><th>Pick</th><th class="text-end">Odds</th><th class="text-end">Stake</th></tr></thead>
+                <tbody id="activeBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card mb-3">
+            <div class="card-header">Đã settle</div>
+            <div class="card-body p-0">
+              <table class="table table-sm mb-0">
+                <thead><tr><th>Pick ID</th><th>Người</th><th>Trận</th><th>Loại</th><th>Pick</th><th>Tỷ số</th><th>Trạng thái</th><th class="text-end">Profit</th></tr></thead>
+                <tbody id="settledBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: UPLOAD CSV -->
+      <div class="tab-pane fade" id="tab-upload">
+        <div class="card">
+          <div class="card-body">
+            <h5>Upload CSV (tab-separated)</h5>
+            <p class="text-muted small">Dán nội dung CSV vào ô dưới, sau đó bấm Upload.</p>
+            <form id="uploadForm">
+              <textarea class="form-control mb-3" name="csv_text" rows="12" placeholder="person	pick_id	match	bet_type	selection	odds	stake	..."></textarea>
+              <button class="btn btn-primary" type="submit">📥 Upload</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: CẬP NHẬT TỶ SỐ -->
+      <div class="tab-pane fade" id="tab-result">
+        <div class="card">
+          <div class="card-body">
+            <h5>Nhập tỷ số trận knockout</h5>
+            <p class="text-muted small">Chọn trận từ danh sách rồi nhập tỷ số.</p>
+            <div class="row g-2 mb-3">
+              <div class="col"><input type="number" class="form-control" id="homeScore" placeholder="Home" min="0" value="0"></div>
+              <div class="col-auto d-flex align-items-center">-</div>
+              <div class="col"><input type="number" class="form-control" id="awayScore" placeholder="Away" min="0" value="0"></div>
+            </div>
+            <div id="matchList" class="mb-3" style="max-height: 500px; overflow-y: auto;">
+              <div class="text-muted text-center py-3">Đang tải danh sách trận...</div>
+            </div>
+            <button class="btn btn-success" id="submitResult" disabled>✓ Cập nhật tỷ số</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // GAS Web App URL — tương ứng GAS_WEB_APP_URL trong tracker.py
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyInGhr8KGOdF3BCTTqv-xb7IBanOQ2xLRSqbYGrB-nEkFVC-nQv0Xl6wcLQJj6rY-C/exec";
+
+    // Tab từ URL hash (vd #tab-upload)
+    if (location.hash) {
+      const t = document.querySelector(`[data-bs-target="${location.hash}"]`);
+      if (t) new bootstrap.Tab(t).show();
+    }
+    document.querySelectorAll('[data-bs-toggle="tab"]').forEach(el => {
+      el.addEventListener('shown.bs.tab', e => {
+        history.replaceState(null, '', e.target.dataset.bsTarget);
+      });
+    });
+
+    function showAlert(msg, type='info') {
+      document.getElementById('alertBox').innerHTML =
+        `<div class="alert alert-${type} alert-dismissible fade show">${msg}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+    }
+
+    // ─── TAB 1: TRACKER ──────────────────────────────────────
+    async function loadTracker() {
+      try {
+        const resp = await fetch(`${GAS_URL}?action=full&t=${Date.now()}`, { redirect: 'follow' });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        renderTracker(data);
+      } catch (e) {
+        document.getElementById('trackerLoading').innerHTML =
+          `<div class="text-danger">Lỗi tải GAS: ${e.message}</div>`;
+      }
+    }
+
+    function renderTracker(data) {
+      document.getElementById('trackerLoading').style.display = 'none';
+      document.getElementById('trackerContent').style.display = 'block';
+
+      const summary = data.summary || [];
+      const picks = data.picks || [];
+      const settled = data.settled || [];
+
+      const totalStake = summary.reduce((s, r) => s + (parseFloat(r.total_stake) || 0), 0);
+      const totalProfit = summary.reduce((s, r) => s + (parseFloat(r.total_profit) || 0), 0);
+      const totalWins = summary.reduce((s, r) => s + (parseInt(r.win_count) || 0), 0);
+      const totalLosses = summary.reduce((s, r) => s + (parseInt(r.lose_count) || 0), 0);
+
+      document.getElementById('statStake').textContent = totalStake.toFixed(0);
+      document.getElementById('statProfit').textContent = (totalProfit >= 0 ? '+' : '') + totalProfit.toFixed(0);
+      document.getElementById('statProfit').className = 'value ' + (totalProfit >= 0 ? 'text-profit' : 'text-loss');
+      document.getElementById('statWins').textContent = totalWins;
+      document.getElementById('statLosses').textContent = totalLosses;
+
+      document.getElementById('summaryBody').innerHTML = summary.map(r => {
+        const stake = parseFloat(r.total_stake) || 0;
+        const profit = parseFloat(r.total_profit) || 0;
+        const roi = stake > 0 ? (profit / stake * 100).toFixed(1) : '0.0';
+        return `<tr>
+          <td>${r.person || ''}</td>
+          <td class="text-end">${stake.toFixed(0)}</td>
+          <td class="text-end ${profit >= 0 ? 'text-profit' : 'text-loss'}">${profit.toFixed(0)}</td>
+          <td class="text-end">${r.win_count || 0}</td>
+          <td class="text-end">${r.lose_count || 0}</td>
+          <td class="text-end">${roi}%</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="6" class="text-center text-muted py-3">Chưa có dữ liệu</td></tr>';
+
+      const active = picks.filter(p => (p.status || '').toLowerCase() === 'active');
+      document.getElementById('activeBody').innerHTML = active.map(p => `<tr>
+        <td><small>${(p.timestamp || '').slice(0, 16)}</small></td>
+        <td>${p.person || ''}</td>
+        <td><small>${p.match || ''}</small></td>
+        <td><small>${p.bet_type || ''}</small></td>
+        <td>${p.selection || ''}</td>
+        <td class="text-end">${p.odds || ''}</td>
+        <td class="text-end">${p.stake || ''}</td>
+      </tr>`).join('') || '<tr><td colspan="7" class="text-center text-muted py-3">Không có pick active</td></tr>';
+
+      document.getElementById('settledBody').innerHTML = settled.map(p => {
+        const status = (p.status || '').toLowerCase();
+        const badge = status === 'won' ? 'won' : status === 'lost' ? 'lost' : 'secondary';
+        return `<tr>
+          <td><small>${p.pick_id || ''}</small></td>
+          <td>${p.person || ''}</td>
+          <td><small>${p.match || ''}</small></td>
+          <td><small>${p.bet_type || ''}</small></td>
+          <td>${p.selection || ''}</td>
+          <td>${p.actual_score || '-'}</td>
+          <td><span class="badge bg-${badge}">${p.status || ''}</span></td>
+          <td class="text-end ${(parseFloat(p.profit) || 0) >= 0 ? 'text-profit' : 'text-loss'}">${(parseFloat(p.profit) || 0).toFixed(0)}</td>
+        </tr>`;
+      }).join('') || '<tr><td colspan="8" class="text-center text-muted py-3">Chưa settle</td></tr>';
+    }
+
+    // ─── TAB 2: UPLOAD CSV ───────────────────────────────────
+    document.getElementById('uploadForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const csv = e.target.csv_text.value.trim();
+      if (!csv) { showAlert('Vui lòng dán nội dung CSV trước.', 'warning'); return; }
+      try {
+        // GAS redirect POST → GET theo RFC. Dùng fetch với text/plain + redirect='follow'.
+        // Nếu bị 405, fallback: re-POST tới Location.
+        const resp = await fetch(`${GAS_URL}?action=uploadCsv`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+          body: csv,
+          redirect: 'follow',
+        });
+        if (resp.redirected) {
+          const r2 = await fetch(resp.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+            body: csv,
+          });
+          const j = await r2.json();
+          if (j.success) showAlert(`✓ Upload OK · inserted=${j.inserted || 0}`, 'success');
+          else showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
+        } else {
+          const j = await resp.json();
+          if (j.success) showAlert(`✓ Upload OK · inserted=${j.inserted || 0}`, 'success');
+          else showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
+        }
+        loadTracker();
+      } catch (err) {
+        showAlert(`Lỗi: ${err.message}`, 'danger');
+      }
+    });
+
+    // ─── TAB 3: CẬP NHẬT TỶ SỐ ─────────────────────────────
+    let selectedMatchId = null;
+    let selectedMatchName = null;
+
+    async function loadMatches() {
+      try {
+        const resp = await fetch('https://raw.githubusercontent.com/CloudHoang/NhaCai/main/data/matches32.json', { cache: 'no-store' });
+        const data = await resp.json();
+        const html = data.map(m => `
+          <div class="match-card" data-id="${m.id}" data-home="${m.home || ''}" data-away="${m.away || ''}">
+            <div class="round">${m.round || ''} · ${new Date((m.time || 0) * 1000).toLocaleString('vi-VN')}</div>
+            <div><strong>${m.home || ''}</strong> vs <strong>${m.away || ''}</strong> <span class="text-muted small">#${m.id}</span></div>
+          </div>
+        `).join('');
+        document.getElementById('matchList').innerHTML = html || '<div class="text-muted text-center py-3">Chưa có trận nào</div>';
+
+        document.querySelectorAll('.match-card').forEach(el => {
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.match-card').forEach(x => x.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedMatchId = el.dataset.id;
+            selectedMatchName = `${el.dataset.home} vs ${el.dataset.away}`;
+            document.getElementById('submitResult').disabled = false;
+          });
+        });
+      } catch (e) {
+        document.getElementById('matchList').innerHTML = `<div class="text-danger">Lỗi tải matches32.json: ${e.message}</div>`;
+      }
+    }
+
+    document.getElementById('submitResult').addEventListener('click', async () => {
+      if (!selectedMatchId) { showAlert('Chọn trận trước.', 'warning'); return; }
+      const home = parseInt(document.getElementById('homeScore').value);
+      const away = parseInt(document.getElementById('awayScore').value);
+      if (isNaN(home) || isNaN(away) || home < 0 || away < 0) {
+        showAlert('Tỷ số phải >= 0.', 'warning'); return;
+      }
+      const payload = { match_id: String(selectedMatchId), match_name: selectedMatchName, home_score: home, away_score: away };
+      try {
+        const resp = await fetch(`${GAS_URL}?action=updateResult`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json; charset=utf-8' },
+          body: JSON.stringify(payload),
+          redirect: 'follow',
+        });
+        if (resp.redirected) {
+          const r2 = await fetch(resp.url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
+            body: JSON.stringify(payload),
+          });
+          const j = await r2.json();
+          handleResult(j);
+        } else {
+          const j = await resp.json();
+          handleResult(j);
+        }
+      } catch (e) {
+        showAlert(`Lỗi: ${e.message}`, 'danger');
+      }
+    });
+
+    function handleResult(j) {
+      if (j.success) {
+        showAlert(`✓ Đã settle match_id=${j.match_id || selectedMatchId} (settled=${j.settled || 0}).`, 'success');
+        loadTracker();
+      } else {
+        showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
+      }
+    }
+
+    // Auto-load tab đang active
+    document.querySelector('[data-bs-target="#tab-tracker"]').addEventListener('shown.bs.tab', loadTracker);
+    document.querySelector('[data-bs-target="#tab-result"]').addEventListener('shown.bs.tab', loadMatches);
+    if (document.querySelector('.tab-pane.active').id === 'tab-tracker') loadTracker();
+  </script>
+</body>
+</html>
