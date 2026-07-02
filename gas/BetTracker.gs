@@ -72,6 +72,18 @@ function doPost(e) {
       const result = updateResult(body.match_id, body.home_score, body.away_score, body.match_name);
       return jsonOutput(result);
     }
+    if (action === 'recalcMatch') {
+      // Recalc settled + summary cho 1 match cụ thể (theo match_name).
+      // Body: { match_name, match_id? } — nếu không có scores thì đọc từ Results sheet.
+      const body = JSON.parse(e.postData ? e.postData.contents : '{}');
+      const result = recalcMatchByName(body.match_name, body.match_id);
+      return jsonOutput(result);
+    }
+    if (action === 'recalcAll') {
+      // Chạy lại settlePicks toàn cục (escape hatch khi data lệch).
+      const result = settlePicks();
+      return jsonOutput(result);
+    }
     if (action === 'settle') {
       const result = settlePicks();
       return jsonOutput(result);
@@ -571,12 +583,14 @@ function updateResult(matchId, homeScore, awayScore, matchName) {
     sheet.appendRow([String(matchId), matchName, homeScore, awayScore, new Date().toISOString()]);
   }
 
-  // Wrap settlePicks trong try-catch để tránh sheet bị clear xong bỏ trắng nếu throw
+  // Wrap settle trong try-catch để tránh throw giữa chừng làm hỏng data.
+  // Gọi recalcMatchByName thay vì settlePicks() toàn cục → chỉ re-settle
+  // picks của match này, không clear/rewrite toàn bộ Settled + Summary.
   var settleResult;
   try {
-    settleResult = settlePicks();
+    settleResult = recalcMatchByName(matchName, matchId);
   } catch (e) {
-    return { success: false, error: 'settlePicks failed: ' + e.toString(), match_id: matchId, match_name: matchName };
+    return { success: false, error: 'recalcMatchByName failed: ' + e.toString(), match_id: matchId, match_name: matchName };
   }
   return { success: true, match_id: matchId, match_name: matchName, settled: settleResult.settled };
 }
@@ -719,6 +733,129 @@ function settlePicks() {
   }
 
   return { success: true, settled: Math.max(0, settledData.length - 1) };
+}
+
+// ─── Tối ưu: recalc 1 match thay vì toàn bộ Settled + Summary ────────────────
+// Trước đây updateResult gọi settlePicks() chạy lại toàn bộ 150 picks + clear
+// + rewrite 2 sheet. Nếu throw giữa chừng sẽ mất sạch data. Hàm này chỉ đụng
+// vào rows của matchName, giữ nguyên các match khác, và update Summary bằng
+// cách đọc lại toàn bộ Settled (rẻ hơn nhiều so với clear+rewrite toàn bộ).
+function recalcMatchByName(matchName, matchId) {
+  if (!matchName) return { success: false, error: 'match_name rỗng' };
+
+  ensureResultsHeader_();
+
+  // 1. Tìm score trong Results sheet theo matchId hoặc matchName
+  const resultsSheet = SPREADSHEET.getSheetByName(SHEET_RESULTS);
+  const resultsRaw   = resultsSheet.getDataRange().getValues();
+  const resultsHdr   = resultsRaw.length > 0 ? String(resultsRaw[0][0]).toLowerCase().trim() : '';
+  const resultsStart = (resultsHdr === 'match_id') ? 1 : 0;
+
+  const resultByName = {};
+  const resultById   = {};
+  for (let i = resultsStart; i < resultsRaw.length; i++) {
+    const row   = resultsRaw[i];
+    const _id   = String(row[0] || '').trim();
+    const _name = String(row[1] || '').trim();
+    const r     = { match_id: _id, match: _name, home_score: row[2], away_score: row[3] };
+    if (_name) resultByName[viToEn(_name).trim().toLowerCase()] = r;
+    if (_id)   resultById[_id] = r;
+  }
+
+  const targetKey = viToEn(matchName).trim().toLowerCase();
+  let res = resultByName[targetKey];
+  if (!res && matchId) res = resultById[String(matchId)];
+  if (!res) {
+    return { success: false, error: 'Không tìm thấy tỷ số trong Results sheet cho match: ' + matchName, match_name: matchName };
+  }
+
+  // 2. Lấy picks của match này
+  const allPicks = readSheet(SHEET_PICKS);
+  const matchPicks = allPicks.filter(p => {
+    const k = viToEn(p.match || '').trim().toLowerCase();
+    return k === targetKey;
+  });
+  Logger.log('DEBUG recalcMatchByName: matchName=' + matchName + ' picks=' + matchPicks.length);
+
+  if (matchPicks.length === 0) {
+    return { success: true, settled: 0, note: 'Không có pick nào cho trận này', match_name: matchName };
+  }
+
+  // 3. Tính outcome cho từng pick
+  const newSettledRows = [];
+  for (const p of matchPicks) {
+    if (p.status === 'Cancelled') continue;
+    const outcome = calculateProfit(p, res);
+    let selVal = String(p.selection || '');
+    if (p.bet_type === 'correct_score' && selVal && !selVal.startsWith("'")) {
+      selVal = "'" + selVal;
+    }
+    newSettledRows.push([
+      p.pick_id, p.person, p.match, p.bet_type, selVal,
+      p.stake, p.odds, outcome.result, outcome.profit
+    ]);
+  }
+
+  // 4. Update Settled sheet: xóa rows cũ của match, append rows mới (giữ rows match khác)
+  const settled = SPREADSHEET.getSheetByName(SHEET_SETTLED);
+  const settledHeader = ['pick_id', 'person', 'match', 'bet_type', 'selection', 'stake', 'odds', 'result', 'profit'];
+
+  // Đọc Settled hiện tại (raw values) — match column index để xóa chính xác
+  const settledRaw = settled.getDataRange().getValues();
+  const settledHdr = settledRaw.length > 0 ? String(settledRaw[0][0]).toLowerCase().trim() : '';
+  const settledStart = (settledHdr === 'pick_id') ? 1 : 0;
+
+  // Tìm rows cần xóa (match === matchName theo col C index 2)
+  const rowsToDelete = [];
+  for (let i = settledStart; i < settledRaw.length; i++) {
+    if (String(settledRaw[i][2] || '').trim() === matchName) {
+      rowsToDelete.push(i + 1); // sheet row = 1-indexed
+    }
+  }
+  // Xóa từ dưới lên để index không lệch
+  for (let i = rowsToDelete.length - 1; i >= 0; i--) {
+    settled.deleteRow(rowsToDelete[i]);
+  }
+
+  // Append rows mới (nếu có)
+  if (newSettledRows.length > 0) {
+    const lastRow = settled.getLastRow();
+    settled.getRange(lastRow + 1, 1, newSettledRows.length, settledHeader.length).setValues(newSettledRows);
+  }
+
+  // 5. Rebuild Summary từ Settled sheet (đọc lại rẻ hơn rewrite toàn bộ từ picks)
+  const summary = SPREADSHEET.getSheetByName(SHEET_SUMMARY);
+  const summaryHeader = ['person', 'total_stake', 'total_profit', 'win_count', 'lose_count'];
+  const personStats = {};
+
+  const settledAfterRaw = settled.getDataRange().getValues();
+  const sStart = (settledAfterRaw.length > 0 && String(settledAfterRaw[0][0]).toLowerCase().trim() === 'pick_id') ? 1 : 0;
+  for (let i = sStart; i < settledAfterRaw.length; i++) {
+    const r = settledAfterRaw[i];
+    const person = String(r[1] || '').trim();
+    if (!person) continue;
+    const stake  = parseFloat(r[5]) || 0;
+    const profit = parseFloat(r[8]) || 0;
+    const result = String(r[7] || '').toLowerCase();
+    if (!personStats[person]) {
+      personStats[person] = { total_stake: 0, total_profit: 0, win: 0, lose: 0 };
+    }
+    personStats[person].total_stake  += stake;
+    personStats[person].total_profit += profit;
+    if (result === 'win')       personStats[person].win++;
+    else if (result === 'lose') personStats[person].lose++;
+  }
+
+  // Ghi Summary: clear + setValues (Summary nhỏ, rẻ)
+  const summaryData = [summaryHeader];
+  for (const [name, s] of Object.entries(personStats)) {
+    summaryData.push([name, s.total_stake, s.total_profit, s.win, s.lose]);
+  }
+  summary.clear();
+  summary.getRange(1, 1, summaryData.length, summaryHeader.length).setValues(summaryData);
+
+  Logger.log('DEBUG recalcMatchByName: done — settled_rows=' + newSettledRows.length + ' summary_persons=' + summaryData.length);
+  return { success: true, settled: newSettledRows.length, match_name: matchName, score: res.home_score + '-' + res.away_score };
 }
 
 function calculateProfit(pick, result) {

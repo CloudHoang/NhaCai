@@ -60,6 +60,14 @@
             <div class="col"><div class="stat-card"><div class="label">Thua</div><div class="value text-loss" id="statLosses">0</div></div></div>
           </div>
 
+          <!-- Toolbar: nút tính lại -->
+          <div class="d-flex gap-2 mb-3 align-items-center">
+            <button class="btn btn-outline-light btn-sm" id="btnRecalcAll" title="Chạy lại settle toàn bộ picks">
+              🔄 Tính lại toàn bộ
+            </button>
+            <small class="text-muted">Dùng sau khi cập nhật tỷ số hoặc khi dữ liệu settle bị lệch.</small>
+          </div>
+
           <!-- Tổng hợp theo người chơi -->
           <div class="card mb-3">
             <div class="card-header">📋 Tổng hợp theo người chơi</div>
@@ -424,6 +432,25 @@
       if (r.ok) {
         showAlert(`✓ Đã gửi tỷ số ${home}-${away} cho match_id=${selectedMatchId}. Refresh Tracker sau ~5s.`, 'success');
         setTimeout(loadTracker, 5000);
+      } else {
+        showAlert(`Lỗi: ${r.error}`, 'danger');
+      }
+    });
+
+    // ─── Nút 🔄 Tính lại toàn bộ (re-settle tất cả picks) ─────────────
+    // Dùng khi: settle/summary bị lệch sau khi cập nhật tỷ số, hoặc data bị xáo trộn.
+    // recalcMatch (1 match) đã chạy tự động trong updateResult — không cần gọi thủ công.
+    document.getElementById('btnRecalcAll').addEventListener('click', async () => {
+      if (!confirm('Tính lại toàn bộ? Có thể mất 5-15 giây vì chạy lại settlePicks() cho tất cả picks.')) return;
+      const btn = document.getElementById('btnRecalcAll');
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang tính lại...';
+      const r = await postToGasNoCors('recalcAll', '{}', 'application/json; charset=utf-8');
+      btn.disabled = false;
+      btn.textContent = '🔄 Tính lại toàn bộ';
+      if (r.ok) {
+        showAlert('✓ Đã gửi yêu cầu tính lại. Refresh Tracker sau ~10s.', 'success');
+        setTimeout(loadTracker, 10000);
       } else {
         showAlert(`Lỗi: ${r.error}`, 'danger');
       }
