@@ -291,6 +291,18 @@ def build_static():
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(output)
     print(f"Build index.html thành công tại: {output_path}")
+
+    # Build tracker/index.html + result/index.html (static cho GitHub Pages)
+    # Hai page này load data qua fetch từ GAS (xem templates/tracker.html + result.html).
+    project_root = os.path.dirname(os.path.abspath(__file__))
+    for page in ('tracker', 'result'):
+        out_dir = os.path.join(project_root, page)
+        os.makedirs(out_dir, exist_ok=True)
+        tpl = env.get_template(f'{page}.html')
+        with open(os.path.join(out_dir, 'index.html'), 'w', encoding='utf-8') as f:
+            f.write(tpl.render())
+        print(f"Build {page}/index.html thành công")
+
     print(f"Đã xuất {len(matches)} file Markdown vào thư mục {md_dir}")
 
 if __name__ == "__main__":
