@@ -4,7 +4,7 @@
 - **Trận đấu:** Jordan vs Algeria
   - Đội nhà: Jordan
   - Đội khách: Algeria
-- **Thời gian diễn ra:** 2026-06-23 10:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-23 03:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Jordan thắng (Home Win):** 19%

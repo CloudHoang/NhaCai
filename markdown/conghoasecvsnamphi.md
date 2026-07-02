@@ -4,7 +4,7 @@
 - **Trận đấu:** Cộng Hòa Séc vs Nam Phi
   - Đội nhà: Cộng Hòa Séc
   - Đội khách: Nam Phi
-- **Thời gian diễn ra:** 2026-06-18 16:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-18 09:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

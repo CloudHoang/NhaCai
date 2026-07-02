@@ -4,7 +4,7 @@
 - **Trận đấu:** Thụy Sĩ vs Canada
   - Đội nhà: Thụy Sĩ
   - Đội khách: Canada
-- **Thời gian diễn ra:** 2026-06-25 02:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-24 19:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Thụy Sĩ thắng (Home Win):** 37%

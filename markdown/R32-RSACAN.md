@@ -4,7 +4,7 @@
 - **Trận đấu:** Nam Phi vs Canada
   - Đội nhà: Nam Phi
   - Đội khách: Canada
-- **Thời gian diễn ra:** 2026-06-29 02:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-28 19:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

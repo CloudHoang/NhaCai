@@ -4,7 +4,7 @@
 - **Trận đấu:** Cộng Hòa Séc vs Mexico
   - Đội nhà: Cộng Hòa Séc
   - Đội khách: Mexico
-- **Thời gian diễn ra:** 2026-06-25 08:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-25 01:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)

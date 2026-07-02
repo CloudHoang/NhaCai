@@ -4,7 +4,7 @@
 - **Trận đấu:** Bỉ vs Senegal
   - Đội nhà: Bỉ
   - Đội khách: Senegal
-- **Thời gian diễn ra:** 2026-07-02 03:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-07-01 20:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
