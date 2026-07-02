@@ -130,7 +130,7 @@ function importCsv(csvText) {
 
   for (const row of rows) {
     const person    = (row[0] || '').trim();
-    const match     = (row[1] || '').trim();
+    const match     = normalizeMatchName_((row[1] || '').trim());
     const selection = (row[2] || '').trim();
     const stake     = parseFloat((row[3] || '').replace(/[^0-9.]/g, ''));
     const status    = (row[4] || 'Active').trim();
@@ -514,6 +514,22 @@ function reclassifyUnknownPicks() {
   return { success: true, fixed: fixed };
 }
 
+// ─── Chuẩn hóa match name về dạng "Home - Away" ────────────────────────────
+// Mọi nơi ghi match name vào Sheets (Results/Picks/Settled) phải dùng hàm này
+// để đảm bảo separator thống nhất là " - ". Nếu không, join giữa các sheet
+// dùng viToEn("south africa vs canada") vs viToEn("south africa - canada")
+// sẽ ra 2 key khác nhau → settle fail.
+function normalizeMatchName_(name) {
+  if (!name) return '';
+  // Replace " vs ", " VS ", "v " (1 chữ cái) → " - "
+  // Lưu ý: KHÔNG động vào "-" đã có
+  return String(name)
+    .replace(/\s+vs\.?\s+/gi, ' - ')     // " vs ", " vs. "
+    .replace(/\s+v\s+/gi, ' - ')         // " v " (ít gặp)
+    .replace(/\s+VS\s+/g, ' - ')         // " VS " (uppercase)
+    .trim();
+}
+
 // ─── Fill odds cho correct_score picks (lookup từ m.cs[]) ────────────────────
 function fillCorrectScoreOddsOnly() {
   const matchesJson = PropertiesService.getScriptProperties().getProperty('MATCHES_CACHE');
@@ -586,11 +602,31 @@ function updateResult(matchId, homeScore, awayScore, matchName) {
   // Picks sheet KHÔNG có match_id (chỉ có tên trận), nên settlePicks() phụ thuộc
   // vào match_name để join. Thiếu match_name → settle ra 0 row.
   if (!matchName || String(matchName).trim() === '') {
-    matchName = resolveMatchNameFromCache_(matchId) || '';
+    const resolved = resolveMatchNameFromCache_(matchId);
+    if (resolved) {
+      matchName = resolved;
+    }
     Logger.log('updateResult: resolved matchName from cache: ' + matchName);
   }
 
+  // Defensive: nếu vẫn rỗng (không có matchId hoặc cache miss) → KHÔNG settle,
+  // chỉ ghi tỷ số vào Results để user nhập tay sau. Tránh lỗi "match_name rỗng"
+  // phá vỡ luồng và gây mất data.
+  if (!matchName || String(matchName).trim() === '') {
+    Logger.log('updateResult: matchName vẫn rỗng sau resolve — bỏ qua settle, chỉ ghi Results');
+    return {
+      success: true,
+      match_id: matchId,
+      match_name: '',
+      settled: 0,
+      note: 'Đã ghi Results nhưng không có match_name để settle (matchId không có trong MATCHES_CACHE).'
+    };
+  }
+
   ensureResultsHeader_();
+
+  // Chuẩn hóa matchName về dạng "Home - Away" trước khi ghi Sheets
+  matchName = normalizeMatchName_(matchName);
 
   const sheet = SPREADSHEET.getSheetByName(SHEET_RESULTS);
   const data  = sheet.getDataRange().getValues();
@@ -598,7 +634,7 @@ function updateResult(matchId, homeScore, awayScore, matchName) {
   let found = false;
   for (let i = 1; i < data.length; i++) {
     if (String(data[i][0]) === String(matchId)) {
-      sheet.getRange(i + 1, 2).setValue(matchName);  // col B: match name
+      sheet.getRange(i + 1, 2).setValue(matchName);  // col B: match name (đã chuẩn hóa)
       sheet.getRange(i + 1, 3).setValue(homeScore);
       sheet.getRange(i + 1, 4).setValue(awayScore);
       sheet.getRange(i + 1, 5).setValue(new Date().toISOString());
@@ -773,7 +809,20 @@ function settlePicks() {
 // vào rows của matchName, giữ nguyên các match khác, và update Summary bằng
 // cách đọc lại toàn bộ Settled (rẻ hơn nhiều so với clear+rewrite toàn bộ).
 function recalcMatchByName(matchName, matchId) {
-  if (!matchName) return { success: false, error: 'match_name rỗng' };
+  // Fallback: nếu matchName rỗng nhưng có matchId → resolve từ MATCHES_CACHE
+  if (!matchName || String(matchName).trim() === '') {
+    if (matchId) {
+      const resolved = resolveMatchNameFromCache_(matchId);
+      Logger.log('recalcMatchByName: matchName rỗng, resolved from cache: ' + resolved);
+      if (resolved) {
+        matchName = resolved;
+      } else {
+        return { success: false, error: 'match_name rỗng và không resolve được từ matchId=' + matchId };
+      }
+    } else {
+      return { success: false, error: 'match_name rỗng' };
+    }
+  }
 
   ensureResultsHeader_();
 
@@ -804,10 +853,13 @@ function recalcMatchByName(matchName, matchId) {
   // 2. Lấy picks của match này
   // targetKey là viToEn(matchName).trim().toLowerCase() — vd "spain - austria"
   // p.match có thể là "Tây Ban Nha - Áo" (sẽ được viToEn → "spain - austria")
-  // HOẶC có thể khác format một chút (khoảng trắng, viết hoa) → viToEn normalize.
+  // HOẶC có thể khác format (vd Results ghi "vs", Picks ghi "-") → viToEn normalize.
   // Nếu exact match fail, fallback tìm theo cả 2 phần home/away riêng lẻ.
+  // QUAN TRỌNG: split separator phải bao gồm CẢ " - " LẪN " vs " vì Results sheet
+  // dùng "vs" trong khi Picks sheet dùng "-". targetKey = "south africa vs canada"
+  // → split(/\s+vs\s+|\s+-\s+/) → ["south africa", "canada"].
   const allPicks = readSheet(SHEET_PICKS);
-  const targetParts = targetKey.split(/\s*-\s*/);
+  const targetParts = targetKey.split(/\s+vs\s+|\s+-\s+|\s+v\s+/i);
   const targetHome = targetParts[0] || '';
   const targetAway = targetParts[1] || '';
 
@@ -821,7 +873,7 @@ function recalcMatchByName(matchName, matchId) {
     }
     return false;
   });
-  Logger.log('DEBUG recalcMatchByName: matchName=' + matchName + ' targetKey=' + targetKey + ' picks=' + matchPicks.length);
+  Logger.log('recalcMatchByName: ' + matchName + ' → ' + matchPicks.length + ' picks');
 
   if (matchPicks.length === 0) {
     return { success: true, settled: 0, note: 'Không có pick nào cho trận này', match_name: matchName };
@@ -837,7 +889,7 @@ function recalcMatchByName(matchName, matchId) {
       selVal = "'" + selVal;
     }
     newSettledRows.push([
-      p.pick_id, p.person, p.match, p.bet_type, selVal,
+      p.pick_id, p.person, normalizeMatchName_(p.match), p.bet_type, selVal,
       p.stake, p.odds, outcome.result, outcome.profit
     ]);
   }
@@ -1022,3 +1074,42 @@ function refreshMatchCache() {
   Logger.log('Cache refreshed: ' + resp.getContentText().length + ' bytes');
   return { success: true, bytes: resp.getContentText().length };
 }
+
+// ─── Backfill: chuẩn hóa tất cả match name về "Home - Away" trong 3 sheets ────
+// Chạy 1 lần sau khi deploy code mới. Cần thiết vì data cũ có thể ghi "vs"
+// (do admin nhập tay hoặc từ crawler cũ). Sau khi chuẩn hóa, gọi settlePicks()
+// để rebuild Settled + Summary với match name mới.
+function backfillNormalizeMatchNames() {
+  const sheets = [
+    { name: SHEET_PICKS,   col: 4 },  // D: match
+    { name: SHEET_RESULTS, col: 2 },  // B: match
+    { name: SHEET_SETTLED, col: 3 },  // C: match
+  ];
+  const report = [];
+
+  for (const s of sheets) {
+    const sh = SPREADSHEET.getSheetByName(s.name);
+    if (!sh) { report.push(`${s.name}: sheet không tồn tại`); continue; }
+    const data = sh.getDataRange().getValues();
+    if (data.length < 2) { report.push(`${s.name}: rỗng`); continue; }
+
+    let fixed = 0;
+    for (let i = 1; i < data.length; i++) {
+      const old = String(data[i][s.col - 1] || '').trim();
+      const norm = normalizeMatchName_(old);
+      if (old && norm && old !== norm) {
+        sh.getRange(i + 1, s.col).setValue(norm);
+        fixed++;
+      }
+    }
+    report.push(`${s.name}: fixed ${fixed} rows`);
+  }
+
+  // Sau khi normalize → re-settle toàn bộ để rebuild Settled + Summary
+  const settleResult = settlePicks();
+  report.push(`settlePicks: ${JSON.stringify(settleResult)}`);
+
+  Logger.log('backfillNormalizeMatchNames:\n  ' + report.join('\n  '));
+  return { success: true, report: report };
+}
+
