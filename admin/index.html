@@ -111,18 +111,26 @@
       <!-- TAB 3: CẬP NHẬT TỶ SỐ -->
       <div class="tab-pane fade" id="tab-result">
         <div class="card">
-          <div class="card-body">
-            <h5>Nhập tỷ số trận knockout</h5>
-            <p class="text-muted small">Chọn trận từ danh sách rồi nhập tỷ số.</p>
-            <div class="row g-2 mb-3">
-              <div class="col"><input type="number" class="form-control" id="homeScore" placeholder="Home" min="0" value="0"></div>
-              <div class="col-auto d-flex align-items-center">-</div>
-              <div class="col"><input type="number" class="form-control" id="awayScore" placeholder="Away" min="0" value="0"></div>
+          <div class="card-body text-center">
+            <h5 class="mb-1">Nhập tỷ số trận knockout</h5>
+            <p class="text-muted small mb-3">Chọn trận từ danh sách bên dưới, sau đó nhập tỷ số.</p>
+
+            <!-- Khung hiển thị trận đã chọn + nhập tỷ số (style "Tây Ban Nha 3 - 2 Áo") -->
+            <div id="scoreBox" class="mb-3" style="display:none;">
+              <div class="d-inline-flex align-items-center gap-3 px-4 py-3 rounded" style="background:#1f232c; border:1px solid #2a2f3a;">
+                <span id="homeName" class="fs-3 fw-bold">—</span>
+                <input type="number" id="homeScore" class="form-control text-center fs-3 fw-bold" style="width:80px; height:60px;" min="0" value="0">
+                <span class="fs-3 fw-bold text-muted">-</span>
+                <input type="number" id="awayScore" class="form-control text-center fs-3 fw-bold" style="width:80px; height:60px;" min="0" value="0">
+                <span id="awayName" class="fs-3 fw-bold">—</span>
+              </div>
             </div>
-            <div id="matchList" class="mb-3" style="max-height: 500px; overflow-y: auto;">
-              <div class="text-muted text-center py-3">Đang tải danh sách trận...</div>
+
+            <button class="btn btn-success btn-lg mb-4" id="submitResult" disabled>✓ Cập nhật tỷ số</button>
+
+            <div id="matchList" style="max-height: 500px; overflow-y: auto;">
+              <div class="text-muted py-3">Đang tải danh sách trận...</div>
             </div>
-            <button class="btn btn-success" id="submitResult" disabled>✓ Cập nhật tỷ số</button>
           </div>
         </div>
       </div>
@@ -290,6 +298,12 @@
             el.classList.add('selected');
             selectedMatchId = el.dataset.id;
             selectedMatchName = `${el.dataset.home} vs ${el.dataset.away}`;
+            // Cập nhật khung nhập tỷ số theo style "Tây Ban Nha 3 - 2 Áo"
+            document.getElementById('homeName').textContent = el.dataset.home || '—';
+            document.getElementById('awayName').textContent = el.dataset.away || '—';
+            document.getElementById('homeScore').value = 0;
+            document.getElementById('awayScore').value = 0;
+            document.getElementById('scoreBox').style.display = 'block';
             document.getElementById('submitResult').disabled = false;
           });
         });
