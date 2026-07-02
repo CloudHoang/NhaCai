@@ -293,7 +293,7 @@
 
       const settledHtml = Object.keys(settledByMatch).sort().reverse().map(matchName => {
         const picksForMatch = settledByMatch[matchName];
-        const wins = picksForMatch.filter(p => (p.result || '').toLowerCase() === 'won').length;
+        const wins = picksForMatch.filter(p => (p.result || '').toLowerCase() === 'win').length;
         const loses = picksForMatch.filter(p => (p.result || '').toLowerCase() === 'lose').length;
         const totalProfit = picksForMatch.reduce((s, p) => s + (parseFloat(p.profit) || 0), 0);
         const score = scoreByName[matchName] || '—';
@@ -317,7 +317,7 @@
                 <tbody>
                   ${picksForMatch.map(p => {
                     const r = (p.result || '').toLowerCase();
-                    const badgeCls = r === 'won' ? 'won' : r === 'lose' ? 'lost' : 'secondary';
+                    const badgeCls = r === 'win' ? 'won' : r === 'lose' ? 'lost' : 'secondary';
                     return `<tr>
                       <td>${p.person || ''}</td>
                       <td>${p.selection || ''}</td>
