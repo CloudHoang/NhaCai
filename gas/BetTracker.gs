@@ -1062,6 +1062,46 @@ function backfillResultNames() {
   return { success: true, filled: filled, missing: missing, missingIds: missingIds.slice(0, 20) };
 }
 
+// ─── Fix tên trận pick bị user ghi sai (chạy 1 lần) ──────────────────────────
+// Trước đây Picks sheet có 2 row ghi:
+//   "Anh - Congo"           (thiếu "CHDC")
+//   "Mỹ - Bosnia & Herzegovina" (thừa "& Herzegovina")
+// Hai tên này không match MATCHES_CACHE nên settle thất bại. Function này
+// map về tên chuẩn trong matches.json, rồi trigger settlePicks() lại.
+function fixPicksNames() {
+  const ALIASES = {
+    'anh - congo':              'Anh - CHDC Công gô',
+    'anh - chdc congo':         'Anh - CHDC Công gô',
+    'anh - chdc công gô':       'Anh - CHDC Công gô',
+    'mỹ - bosnia & herzegovina':'Mỹ - Bosnia',
+    'mỹ - bosnia and herzegovina':'Mỹ - Bosnia',
+    'mỹ - bosnia herzegovina':  'Mỹ - Bosnia',
+    'mỹ - bosnia &amp; herzegovina': 'Mỹ - Bosnia',
+  };
+
+  const sheet = SPREADSHEET.getSheetByName(SHEET_PICKS);
+  const data  = sheet.getDataRange().getValues();
+  const fixes = [];
+
+  for (let i = 1; i < data.length; i++) {
+    const raw = String(data[i][3] || '').trim();   // col D = match name
+    if (!raw) continue;
+    const key = raw.toLowerCase();
+    if (ALIASES[key]) {
+      const target = ALIASES[key];
+      sheet.getRange(i + 1, 4).setValue(target);
+      fixes.push({ row: i + 1, from: raw, to: target });
+    }
+  }
+
+  let settle = null;
+  if (fixes.length > 0) {
+    Logger.log('fixPicksNames applied ' + fixes.length + ' fix(es)');
+    settle = settlePicks();
+  }
+  return { success: true, fixes: fixes, settle: settle };
+}
+
 // ─── Refresh match cache từ GitHub (chạy thủ công hoặc trigger) ──────────────
 function refreshMatchCache() {
   const url = PropertiesService.getScriptProperties().getProperty('GITHUB_RAW_URL');
