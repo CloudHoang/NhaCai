@@ -57,25 +57,50 @@ function listMatches() {
   }
 }
 
+// ─── Robust body parser ────────────────────────────────────────────────────
+// Browser dùng mode:'no-cors' chỉ cho phép Content-Type safelisted. Nếu client
+// gửi 'application/json' thực sự → an toàn (GAS thấy JSON hợp lệ).
+// Nếu client gửi 'text/plain' với body là JSON string → cũng OK.
+// Nếu client gửi 'text/plain' với body CSV → fallback trả raw string.
+// Hàm này tự nhận diện: thử parse JSON trước, fail thì trả raw.
+function parseBody_(e) {
+  const raw = e.postData ? e.postData.contents : '';
+  if (!raw) return { _raw: '', _isJson: false };
+  // Thử parse JSON
+  const trimmed = raw.trim();
+  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    try {
+      return JSON.parse(trimmed);
+    } catch (err) {
+      // Có thể là "{key=value}" wrapped do form submit → strip wrapper
+      Logger.log('parseBody_: JSON.parse failed, treating as raw: ' + err);
+    }
+  }
+  return { _raw: raw, _isJson: false };
+}
+
 function doPost(e) {
   const params = e ? (e.parameter || {}) : {};
   const action = params.action || '';
 
   try {
     if (action === 'uploadCsv') {
-      const csv = e.postData ? e.postData.contents : '';
-      const result = importCsv(csv);
+      const body = parseBody_(e);
+      const csv = body._isJson === false ? body._raw : '';
+      // Hoặc nếu JSON có field 'csv'
+      const csvText = body.csv || csv || '';
+      const result = importCsv(csvText);
       return jsonOutput(result);
     }
     if (action === 'updateResult') {
-      const body = JSON.parse(e.postData ? e.postData.contents : '{}');
+      const body = parseBody_(e);
       const result = updateResult(body.match_id, body.home_score, body.away_score, body.match_name);
       return jsonOutput(result);
     }
     if (action === 'recalcMatch') {
       // Recalc settled + summary cho 1 match cụ thể (theo match_name).
       // Body: { match_name, match_id? } — nếu không có scores thì đọc từ Results sheet.
-      const body = JSON.parse(e.postData ? e.postData.contents : '{}');
+      const body = parseBody_(e);
       const result = recalcMatchByName(body.match_name, body.match_id);
       return jsonOutput(result);
     }
@@ -556,11 +581,13 @@ function fillCorrectScoreOddsOnly() {
 
 // ─── Update match result ──────────────────────────────────────────────────────
 function updateResult(matchId, homeScore, awayScore, matchName) {
+  Logger.log('updateResult: START matchId=' + matchId + ' home=' + homeScore + ' away=' + awayScore + ' matchName=' + matchName);
   // Nếu matchName rỗng → auto-resolve từ MATCHES_CACHE theo matchId.
   // Picks sheet KHÔNG có match_id (chỉ có tên trận), nên settlePicks() phụ thuộc
   // vào match_name để join. Thiếu match_name → settle ra 0 row.
   if (!matchName || String(matchName).trim() === '') {
     matchName = resolveMatchNameFromCache_(matchId) || '';
+    Logger.log('updateResult: resolved matchName from cache: ' + matchName);
   }
 
   ensureResultsHeader_();
@@ -581,6 +608,9 @@ function updateResult(matchId, homeScore, awayScore, matchName) {
   }
   if (!found) {
     sheet.appendRow([String(matchId), matchName, homeScore, awayScore, new Date().toISOString()]);
+    Logger.log('updateResult: appended new row to Results');
+  } else {
+    Logger.log('updateResult: updated existing row in Results');
   }
 
   // Wrap settle trong try-catch để tránh throw giữa chừng làm hỏng data.
@@ -589,7 +619,9 @@ function updateResult(matchId, homeScore, awayScore, matchName) {
   var settleResult;
   try {
     settleResult = recalcMatchByName(matchName, matchId);
+    Logger.log('updateResult: recalcMatchByName result: ' + JSON.stringify(settleResult));
   } catch (e) {
+    Logger.log('updateResult: recalcMatchByName FAILED: ' + e);
     return { success: false, error: 'recalcMatchByName failed: ' + e.toString(), match_id: matchId, match_name: matchName };
   }
   return { success: true, match_id: matchId, match_name: matchName, settled: settleResult.settled };
@@ -770,12 +802,26 @@ function recalcMatchByName(matchName, matchId) {
   }
 
   // 2. Lấy picks của match này
+  // targetKey là viToEn(matchName).trim().toLowerCase() — vd "spain - austria"
+  // p.match có thể là "Tây Ban Nha - Áo" (sẽ được viToEn → "spain - austria")
+  // HOẶC có thể khác format một chút (khoảng trắng, viết hoa) → viToEn normalize.
+  // Nếu exact match fail, fallback tìm theo cả 2 phần home/away riêng lẻ.
   const allPicks = readSheet(SHEET_PICKS);
+  const targetParts = targetKey.split(/\s*-\s*/);
+  const targetHome = targetParts[0] || '';
+  const targetAway = targetParts[1] || '';
+
   const matchPicks = allPicks.filter(p => {
     const k = viToEn(p.match || '').trim().toLowerCase();
-    return k === targetKey;
+    if (k === targetKey) return true;
+    // Fallback: p.match có thể chỉ chứa 1 phần (vd "Tây Ban Nha" thay vì "Tây Ban Nha - Áo")
+    // hoặc có thêm text khác. Check xem cả home lẫn away có trong p.match không.
+    if (targetHome && targetAway && k.includes(targetHome) && k.includes(targetAway)) {
+      return true;
+    }
+    return false;
   });
-  Logger.log('DEBUG recalcMatchByName: matchName=' + matchName + ' picks=' + matchPicks.length);
+  Logger.log('DEBUG recalcMatchByName: matchName=' + matchName + ' targetKey=' + targetKey + ' picks=' + matchPicks.length);
 
   if (matchPicks.length === 0) {
     return { success: true, settled: 0, note: 'Không có pick nào cho trận này', match_name: matchName };
@@ -805,11 +851,15 @@ function recalcMatchByName(matchName, matchId) {
   const settledHdr = settledRaw.length > 0 ? String(settledRaw[0][0]).toLowerCase().trim() : '';
   const settledStart = (settledHdr === 'pick_id') ? 1 : 0;
 
-  // Tìm rows cần xóa (match === matchName theo col C index 2)
+  // Tìm rows cần xóa (theo viToEn() normalized để robust với naming khác nhau)
   const rowsToDelete = [];
   for (let i = settledStart; i < settledRaw.length; i++) {
-    if (String(settledRaw[i][2] || '').trim() === matchName) {
+    const rowMatchName = String(settledRaw[i][2] || '').trim();
+    const rowKey = viToEn(rowMatchName).trim().toLowerCase();
+    if (rowKey === targetKey) {
       rowsToDelete.push(i + 1); // sheet row = 1-indexed
+    } else if (targetHome && targetAway && rowKey.includes(targetHome) && rowKey.includes(targetAway)) {
+      rowsToDelete.push(i + 1);
     }
   }
   // Xóa từ dưới lên để index không lệch

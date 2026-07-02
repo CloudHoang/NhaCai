@@ -5,6 +5,7 @@ Client cho Google Apps Script BetTracker Web App.
 import json
 import os
 import urllib3
+import urllib.parse
 from urllib.parse import urlencode
 
 GAS_WEB_APP_URL = os.environ.get(
@@ -77,7 +78,13 @@ def fetch_tracker_data(action="full"):
 
 
 def post_action(action, payload=None, raw_body=None):
-    """POST tới GAS với query action + JSON body hoặc raw body."""
+    """POST tới GAS. Apps Script trả 302 cho POST — đã verify body VẪN ĐƯỢC
+    XỬ LÝ trước khi redirect (upload test: picks 147 → 148 sau POST uploadCsv).
+    Nhưng: (a) re-POST tới echo endpoint = 405, (b) browser follow redirect với
+    GET sẽ về echo endpoint trả `{}` (echo service, không phải response từ doPost).
+    → POST 1 lần rồi return. Nếu 302 → success, echo service trả body echo (thường
+    rỗng cho POST). Caller check sheet state sau vài giây để xác nhận.
+    """
     try:
         url = f"{GAS_WEB_APP_URL}?action={action}"
         if raw_body is not None:
@@ -87,28 +94,21 @@ def post_action(action, payload=None, raw_body=None):
             body = json.dumps(payload or {})
             headers = {"Content-Type": "application/json; charset=utf-8"}
 
-        # GAS trả 302 → script.googleusercontent.com. urllib3 theo redirect
-        # nhưng CHUYỂN POST thành GET theo RFC 7231 (chỉ 307/308 giữ method).
-        # Khi đó script.googleusercontent.com/macros/echo không có handler GET
-        # cho action=updateResult → trả 405. Fix: bắt 302, re-POST tới Location.
+        # redirect=False: 302 có nghĩa GAS đã xử lý. KHÔNG follow redirect (echo endpoint trả 405).
         resp = _http.request(
             "POST", url, body=body.encode("utf-8"), headers=headers,
             retries=urllib3.Retry(total=3, backoff_factor=1.0, status_forcelist=[502, 503, 504]),
             redirect=False,
         )
-        if resp.status in (301, 302, 303, 307, 308):
-            redirect_url = resp.headers.get("Location")
-            if not redirect_url:
-                return {"error": "Redirect without Location header"}
-            # Re-POST tới Location (echo endpoint) với cùng body + headers.
-            resp = _http.request(
-                "POST", redirect_url, body=body.encode("utf-8"), headers=headers,
-                retries=urllib3.Retry(total=3, backoff_factor=1.0, status_forcelist=[502, 503, 504]),
-                redirect=False,
-            )
+        if resp.status == 302:
+            # GAS đã xử lý body. Echo location trả 405, không follow.
+            return {"success": True, "note": "GAS đã xử lý (302 redirect, không đọc được response body)."}
         if resp.status != 200:
-            return {"error": f"HTTP {resp.status}"}
-        return json.loads(resp.data.decode("utf-8"))
+            return {"error": f"HTTP {resp.status}", "body": resp.data[:200].decode("utf-8", errors="replace")}
+        try:
+            return json.loads(resp.data.decode("utf-8"))
+        except (ValueError, json.JSONDecodeError):
+            return {"raw": resp.data[:500].decode("utf-8", errors="replace")}
     except Exception as e:
         return {"error": str(e)}
 

@@ -351,14 +351,22 @@
     // Cách robust nhất: form submit với 1 hidden field duy nhất tên "raw" chứa
     // CSV. GAS uploadCsv sẽ đọc field đó. (Cần update GAS nếu muốn strict raw.)
     //
-    // Ở đây dùng mode:'no-cors' cho đơn giản — request vẫn tới GAS, response
-    // opaque nhưng server vẫn xử lý và ghi Sheets.
-    async function postToGasNoCors(action, body, contentType) {
+    // Gọi GAS mutating action bằng POST no-cors.
+    // Đã verify: Apps Script POST vẫn XỬ LÝ body TRƯỚC khi redirect 302 (vd upload
+    // CSV tăng picks 147→148). Browser với mode:'no-cors' sẽ gửi request nhưng
+    // không đọc được response → coi như luôn ok, check lại bằng cách load lại
+    // tracker sau vài giây.
+    //
+    // LƯU Ý: với mode:'no-cors', browser chỉ cho phép set Content-Type thuộc
+    // CORS-safelisted (text/plain, application/x-www-form-urlencoded, multipart/form-data).
+    // → Luôn dùng 'text/plain;charset=utf-8'. GAS doPost đã có parseBody_() tự
+    // nhận diện JSON hay raw text.
+    async function postToGasNoCors(action, body, _contentType) {
       try {
         await fetch(`${GAS_URL}?action=${action}`, {
           method: 'POST',
           mode: 'no-cors',         // bypass CORS preflight
-          headers: { 'Content-Type': contentType },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: body,
         });
         return { ok: true };
@@ -427,7 +435,6 @@
       }
       const payload = { match_id: String(selectedMatchId), match_name: selectedMatchName, home_score: home, away_score: away };
       showAlert('⏳ Đang gửi tỷ số lên GAS...', 'info');
-      // no-cors: request vẫn tới GAS, response opaque (không đọc được) nhưng server xử lý bình thường.
       const r = await postToGasNoCors('updateResult', JSON.stringify(payload), 'application/json; charset=utf-8');
       if (r.ok) {
         showAlert(`✓ Đã gửi tỷ số ${home}-${away} cho match_id=${selectedMatchId}. Refresh Tracker sau ~5s.`, 'success');
