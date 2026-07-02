@@ -225,36 +225,46 @@
     }
 
     // ─── TAB 2: UPLOAD CSV ───────────────────────────────────
+    // GAS + browser CORS: fetch() từ GH Pages tới script.google.com bị chặn
+    // (NetworkError). Workaround: dùng form ẩn submit trực tiếp đến GAS endpoint.
+    // HTML form navigation KHÔNG bị CORS — browser submit bình thường, GAS
+    // nhận được body, response 302 về script.googleusercontent.com trong iframe.
+    // GAS uploadCsv đọc e.postData.contents (raw body). Khi form có
+    // enctype="text/plain", body gần với raw (chỉ thêm "key=" prefix nếu có
+    // hidden input). Để giữ body thuần CSV, ta submit 1 form rỗng rồi
+    // override body bằng URLSearchParams hoặc dùng fetch mode: 'no-cors'.
+    //
+    // Cách robust nhất: form submit với 1 hidden field duy nhất tên "raw" chứa
+    // CSV. GAS uploadCsv sẽ đọc field đó. (Cần update GAS nếu muốn strict raw.)
+    //
+    // Ở đây dùng mode:'no-cors' cho đơn giản — request vẫn tới GAS, response
+    // opaque nhưng server vẫn xử lý và ghi Sheets.
+    async function postToGasNoCors(action, body, contentType) {
+      try {
+        await fetch(`${GAS_URL}?action=${action}`, {
+          method: 'POST',
+          mode: 'no-cors',         // bypass CORS preflight
+          headers: { 'Content-Type': contentType },
+          body: body,
+        });
+        return { ok: true };
+      } catch (e) {
+        return { ok: false, error: e.message };
+      }
+    }
+
     document.getElementById('uploadForm').addEventListener('submit', async e => {
       e.preventDefault();
       const csv = e.target.csv_text.value.trim();
       if (!csv) { showAlert('Vui lòng dán nội dung CSV trước.', 'warning'); return; }
-      try {
-        // GAS redirect POST → GET theo RFC. Dùng fetch với text/plain + redirect='follow'.
-        // Nếu bị 405, fallback: re-POST tới Location.
-        const resp = await fetch(`${GAS_URL}?action=uploadCsv`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-          body: csv,
-          redirect: 'follow',
-        });
-        if (resp.redirected) {
-          const r2 = await fetch(resp.url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-            body: csv,
-          });
-          const j = await r2.json();
-          if (j.success) showAlert(`✓ Upload OK · inserted=${j.inserted || 0}`, 'success');
-          else showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
-        } else {
-          const j = await resp.json();
-          if (j.success) showAlert(`✓ Upload OK · inserted=${j.inserted || 0}`, 'success');
-          else showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
-        }
-        loadTracker();
-      } catch (err) {
-        showAlert(`Lỗi: ${err.message}`, 'danger');
+      showAlert('⏳ Đang upload lên GAS...', 'info');
+      const r = await postToGasNoCors('uploadCsv', csv, 'text/plain; charset=utf-8');
+      if (r.ok) {
+        showAlert('✓ Đã gửi lên GAS. Refresh Tracker sau ~5s để xem picks mới.', 'success');
+        e.target.csv_text.value = '';
+        setTimeout(loadTracker, 5000);
+      } else {
+        showAlert(`Lỗi: ${r.error}`, 'danger');
       }
     });
 
@@ -296,38 +306,16 @@
         showAlert('Tỷ số phải >= 0.', 'warning'); return;
       }
       const payload = { match_id: String(selectedMatchId), match_name: selectedMatchName, home_score: home, away_score: away };
-      try {
-        const resp = await fetch(`${GAS_URL}?action=updateResult`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json; charset=utf-8' },
-          body: JSON.stringify(payload),
-          redirect: 'follow',
-        });
-        if (resp.redirected) {
-          const r2 = await fetch(resp.url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=utf-8' },
-            body: JSON.stringify(payload),
-          });
-          const j = await r2.json();
-          handleResult(j);
-        } else {
-          const j = await resp.json();
-          handleResult(j);
-        }
-      } catch (e) {
-        showAlert(`Lỗi: ${e.message}`, 'danger');
+      showAlert('⏳ Đang gửi tỷ số lên GAS...', 'info');
+      // no-cors: request vẫn tới GAS, response opaque (không đọc được) nhưng server xử lý bình thường.
+      const r = await postToGasNoCors('updateResult', JSON.stringify(payload), 'application/json; charset=utf-8');
+      if (r.ok) {
+        showAlert(`✓ Đã gửi tỷ số ${home}-${away} cho match_id=${selectedMatchId}. Refresh Tracker sau ~5s.`, 'success');
+        setTimeout(loadTracker, 5000);
+      } else {
+        showAlert(`Lỗi: ${r.error}`, 'danger');
       }
     });
-
-    function handleResult(j) {
-      if (j.success) {
-        showAlert(`✓ Đã settle match_id=${j.match_id || selectedMatchId} (settled=${j.settled || 0}).`, 'success');
-        loadTracker();
-      } else {
-        showAlert(`Lỗi: ${j.error || 'unknown'}`, 'danger');
-      }
-    }
 
     // Auto-load tab đang active
     document.querySelector('[data-bs-target="#tab-tracker"]').addEventListener('shown.bs.tab', loadTracker);
