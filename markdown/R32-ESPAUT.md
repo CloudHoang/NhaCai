@@ -9,26 +9,26 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -1.5 (Tây Ban Nha chấp Áo 1.5 trái)
-- Cược Tây Ban Nha thắng (Home): 0.94
-- Cược Áo thắng (Away): 0.90
+- Cược Tây Ban Nha thắng (Home): 0.78
+- Cược Áo thắng (Away): 1.06
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Tây Ban Nha thắng (1), Hòa (X), Áo thắng (2))
-  - Tây Ban Nha thắng (Home): 1.24
+  - Tây Ban Nha thắng (Home): 1.22
   - Hòa (Draw): 5.00
-  - Áo thắng (Away): 9.60
+  - Áo thắng (Away): 11.00
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.75 (Tài (Trên 2.75 trái) / Xỉu (Dưới 2.75 trái))
-- Cược Tài (Over): 0.86
-- Cược Xỉu (Under): 0.94
+- Cược Tài (Over): 0.76
+- Cược Xỉu (Under): 1.04
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 9.4
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |
-| 1 - 0 | 4.48 |
+| 1 - 0 | 5.2 |
 | 2 - 0 | 4.24 |
 | 2 - 1 | 7.04 |
 | 3 - 0 | 5.92 |
@@ -43,7 +43,7 @@
 | 2 - 2 | 20 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |
-| 0 - 1 | 20.0 |
+| 0 - 1 | 20 |
 | 0 - 2 | 20 |
 | 1 - 2 | 20 |
 | 0 - 3 | 20 |

@@ -9,19 +9,19 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -0.5 (Thụy Sĩ chấp Algeria 0.5 trái)
-- Cược Thụy Sĩ thắng (Home): 1.00
-- Cược Algeria thắng (Away): 0.84
+- Cược Thụy Sĩ thắng (Home): 0.92
+- Cược Algeria thắng (Away): 0.92
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Thụy Sĩ thắng (1), Hòa (X), Algeria thắng (2))
-  - Thụy Sĩ thắng (Home): 2.00
+  - Thụy Sĩ thắng (Home): 1.92
   - Hòa (Draw): 3.10
-  - Algeria thắng (Away): 3.48
+  - Algeria thắng (Away): 3.75
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 2.25 (Tài (Trên 2.25 trái) / Xỉu (Dưới 2.25 trái))
-- Cược Tài (Over): 0.90
-- Cược Xỉu (Under): 0.90
+- Cược Tài (Over): 0.98
+- Cược Xỉu (Under): 0.82
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
 - **Tỷ số ngoài bảng (AOS):** 12.7

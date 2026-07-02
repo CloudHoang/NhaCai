@@ -4,7 +4,7 @@
 - **Trận đấu:** Tunisia vs Hà Lan
   - Đội nhà: Tunisia
   - Đội khách: Hà Lan
-- **Thời gian diễn ra:** 2026-06-26 06:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-25 23:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Tunisia thắng (Home Win):** 14%

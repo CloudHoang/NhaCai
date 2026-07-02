@@ -4,7 +4,7 @@
 - **Trận đấu:** Algeria vs Áo
   - Đội nhà: Algeria
   - Đội khách: Áo
-- **Thời gian diễn ra:** 2026-06-28 09:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-28 02:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Algeria thắng (Home Win):** 34%

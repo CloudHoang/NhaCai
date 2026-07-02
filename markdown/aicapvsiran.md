@@ -4,7 +4,7 @@
 - **Trận đấu:** Ai Cập vs Iran
   - Đội nhà: Ai Cập
   - Đội khách: Iran
-- **Thời gian diễn ra:** 2026-06-27 10:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 03:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Ai Cập thắng (Home Win):** 30%
