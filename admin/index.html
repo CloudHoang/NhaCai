@@ -52,43 +52,54 @@
       <div class="tab-pane fade show active" id="tab-tracker">
         <div id="trackerLoading" class="text-center py-5 text-muted">Đang tải dữ liệu từ GAS...</div>
         <div id="trackerContent" style="display:none">
+          <!-- Stat cards -->
           <div class="row g-2 mb-3">
-            <div class="col"><div class="stat-card"><div class="label">Tổng stake</div><div class="value" id="statStake">0</div></div></div>
-            <div class="col"><div class="stat-card"><div class="label">Tổng profit</div><div class="value" id="statProfit">0</div></div></div>
-            <div class="col"><div class="stat-card"><div class="label">Wins</div><div class="value text-profit" id="statWins">0</div></div></div>
-            <div class="col"><div class="stat-card"><div class="label">Losses</div><div class="value text-loss" id="statLosses">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Tổng tiền cược</div><div class="value" id="statStake">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Lãi/Lỗ</div><div class="value" id="statProfit">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Thắng</div><div class="value text-profit" id="statWins">0</div></div></div>
+            <div class="col"><div class="stat-card"><div class="label">Thua</div><div class="value text-loss" id="statLosses">0</div></div></div>
           </div>
 
+          <!-- Tổng hợp theo người chơi -->
           <div class="card mb-3">
-            <div class="card-header">Tổng hợp theo người chơi</div>
+            <div class="card-header">📋 Tổng hợp theo người chơi</div>
             <div class="card-body p-0">
               <table class="table table-sm mb-0">
                 <thead><tr>
-                  <th>Người chơi</th><th class="text-end">Stake</th><th class="text-end">Profit</th>
-                  <th class="text-end">Wins</th><th class="text-end">Losses</th><th class="text-end">ROI</th>
+                  <th>Người chơi</th><th class="text-end">Tiền cược</th><th class="text-end">Lãi/Lỗ</th>
+                  <th class="text-end">Thắng</th><th class="text-end">Thua</th><th class="text-end">Tỷ lệ Lời</th>
                 </tr></thead>
                 <tbody id="summaryBody"></tbody>
               </table>
             </div>
           </div>
 
-          <div class="card mb-3">
-            <div class="card-header">Picks active</div>
-            <div class="card-body p-0">
-              <table class="table table-sm mb-0">
-                <thead><tr><th>Thời gian</th><th>Người</th><th>Trận</th><th>Loại</th><th>Pick</th><th class="text-end">Odds</th><th class="text-end">Stake</th></tr></thead>
-                <tbody id="activeBody"></tbody>
-              </table>
+          <!-- 2 cột song song: Picks active (trái) | Đã settle (phải) -->
+          <div class="row g-3">
+            <!-- CỘT TRÁI: Picks đang chờ -->
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <span>🎯 Picks đang chờ</span>
+                  <span class="badge bg-primary" id="activeCount">0</span>
+                </div>
+                <div class="card-body" id="activeBody" style="max-height: 600px; overflow-y: auto;">
+                  <div class="text-muted text-center py-3">Đang tải...</div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="card mb-3">
-            <div class="card-header">Đã settle</div>
-            <div class="card-body p-0">
-              <table class="table table-sm mb-0">
-                <thead><tr><th>Pick ID</th><th>Người</th><th>Trận</th><th>Loại</th><th>Pick</th><th>Tỷ số</th><th>Trạng thái</th><th class="text-end">Profit</th></tr></thead>
-                <tbody id="settledBody"></tbody>
-              </table>
+            <!-- CỘT PHẢI: Đã settle -->
+            <div class="col-lg-6">
+              <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <span>✅ Đã chốt kèo</span>
+                  <span class="badge bg-success" id="settledCount">0</span>
+                </div>
+                <div class="card-body" id="settledBody" style="max-height: 600px; overflow-y: auto;">
+                  <div class="text-muted text-center py-3">Đang tải...</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -205,31 +216,118 @@
         </tr>`;
       }).join('') || '<tr><td colspan="6" class="text-center text-muted py-3">Chưa có dữ liệu</td></tr>';
 
-      const active = picks.filter(p => (p.status || '').toLowerCase() === 'active');
-      document.getElementById('activeBody').innerHTML = active.map(p => `<tr>
-        <td><small>${(p.timestamp || '').slice(0, 16)}</small></td>
-        <td>${p.person || ''}</td>
-        <td><small>${p.match || ''}</small></td>
-        <td><small>${p.bet_type || ''}</small></td>
-        <td>${p.selection || ''}</td>
-        <td class="text-end">${p.odds || ''}</td>
-        <td class="text-end">${p.stake || ''}</td>
-      </tr>`).join('') || '<tr><td colspan="7" class="text-center text-muted py-3">Không có pick active</td></tr>';
+      // ── Picks đang chờ: group theo trận, ẩn picks có match đã có trong results ──
+      const results = data.results || [];
+      const settledMatchNames = new Set(settled.map(p => p.match || ''));
+      // match name → tỷ số (từ results sheet)
+      const scoreByName = {};
+      const resultsMatchNames = new Set();
+      for (const r of results) {
+        const name = r.match || '';
+        if (name) {
+          scoreByName[name] = `${r.home_score}-${r.away_score}`;
+          resultsMatchNames.add(name);
+        }
+      }
 
-      document.getElementById('settledBody').innerHTML = settled.map(p => {
-        const status = (p.status || '').toLowerCase();
-        const badge = status === 'won' ? 'won' : status === 'lost' ? 'lost' : 'secondary';
-        return `<tr>
-          <td><small>${p.pick_id || ''}</small></td>
-          <td>${p.person || ''}</td>
-          <td><small>${p.match || ''}</small></td>
-          <td><small>${p.bet_type || ''}</small></td>
-          <td>${p.selection || ''}</td>
-          <td>${p.actual_score || '-'}</td>
-          <td><span class="badge bg-${badge}">${p.status || ''}</span></td>
-          <td class="text-end ${(parseFloat(p.profit) || 0) >= 0 ? 'text-profit' : 'text-loss'}">${(parseFloat(p.profit) || 0).toFixed(0)}</td>
-        </tr>`;
-      }).join('') || '<tr><td colspan="8" class="text-center text-muted py-3">Chưa settle</td></tr>';
+      const active = picks.filter(p => (p.status || '').toLowerCase() === 'active');
+      // Loại bỏ picks có match đã có kết quả (settled hoặc results)
+      const activeFiltered = active.filter(p => {
+        const m = p.match || '';
+        return !settledMatchNames.has(m) && !resultsMatchNames.has(m);
+      });
+
+      // Group theo match
+      const activeByMatch = {};
+      for (const p of activeFiltered) {
+        const m = p.match || '(không rõ trận)';
+        if (!activeByMatch[m]) activeByMatch[m] = [];
+        activeByMatch[m].push(p);
+      }
+
+      document.getElementById('activeCount').textContent = activeFiltered.length;
+
+      const activeHtml = Object.keys(activeByMatch).sort().map(matchName => {
+        const picksForMatch = activeByMatch[matchName];
+        const totalStake = picksForMatch.reduce((s, p) => s + (parseFloat(p.stake) || 0), 0);
+        return `
+          <div class="mb-2 border rounded" style="border-color:#2a2f3a !important;">
+            <div class="px-3 py-2 d-flex justify-content-between" style="background:#1f232c; border-bottom:1px solid #2a2f3a; cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#active-${escapeId(matchName)}">
+              <strong>${matchName}</strong>
+              <span class="text-muted small">${picksForMatch.length} picks · ${totalStake.toFixed(0)}đ</span>
+            </div>
+            <div class="collapse show" id="active-${escapeId(matchName)}">
+              <table class="table table-sm mb-0">
+                <tbody>
+                  ${picksForMatch.map(p => `<tr>
+                    <td>${p.person || ''}</td>
+                    <td>${p.selection || ''}</td>
+                    <td class="text-end text-muted small">${p.odds || ''}</td>
+                    <td class="text-end">${p.stake || ''}đ</td>
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join('') || '<div class="text-muted text-center py-3">Không có pick đang chờ</div>';
+      document.getElementById('activeBody').innerHTML = activeHtml;
+
+      // ── Đã settle: group theo trận, show tỷ số từ results ──
+      const settledByMatch = {};
+      for (const p of settled) {
+        const m = p.match || '(không rõ trận)';
+        if (!settledByMatch[m]) settledByMatch[m] = [];
+        settledByMatch[m].push(p);
+      }
+
+      document.getElementById('settledCount').textContent = settled.length;
+
+      const settledHtml = Object.keys(settledByMatch).sort().reverse().map(matchName => {
+        const picksForMatch = settledByMatch[matchName];
+        const wins = picksForMatch.filter(p => (p.result || '').toLowerCase() === 'won').length;
+        const loses = picksForMatch.filter(p => (p.result || '').toLowerCase() === 'lose').length;
+        const totalProfit = picksForMatch.reduce((s, p) => s + (parseFloat(p.profit) || 0), 0);
+        const score = scoreByName[matchName] || '—';
+        const scoreBadge = scoreByName[matchName]
+          ? `<span class="badge bg-secondary ms-2">${score}</span>`
+          : '';
+        const profitClass = totalProfit >= 0 ? 'text-profit' : 'text-loss';
+        return `
+          <div class="mb-2 border rounded" style="border-color:#2a2f3a !important;">
+            <div class="px-3 py-2 d-flex justify-content-between align-items-center" style="background:#1f232c; border-bottom:1px solid #2a2f3a; cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#settled-${escapeId(matchName)}">
+              <div>
+                <strong>${matchName}</strong>${scoreBadge}
+              </div>
+              <div class="text-end">
+                <span class="text-profit small">${wins}W</span> · <span class="text-loss small">${loses}L</span>
+                <span class="${profitClass} fw-bold ms-2">${totalProfit >= 0 ? '+' : ''}${totalProfit.toFixed(0)}đ</span>
+              </div>
+            </div>
+            <div class="collapse" id="settled-${escapeId(matchName)}">
+              <table class="table table-sm mb-0">
+                <tbody>
+                  ${picksForMatch.map(p => {
+                    const r = (p.result || '').toLowerCase();
+                    const badgeCls = r === 'won' ? 'won' : r === 'lose' ? 'lost' : 'secondary';
+                    return `<tr>
+                      <td>${p.person || ''}</td>
+                      <td>${p.selection || ''}</td>
+                      <td class="text-end"><span class="badge bg-${badgeCls}">${p.result || ''}</span></td>
+                      <td class="text-end ${(parseFloat(p.profit) || 0) >= 0 ? 'text-profit' : 'text-loss'}">${(parseFloat(p.profit) || 0).toFixed(0)}đ</td>
+                    </tr>`;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
+      }).join('') || '<div class="text-muted text-center py-3">Chưa có kèo đã chốt</div>';
+      document.getElementById('settledBody').innerHTML = settledHtml;
+    }
+
+    function escapeId(s) {
+      return String(s).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 60);
     }
 
     // ─── TAB 2: UPLOAD CSV ───────────────────────────────────
