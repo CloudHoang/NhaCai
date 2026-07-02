@@ -1144,117 +1144,6 @@ function fixPicksNames() {
   return { success: true, fixes: fixes, settle: settle };
 }
 
-// ─── Debug: log row nào trong Picks không match MATCHES_CACHE ───────────────
-function debugUnmatchedPicks() {
-  const matchesJson = PropertiesService.getScriptProperties().getProperty('MATCHES_CACHE');
-  if (!matchesJson) return { error: 'MATCHES_CACHE chưa được set' };
-  const matches = JSON.parse(matchesJson);
-
-  const sheet = SPREADSHEET.getSheetByName(SHEET_PICKS);
-  const data  = sheet.getDataRange().getValues();
-  const unmatched = [];
-  const matched   = [];
-
-  for (let i = 1; i < data.length; i++) {
-    const row       = data[i];
-    const pickId    = row[0];
-    const matchName = row[3];
-    const betType   = row[4];
-    const sel       = String(row[5] || '').replace(/^'/, '');
-    const line      = row[6];
-    const odds      = row[7];
-
-    const m = findMatch(matches, matchName);
-    const entry = {
-      row: i + 1, pick_id: pickId, match: matchName,
-      bet_type: betType, selection: sel, line: line, odds: odds,
-      has_match: !!m,
-    };
-    if (m) matched.push(entry);
-    else   unmatched.push(entry);
-  }
-
-  Logger.log('Matched: ' + matched.length + ' / Unmatched: ' + unmatched.length);
-  if (unmatched.length > 0) {
-    Logger.log('--- UNMATCHED picks (findMatch returned null) ---');
-    unmatched.forEach(function(u) {
-      Logger.log('row ' + u.row + ' pick_id=' + u.pick_id + ' match="' + u.match + '"');
-    });
-  }
-  return {
-    matched_count: matched.length,
-    unmatched_count: unmatched.length,
-    unmatched: unmatched.slice(0, 30),
-  };
-}
-
-// ─── Debug: gọi fillOddsFromMatches và log từng step ─────────────────────────
-function debugFillOdds() {
-  const matchesJson = PropertiesService.getScriptProperties().getProperty('MATCHES_CACHE');
-  if (!matchesJson) return { error: 'MATCHES_CACHE chưa được set' };
-  const matches = JSON.parse(matchesJson);
-
-  const sheet = SPREADSHEET.getSheetByName(SHEET_PICKS);
-  const data  = sheet.getDataRange().getValues();
-
-  let scanned = 0, wouldFillLine = 0, wouldFillOdds = 0, skipped = 0;
-  const skipLog = [];
-
-  for (let i = 1; i < data.length; i++) {
-    const row          = data[i];
-    const matchName    = row[3];
-    const betType      = row[4];
-    const selection    = String(row[5] || '').replace(/^'/, '');
-    const existingOdds = row[7];
-    const existingLine = row[6];
-    scanned++;
-
-    const m = findMatch(matches, matchName);
-    if (!m) {
-      skipped++;
-      if (skipLog.length < 20) skipLog.push({ row: i+1, reason: 'no match', name: matchName });
-      continue;
-    }
-    if (!m.odds) {
-      skipped++;
-      if (skipLog.length < 20) skipLog.push({ row: i+1, reason: 'no odds', name: matchName });
-      continue;
-    }
-    if (!existingLine && betType !== 'correct_score') wouldFillLine++;
-    if (!existingOdds) wouldFillOdds++;
-  }
-
-  Logger.log('Scanned=' + scanned + ' wouldFillLine=' + wouldFillLine + ' wouldFillOdds=' + wouldFillOdds + ' skipped=' + skipped);
-  if (skipLog.length) {
-    Logger.log('--- SKIP reasons ---');
-    skipLog.forEach(function(s) { Logger.log('row ' + s.row + ' [' + s.reason + '] ' + s.name); });
-  }
-  return { scanned: scanned, wouldFillLine: wouldFillLine, wouldFillOdds: wouldFillOdds, skipped: skipped, skipLog: skipLog };
-}
-
-// ─── Debug: dump first 5 matches trong MATCHES_CACHE ────────────────────────
-function debugDumpCache() {
-  const cache = PropertiesService.getScriptProperties().getProperty('MATCHES_CACHE');
-  if (!cache) return { error: 'MATCHES_CACHE rỗng' };
-  const matches = JSON.parse(cache);
-  const sample = matches.slice(0, 5).map(function(m) {
-    return { id: m.id, home: m.home, away: m.away, hasOdds: !!m.odds };
-  });
-  Logger.log('Total matches in cache: ' + matches.length);
-  Logger.log('Sample first 5:');
-  sample.forEach(function(m) {
-    Logger.log('  id=' + m.id + ' "' + m.home + '" vs "' + m.away + '" hasOdds=' + m.hasOdds);
-  });
-  // Test findMatch với 1 tên cụ thể
-  const test1 = findMatch(matches, 'Nam Phi - Canada');
-  const test2 = findMatch(matches, 'Pháp - Thụy Điển');
-  const test3 = findMatch(matches, 'Brazil - Nhật Bản');
-  Logger.log('findMatch("Nam Phi - Canada") = ' + (test1 ? 'FOUND ' + test1.id : 'null'));
-  Logger.log('findMatch("Pháp - Thụy Điển") = ' + (test2 ? 'FOUND ' + test2.id : 'null'));
-  Logger.log('findMatch("Brazil - Nhật Bản") = ' + (test3 ? 'FOUND ' + test3.id : 'null'));
-  return { total: matches.length, sample: sample };
-}
-
 // ─── Refresh match cache từ GitHub (chạy thủ công hoặc trigger) ──────────────
 function refreshMatchCache() {
   const url = PropertiesService.getScriptProperties().getProperty('GITHUB_RAW_URL');
@@ -1304,5 +1193,14 @@ function backfillNormalizeMatchNames() {
 
   Logger.log('backfillNormalizeMatchNames:\n  ' + report.join('\n  '));
   return { success: true, report: report };
+}
+
+// ─── Tạm: set GITHUB_RAW_URL → matches32.json (workaround cho UI không lưu) ───
+function setR32Url() {
+  const url = 'https://raw.githubusercontent.com/CloudHoang/NhaCai/main/data/matches32.json';
+  PropertiesService.getScriptProperties().setProperty('GITHUB_RAW_URL', url);
+  const check = PropertiesService.getScriptProperties().getProperty('GITHUB_RAW_URL');
+  Logger.log('GITHUB_RAW_URL set to: ' + check);
+  return { success: true, url: check };
 }
 
