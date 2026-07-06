@@ -16,37 +16,26 @@
 3. **Web Server (`app.py`)**:
    * Đọc `data/matches.json`, phục vụ API và render HTML động qua `templates/index.html`.
    * Phục vụ static file `/flags/<filename>` từ thư mục local.
-   * Routes bổ sung: `/admin` (admin dashboard), `/admin/result` (nhập tỷ số). Tracker là static page, không có Flask route.
-4. **Static Builder (`build.py`)**: Tạo trang `index.html` tĩnh từ template để deploy GitHub Pages. Đồng thời build `tracker/index.html` + `result/index.html` + `admin/index.html` (load data qua fetch từ GAS).
-5. **Betting Tracker (`tracker.py` + `gas/BetTracker.gs`)**:
-   * Backend: **Google Apps Script** bound với Google Sheets (4 tab: Picks/Results/Settled/Summary).
-   * Client Python (`tracker.py`): wrapper gọi GAS Web App endpoint (urllib3).
-   * Cấu hình URL qua env `GAS_WEB_APP_URL` hoặc default trong `tracker.py`.
+4. **Static Builder (`build.py`)**: Tạo trang `index.html` tĩnh từ template để deploy GitHub Pages.
 
 ## Môi trường & Dependencies
 * Python 3.8+
 * Flask (Web app)
 * Jinja2 (HTML templating)
-* urllib3 (HTTP requests — dùng cho cả crawler và tracker client)
+* urllib3 (HTTP requests — dùng cho crawler)
 * Cấu hình cron chạy qua file `cron_setup.sh` sinh file bash chạy ngầm `run_crawler.sh` lúc 16:30 hàng ngày.
 
 ## Commands
 
 ### Setup & Run
 * Run local web server: `python3 app.py` (runs on `http://localhost:5000`)
-* Run static builder (GitHub Pages): `python3 build.py` (generates `index.html`, `tracker/index.html`, `result/index.html`)
+* Run static builder (GitHub Pages): `python3 build.py` (generates `index.html`)
 * Run crawler: `python3 crawler.py`
 * Setup daily cronjob: `bash cron_setup.sh`
-
-### Betting Tracker
-* Flask local: `http://localhost:5000/admin` (admin dashboard) · `http://localhost:5000/admin/result` (nhập tỷ số). Tracker là static page.
-* Static GitHub Pages: `/tracker/` (tổng hợp) · `/result/` (nhập tỷ số) · `/admin/` (admin dashboard) — tất cả load trực tiếp từ GAS.
-* Setup Google Sheets + GAS: xem `gas/README.md` (tạo 4 tab, paste code, deploy Web App, set Script Properties).
 
 ### Testing
 * Verify static server: Python HTTP server on port 8000
 * Fetch odds data manually: `python3 crawler.py`
-* Test GAS endpoint: `curl "https://script.google.com/macros/s/<DEPLOY_ID>/exec?action=full"`
 
 ## Code Guidelines
 
@@ -77,21 +66,5 @@
   * Localhost server Flask chạy trên cổng 5000 (`app.py`).
   * Build tĩnh index.html và các file markdown thành công.
   * Đã commit và push tất cả thay đổi lên branch `main`.
-* **Betting Tracker (Google Apps Script)**:
-  * Tổng hợp thắng/thua picks từ email → Google Sheets qua GAS.
-  * Hỗ trợ 3 loại kèo: `correct_score`, `handicap`, `over_under`.
-  * Routes Flask: `/admin/result` (nhập tỷ số), `/admin` (admin dashboard). Tracker là static page (không có Flask route).
-  * Static pages GitHub Pages: `tracker/index.html` (tổng hợp), `result/index.html` (nhập tỷ số), `admin/index.html` (admin dashboard) — tất cả fetch trực tiếp GAS.
-  * Backend GAS: xem `gas/BetTracker.gs` (code) + `gas/README.md` (setup).
-  * Client Python: `tracker.py` (GAS_WEB_APP_URL qua env hoặc default).
-* **Workflow cập nhật cache cho từng vòng (R32, R16, ...)**:
-  * File `data/matches.json` (vòng bảng) + `data/matches32.json` (R32) tách riêng — chỉ chứa data 1 vòng tại 1 thời điểm.
-  * GAS cache `MATCHES_CACHE` được refresh qua `refreshMatchCache()` từ `GITHUB_RAW_URL` (Script Property).
-  * **Workaround GAS UI bug**: Sửa `GITHUB_RAW_URL` qua UI không persist → dùng function `setR32Url()` trong [gas/BetTracker.gs](/home/cloud/00.Claude/Bet/gas/BetTracker.gs) để set qua code.
-  * Thứ tự chạy: `setR32Url()` → `refreshMatchCache()` → `fillOddsFromMatches()` → `settlePicks()`.
-  * `findMatch()` dùng `buildMatchIndex_()` index map với 10 key variants (VI/EN, "-" / "|" / " - ", home/away swap).
-* **Bug fix gần đây**:
-  * 2026-07-02: Typo `'won'` → `'win'` trong [admin/index.html:296,320](/home/cloud/00.Claude/Bet/admin/index.html) — filter wins count luôn = 0 do `calculateProfit()` trả `'win'` chứ không phải `'won'`.
-  * 2026-07-02: 221/0 picks matched sau khi cập nhật cache R32 (commit `f3e5455`, `98b82e0`, `7f32e9e`).
 
 

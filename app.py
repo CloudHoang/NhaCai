@@ -1,29 +1,10 @@
-from flask import Flask, render_template, jsonify, send_from_directory, request, redirect, url_for, flash, session
-from tracker import build_summary_html, submit_result, fetch_tracker_data, upload_csv_text
+from flask import Flask, render_template, jsonify, send_from_directory
 import json
 import os
-import time
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET", os.urandom(32).hex())
-ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123")
 DATA_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches.json")
 KNOCKOUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "matches32.json")
-
-# Cache GAS summary data trong 30s để tránh gọi GAS 3 lần mỗi lần load /admin
-_GAS_CACHE = {"data": None, "ts": 0.0}
-GAS_CACHE_TTL = 30  # seconds
-
-
-def _get_tracker_ctx(force=False):
-    """Lấy dữ liệu tracker từ GAS, có cache 30s. Trả về dict context."""
-    now = time.time()
-    if not force and _GAS_CACHE["data"] and (now - _GAS_CACHE["ts"]) < GAS_CACHE_TTL:
-        return _GAS_CACHE["data"]
-    data = build_summary_html()
-    _GAS_CACHE["data"] = data
-    _GAS_CACHE["ts"] = now
-    return data
 
 def clamp_odds(val):
     """Giới hạn tỷ lệ odds tối đa là 20"""
@@ -252,110 +233,6 @@ def serve_flag(filename):
     """Serve local team flag images"""
     flags_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "flags")
     return send_from_directory(flags_dir, filename)
-
-
-# ─── Admin: login + dashboard (Tracker + Upload CSV + Cập nhật tỷ số) ────────
-
-def _is_admin():
-    return session.get("is_admin") is True
-
-
-@app.route("/admin/login", methods=["GET", "POST"])
-def admin_login():
-    if _is_admin():
-        return redirect(url_for("admin"))
-    error = None
-    if request.method == "POST":
-        pwd = request.form.get("password", "")
-        if pwd == ADMIN_PASSWORD:
-            session["is_admin"] = True
-            return redirect(url_for("admin"))
-        error = "Sai mật khẩu."
-    return render_template("admin_login.html", error=error)
-
-
-@app.route("/admin/logout", methods=["POST", "GET"])
-def admin_logout():
-    session.pop("is_admin", None)
-    return redirect(url_for("admin_login"))
-
-
-def _filter_knockout(matches):
-    """Lọc bỏ vòng bảng — chỉ giữ vòng knockout (Vòng 32 đội trở đi)."""
-    return [m for m in matches if (m.get("roundName") or "") != "Vòng bảng"]
-
-
-@app.route("/admin", methods=["GET"])
-def admin():
-    if not _is_admin():
-        return redirect(url_for("admin_login"))
-
-    matches = _filter_knockout(load_matches_data())
-    matches.sort(key=lambda m: m.get("matchTime", 0))
-    # Gọi GAS 1 lần duy nhất — _get_tracker_ctx() trả summary + picks + settled + results
-    # Từ đó suy ra recent_picks + existing_match_ids
-    tracker_ctx = _get_tracker_ctx()
-    recent_picks = (tracker_ctx.get("picks") or [])[:10]
-    existing_match_ids = {
-        str(r.get("match_id", "")).strip()
-        for r in (tracker_ctx.get("results") or [])
-        if r.get("match_id") is not None
-    }
-    return render_template(
-        "admin.html",
-        matches=matches,
-        recent_picks=recent_picks,
-        existing_match_ids=existing_match_ids,
-        tracker=tracker_ctx,
-    )
-
-
-@app.route("/admin/upload", methods=["POST"])
-def admin_upload():
-    """Upload CSV từ form admin → GAS uploadCsv."""
-    if not _is_admin():
-        return jsonify({"error": "unauthorized"}), 401
-    csv_text = request.form.get("csv_text", "").strip()
-    if not csv_text:
-        flash("Vui lòng dán nội dung CSV trước khi upload.", "warning")
-        return redirect(url_for("admin", tab="upload"))
-    result = upload_csv_text(csv_text)
-    if result.get("success"):
-        flash(f"Upload OK · inserted={result.get('inserted')}.", "success")
-    else:
-        flash(f"Lỗi: {result.get('error', 'unknown')}", "danger")
-    _GAS_CACHE["data"] = None  # invalidate cache sau khi mutate
-    return redirect(url_for("admin", tab="upload"))
-
-
-@app.route("/admin/result", methods=["POST"], endpoint="admin_result")
-def admin_result():
-    """POST nhập tỷ số → GAS updateResult, redirect về admin tab result."""
-    if not _is_admin():
-        return jsonify({"error": "unauthorized"}), 401
-
-    match_id = request.form.get("match_id", "").strip()
-    match_name = request.form.get("match_name", "").strip()
-    try:
-        home_score = int(request.form.get("home_score", "-1"))
-        away_score = int(request.form.get("away_score", "-1"))
-    except (TypeError, ValueError):
-        home_score = away_score = -1
-
-    if not match_id or home_score < 0 or away_score < 0:
-        flash("Vui lòng chọn trận và nhập tỷ số hợp lệ (>= 0).", "danger")
-        return redirect(url_for("admin", tab="result"))
-
-    result = submit_result(match_id, home_score, away_score, match_name=match_name)
-    if result.get("success"):
-        flash(
-            f"✓ Đã settle match_id={match_id} (settled={result.get('settled')}).",
-            "success",
-        )
-        _GAS_CACHE["data"] = None  # invalidate cache
-    else:
-        flash(f"Lỗi từ GAS: {result.get('error', 'unknown')}", "danger")
-    return redirect(url_for("admin", tab="result"))
 
 
 if __name__ == "__main__":
