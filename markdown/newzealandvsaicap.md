@@ -4,7 +4,7 @@
 - **Trận đấu:** New Zealand vs Ai Cập
   - Đội nhà: New Zealand
   - Đội khách: Ai Cập
-- **Thời gian diễn ra:** 2026-06-22 01:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-22 08:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **New Zealand thắng (Home Win):** 24%

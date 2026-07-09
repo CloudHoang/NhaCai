@@ -4,7 +4,7 @@
 - **Trận đấu:** Tây Ban Nha vs Ả Rập Xê Út
   - Đội nhà: Tây Ban Nha
   - Đội khách: Ả Rập Xê Út
-- **Thời gian diễn ra:** 2026-06-21 16:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-21 23:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Tây Ban Nha thắng (Home Win):** 77%

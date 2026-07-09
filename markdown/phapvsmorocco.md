@@ -4,7 +4,7 @@
 - **Trận đấu:** Pháp vs Morocco
   - Đội nhà: Pháp
   - Đội khách: Morocco
-- **Thời gian diễn ra:** 2026-07-09 20:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-07-10 03:00 (GMT+7)
 
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
@@ -24,7 +24,7 @@
 - Cược Xỉu (Under): 0.85
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
-- **Tỷ số ngoài bảng (AOS):** 17.3
+- **Tỷ số ngoài bảng (AOS):** 17.9
 
 | Tỷ số (Nhà - Khách) | Tỷ lệ cược (Odds) |
 | :---: | :---: |

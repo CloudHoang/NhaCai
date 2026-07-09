@@ -4,7 +4,7 @@
 - **Trận đấu:** Tunisia vs Nhật Bản
   - Đội nhà: Tunisia
   - Đội khách: Nhật Bản
-- **Thời gian diễn ra:** 2026-06-21 04:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-21 11:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Tunisia thắng (Home Win):** 20%

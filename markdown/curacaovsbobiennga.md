@@ -4,7 +4,7 @@
 - **Trận đấu:** Curacao vs Bờ Biển Ngà
   - Đội nhà: Curacao
   - Đội khách: Bờ Biển Ngà
-- **Thời gian diễn ra:** 2026-06-25 20:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-26 03:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Curacao thắng (Home Win):** 17%

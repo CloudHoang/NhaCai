@@ -4,7 +4,7 @@
 - **Trận đấu:** Bỉ vs Iran
   - Đội nhà: Bỉ
   - Đội khách: Iran
-- **Thời gian diễn ra:** 2026-06-21 19:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-22 02:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Bỉ thắng (Home Win):** 51%
