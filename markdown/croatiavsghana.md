@@ -4,7 +4,7 @@
 - **Trận đấu:** Croatia vs Ghana
   - Đội nhà: Croatia
   - Đội khách: Ghana
-- **Thời gian diễn ra:** 2026-06-28 04:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-27 21:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Croatia thắng (Home Win):** 59%

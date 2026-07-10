@@ -4,7 +4,7 @@
 - **Trận đấu:** Ecuador vs Curacao
   - Đội nhà: Ecuador
   - Đội khách: Curacao
-- **Thời gian diễn ra:** 2026-06-21 07:00 (GMT+7)
+- **Thời gian diễn ra:** 2026-06-21 00:00 (GMT+7)
 
 ## 1.5 Dự Đoán Tỷ Lệ Thắng (AI Prediction)
 - **Ecuador thắng (Home Win):** 69%
