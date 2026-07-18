@@ -9,18 +9,18 @@
 ## 2. Tỷ Lệ Kèo Hiện Tại
 ### Kèo Chấp (Handicap)
 - Mức chấp: -0.5 (Pháp chấp Anh 0.5 trái)
-- Cược Pháp thắng (Home): 0.91
-- Cược Anh thắng (Away): 0.97
+- Cược Pháp thắng (Home): 0.89
+- Cược Anh thắng (Away): 1.00
 
 ### Kèo Châu Âu (1x2)
 - Mức cược: (Pháp thắng (1), Hòa (X), Anh thắng (2))
-  - Pháp thắng (Home): 1.91
-  - Hòa (Draw): 3.85
-  - Anh thắng (Away): 3.70
+  - Pháp thắng (Home): 1.89
+  - Hòa (Draw): 4.00
+  - Anh thắng (Away): 3.80
 
 ### Kèo Tài Xỉu (Over/Under)
 - Tổng bàn thắng (Line): 3.25 (Tài (Trên 3.25 trái) / Xỉu (Dưới 3.25 trái))
-- Cược Tài (Over): 0.95
+- Cược Tài (Over): 0.96
 - Cược Xỉu (Under): 0.92
 
 ## 3. Tỷ Lệ Tỷ Số Chính Xác (Correct Scores)
@@ -30,7 +30,7 @@
 | :---: | :---: |
 | 1 - 0 | 7.6 |
 | 2 - 0 | 10.0 |
-| 2 - 1 | 5.76 |
+| 2 - 1 | 5.92 |
 | 3 - 0 | 17.6 |
 | 3 - 1 | 11.6 |
 | 3 - 2 | 16.8 |
@@ -40,7 +40,7 @@
 | 4 - 3 | 20 |
 | 0 - 0 | 19.2 |
 | 1 - 1 | 6.4 |
-| 2 - 2 | 9.6 |
+| 2 - 2 | 7.6 |
 | 3 - 3 | 20 |
 | 4 - 4 | 20 |
 | 0 - 1 | 14.0 |
